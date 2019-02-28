@@ -13,7 +13,7 @@
 export default {
   /*home*/
   home: {
-    title: 'Home',
+    title: 'Inicio',
     icon: 'fas fa-home',
     to: 'home',
   },
@@ -24,19 +24,19 @@ export default {
     can: 'iprofile.api.user.permission',
     children: [
       {
-        title: 'Create',
+        title: 'Crear',
         icon: 'fas fa-user-plus',
         to: 'user.users.create',
         can: 'iprofile.api.user.create'
       },
       {
-        title: 'List/Search',
+        title: 'Lista/Búsqueda',
         icon: 'fas fa-list-alt',
         to: 'user.users.index',
         can: 'iprofile.api.user.index'
       },
       {
-        title: 'My profile',
+        title: 'Mi perfil',
         icon: 'fas fa-user-tie',
         to: 'user.profile.me',
       },
@@ -52,7 +52,7 @@ export default {
   },
   /*logout*/
   logout: {
-    title: 'Sign out',
+    title: 'Desconectar',
     icon: 'fas fa-sign-out-alt',
     to: 'auth.logout'
   }

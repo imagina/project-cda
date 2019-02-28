@@ -11,7 +11,21 @@ Route.view('/', 'master')
   .children(() => {
       Route.view('/', 'pages/Index').options({
         name: 'home'
+      }),
+      Route.view('/data', 'pages/Data').options({
+        name: 'data'
+      }),
+      Route.view('/contract', 'pages/Contract').options({
+        name: 'contract'
       })
+    }
+  )
+  
+Route.view('/', 'blank')
+  	.children(() => {
+    	Route.view('/login-0', 'pages/login').options({
+    	  name: 'login-0'
+    	})
     }
   )
 

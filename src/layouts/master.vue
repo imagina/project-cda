@@ -1,47 +1,38 @@
 <template>
   <q-layout view="lHh LpR lFr">
-
-    <!-- === HEADER === -->
-    <q-layout-header class="no-shadow">
-      <q-toolbar color="primary">
-        <!--= BUTTON MENU =-->
-        <q-btn flat dense round @click="leftDrawerOpen = !leftDrawerOpen" aria-label="Menu">
-          <q-icon name="menu"/>
-        </q-btn>
-
-        <!--= TITLE =-->
-        <q-toolbar-title class="gt-xs">
-          IMAGINA
-        </q-toolbar-title>
-
-        <!--= FULLSCREEN =-->
-        <q-btn flat dense
-               class="desktop-only"
-               :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'"
-               @click="toggleFullscreen()"></q-btn>
-
-        <!--= DEPARTMENT SELECT =-->
-        <widget-user-department></widget-user-department>
-
-        <!--== USER DROPDOWN ==-->
-        <widget-user></widget-user>
-      </q-toolbar>
-
+    <q-layout-header>
+      <div class="row bg-primary align-items-center q-py-sm">
+        <div class="col-3 col-md-5 q-px-sm">
+          <a href="javascript:void(0)" @click="leftDrawerOpen = !leftDrawerOpen">
+            <img src="../assets/logo.svg" height="101px" class="header-logo">
+          </a>
+        </div>
+        <div class="col">
+          <div class="row align-items-center">
+            <div class="col header-col q-px-sm text-center">
+              <p class="font-weight-bold">Hora de ingreso:</p>
+              <p class="font-weight-bold q-mb-xs">9:30px</p>
+            </div>
+            <div class="col header-col q-px-sm text-center">
+              <p class="font-weight-bold">Fecha de ingreso</p>
+              <p class="font-weight-bold q-mb-xs">29/12/2018</p>
+            </div>
+            <div class="col header-col--orden q-px-sm text-center">
+              <p class="font-weight-bold q-mb-xs">ORDEN DE SERVICIO</p>
+              <p class="font-weight-bold q-mb-xs h4">001</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </q-layout-header>
-
     <!-- === MENU === -->
-    <q-layout-drawer id="menu_master"
-                     v-model="leftDrawerOpen"
-                     :content-class="'bg-grey-2'"
-    >
+    <q-layout-drawer id="menu_master" v-model="leftDrawerOpen" :content-class="'bg-grey-2'">
       <q-list no-border link inset-delimiter>
         <!-- === LOGO === -->
         <q-list-header class="text-center">
-          <router-link :to="{ name: 'home'}">
-            <a>
-              <img src="../assets/image/logo.png" width="80%">
-            </a>
-          </router-link>
+          <a href="javascript:void(0)" @click="leftDrawerOpen = !leftDrawerOpen">
+            <img src="../assets/logo.svg" height="101px" class="header-logo">
+          </a>
         </q-list-header>
 
         <!--= MENU =-->
@@ -53,25 +44,6 @@
     <q-page-container>
       <router-view/>
     </q-page-container>
-
-    <!-- === FOOTER === -->
-    <q-layout-footer class="no-shadow">
-      <!--=== DATA LOGIN ===-->
-      <div class="q-body-1 q-py-sm q-px-lg text-center bg-grey-2">
-        <q-icon name="copyright"/>
-        Copyright FHIAProducts.com
-      </div>
-    </q-layout-footer>
-
-    <!-- === BACK TO TOP === -->
-    <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn
-        v-back-to-top.animate="{offset: 500, duration: 200}"
-        round
-        color="primary"
-        icon="keyboard_arrow_up"
-      />
-    </q-page-sticky>
 
   </q-layout>
 </template>
@@ -102,33 +74,3 @@
     }
   }
 </script>
-
-<style lang="stylus">
-  @import "~variables";
-
-  #list_menu
-    .q-icon
-      font-size: 16px
-    .q-item-side
-      min-width 20px !important
-
-  .q-item-main
-    font-size: 15px !important
-
-  #menu_leads
-    .q-item
-      padding: 8px 0px
-
-  .q-item-side
-    min-width: auto
-
-  .border-content
-    border 2px solid $grey-4
-    border-radius 3px
-
-  .text_title
-    span
-      border-bottom 2px red solid
-
-
-</style>
