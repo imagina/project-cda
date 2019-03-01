@@ -21,10 +21,10 @@
 			  			<p>Datos de la Motocicleta</p>
 			    	</div>
 			  	</div>
-	    		<div class="col">
-	    			<span>PLACA</span>
+    			<q-field :error="$v.formSearch.plaque.$error" class="q-my-md">
+	    			<span class="font-weight-bold">PLACA</span>
 					<q-search v-model="formSearch.plaque" class="bg-white q-my-md" type="text" placeholder="Placa" v-on:keyup.enter="searchPlaque"/>
-	    		</div>
+  				</q-field>
 	    	</div>
 	    </div>
     </div>
@@ -238,8 +238,33 @@
 					</div>
 	        	</div>
 	        	<div class="col-12 q-my-lg">
-	        		<p class="font-weight-bold">Fotografías</p>
+	        		<p class="font-weight-bold q-px-md">Fotografías</p>
+					<carousel :perPage="3" :paginationEnabled="false" :navigationEnabled="true" :navigationNextLabel="nextLabel" :navigationPrevLabel="prevLabel">
+						<slide>
+							<div class="q-px-md">
+						    	<img src="../../assets/moto.png" alt="" width="100%">
+							</div>
+						</slide>
+						<slide>
+							<div class="q-px-md">
+						    	<img src="../../assets/moto.png" alt="" width="100%">
+							</div>
+						</slide>
+						<slide>
+							<div class="q-px-md">
+						    	<img src="../../assets/moto.png" alt="" width="100%">
+							</div>
+						</slide>
+						<slide>
+							<div class="q-px-md">
+						    	<img src="../../assets/moto.png" alt="" width="100%">
+							</div>
+						</slide>
+					</carousel>
 	        	</div>
+	        	<div class="col-12 q-mt-md q-mb-lg text-right">
+	    			<q-btn color="primary" size="md" label="Agregar fotografía" class="q-mx-md q-px-xs text-dark" icon="add"/>
+	    		</div>
 	        	<div class="col-12 q-my-md">
 					<q-input v-model="value" type="textarea" float-label="Observaciones:" :max-height="10" rows="4" class="bg-white"/>
 	        	</div>
@@ -249,17 +274,39 @@
 	        </div>
 	    </div>
 	</div>
+  	<q-modal v-model="showAddInventary" content-css="padding: 50px">
+    	<span class="h4 d-block">Nuevo inventario</span>
+		<q-field>
+			<q-input v-model="elementInventary.name" type="text" placeholder="Nombre"/>
+		</q-field>
+		<q-field>
+			<q-radio v-model="elementInventary.b" class="q-mr-lg mx-auto"/>
+		</q-field>
+		<q-input v-model="elementInventary.r" type="text" class="bg-white q-py-sm q-my-md"/>
+		<q-input v-model="elementInventary.m" type="text" class="bg-white q-py-sm q-my-md"/>
+		<q-input v-model="elementInventary.count" type="text" class="bg-white q-py-sm q-my-md"/>
+    	<q-btn color="primary" @click="addInventary" label="Close" />
+  	</q-modal>
   </q-page>
 </template>
 
 <script>
+
+import { Carousel, Slide } from 'vue-carousel';
 import { required, email, minLength } from 'vuelidate/lib/validators'
 
 export default {
 	name: 'PageData',
+	components: {
+		Carousel,
+		Slide
+	},
   	data () {
     	return {
     		value: null,
+    		showAddInventary: true,
+    		nextLabel: "<i class='fa fa-chevron-right' aria-hidden='true'></i>",
+    		prevLabel: "<i class='fa fa-chevron-left' aria-hidden='true'></i>",
     		showData: false,
     		teaching_vehicle: false,
     		formSearch : {
@@ -305,7 +352,14 @@ export default {
     		    	m: false,
     		    	count: null
     		  	},
-    		]
+    		],
+    		elementInventary: {
+    		    name: null,
+    		    b: false,
+    		    r: false,
+    		    m: false,
+    		    count: null
+    		}
     	}
     },
 	validations: {
@@ -323,6 +377,9 @@ export default {
 	    }
 	},
 	methods: {
+		addInventary () {
+			this.showAddInventary = false;
+		},
 		searchPlaque () {
 	    	this.$v.formSearch.$touch()
 			this.$q.loading.show()
