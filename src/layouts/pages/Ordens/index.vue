@@ -3,9 +3,9 @@
 	    <div class="layout-padding q-py-lg">
 			<div class="row">
 				<div class="col-12">
-					<q-list>
+					<q-list v-if="ordens">
 					  	<q-list-header class="h2">Lista de Ordenes</q-list-header>
-					  	<q-item v-for="(item, index) in ordens" class="bg-white mb-2 shadow-1">
+					  	<q-item v-for="(item, index) in ordens" :key="index" class="bg-white mb-2 shadow-1">
 					    	<q-item-side>
 					    	 	<q-item-tile avatar>
 					    			<img :src="item.mainimagen">
