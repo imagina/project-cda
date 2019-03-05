@@ -46,13 +46,18 @@
 		    </div>
 		    <div class="row">
 		    	<div class="col-12 q-mb-lg">
-					<q-input v-model="signing.delivery" type="textarea" float-label="Firma y Cédula Entrega Motocicleta" :max-height="10" rows="4" class="bg-white"/>
+    				<VueSignaturePad width="100%" height="150px" ref="signatureEntrega" class="border-bottom signatured"/>
+					<!-- <q-input v-model="signing.delivery" type="textarea" float-label="Firma y Cédula Entrega Motocicleta" :max-height="10" rows="4" class="bg-white"/> -->
 		    		<p class="font-weight-bold">
 						Acepto y estoy conforme con el inventario realizado a mí Motocicleta y he leído, entiendo y acepto todas las bservaciones hechas, politicas de inspección, tratamiento de información y conﬁdencialidad.
 		    		</p>
 		    	</div>
 		    	<div class="col-12 q-mb-lg">
-					<q-input v-model="signing.received" type="textarea" float-label="Firma y Cédula Recibí Informe, Fur y Motocicleta" :max-height="10" rows="4" class="bg-white"/>
+    				<VueSignaturePad width="100%" height="150px" ref="signatureRecibido" class="border-bottom signatured"/>
+    				<!-- <button @click="save">Save</button> -->
+    				<!-- <button @click="save">Save</button> -->
+      				<!-- <button @click="undoEntrega">Undo</button> -->
+					<!-- <q-input v-model="signing.received" type="textarea" float-label="Firma y Cédula Recibí Informe, Fur y Motocicleta" :max-height="10" rows="4" /> -->
 		    		<p class="font-weight-bold">
 						Acepto y estoy conforme con el inventario realizado a mí Motocicleta y he leído, entiendo y acepto todas las bservaciones hechas, politicas de inspección, tratamiento de información y conﬁdencialidad.
 		    		</p>
@@ -68,9 +73,11 @@
 </template>
 
 <script>
-import { required, email, minLength } from 'vuelidate/lib/validators'
+import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
+import VueSignaturePad from 'vue-signature-pad';
 
 export default {
+	components: {VueSignaturePad},
 	name: 'PageData',
   	data () {
     	return {
@@ -86,6 +93,10 @@ export default {
     },
 	validations: {
 	    signing: {
+	    	prepared_vehicle: { required },
+	    	good_director: { required },
+	    	delivery: { required },
+	    	received: { required },
 	    }
 	},
 	methods: {
@@ -96,8 +107,27 @@ export default {
 	      		this.showSigning = true;
 	    },
 	    aceptSave () {
-
-	    }
+	    	this.$v.signing.$touch()
+	      	if (this.$v.signing.$error) {
+	        	this.$q.notify({icon:'error', message: 'Por favor revise los campos de nuevo',  position: 'top-right', closeBtn: true})
+	        	return
+	      	}else
+	      		this.$router.push('data')
+	    },
+		undoEntrega() {
+			this.$refs.signatureEntrega.undoSignature();
+		},
+		undoRecibido() {
+			this.$refs.signatureRecibido.undoSignature();
+		},
+		save() {
+			var { isEmpty, data } = this.$refs.signatureEntrega.saveSignature();
+			console.log(isEmpty);
+			console.log(data);
+			var { isEmpty, data } = this.$refs.signatureRecibido.saveSignature();
+			console.log(isEmpty);
+			console.log(data);
+		}
 	}
 }
 </script>
@@ -106,5 +136,10 @@ export default {
 	.q-option-label
 	{
 		font-weight: bold;
+	}
+	.signatured {
+		border-radius: 10px;
+		border: 1px solid #333;
+		margin-bottom: 10px;
 	}
 </style>

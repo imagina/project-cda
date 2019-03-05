@@ -8,10 +8,8 @@
 		    	</div>
 		  	</div>
 
-    		<q-field :error="$v.form.type_document.$error" error-label="" class="q-my-md">
-	        	<span class="w-50 d-inline-block">
-	    			Tipo de documento
-	        	</span>
+    		<q-field :error="$v.form.type_document.$error" error-label="" class="q-mb-md">
+	        	<span class="w-50 d-inline-block"> Tipo de documento </span>
 	        	<div class="w-50 d-inline-block">
 	    			<q-select v-model="form.type_document" :options="selectOptions" class="bg-white q-my-md"/>
 	        	</div>
@@ -19,22 +17,58 @@
 
     		<q-field :error="$v.form.document.$error" error-label="" class="q-my-md">
 				<q-search v-model="form.document" type="text" placeholder="N° Cédula" class="bg-white mx-auto"/>
+    			<div class="error-messages q-px-sm" v-if="$v.form.document.$dirty">
+    				<p class="error-message mb-0" v-if="$v.form.document.$error && !$v.form.document.required">
+    					<i class="material-icons">error_outline</i> El campo es obligatorio.
+    				</p>
+    				<p class="error-message mb-0" v-if="$v.form.document.$error && !$v.form.document.minLength">
+    					<i class="material-icons">error_outline</i> Debe contener al menos 8 caracteres.
+    				</p>
+    			</div>
 			</q-field>
 
     		<q-field :error="$v.form.name.$error" error-label="" class="q-my-md">
     			<q-input v-model="form.name" type="text" placeholder="Nombre completo" class="bg-white mx-auto"/>
+    			<div class="error-messages q-px-sm" v-if="$v.form.name.$error">
+    				<p class="error-message mb-0" v-if="!$v.form.name.required">
+    					<i class="material-icons">error_outline</i> El campo es obligatorio.
+    				</p>
+    				<p class="error-message mb-0" v-if="!$v.form.name.minLength">
+    					<i class="material-icons">error_outline</i> Debe contener al menos 4 caracteres.
+    				</p>
+    			</div>
     		</q-field>
 
     		<q-field :error="$v.form.phone.$error" error-label="" class="q-my-md">
     			<q-input v-model="form.phone" type="text" placeholder="Celular" class="bg-white mx-auto"/>
+    			<div class="error-messages q-px-sm" v-if="$v.form.phone.$error">
+    				<p class="error-message mb-0" v-if="!$v.form.phone.required">
+    					<i class="material-icons">error_outline</i> El campo es obligatorio.
+    				</p>
+    				<p class="error-message mb-0" v-if="!$v.form.phone.minLength">
+    					<i class="material-icons">error_outline</i> Debe contener al menos 4 caracteres</p>
+    			</div>
     		</q-field>
 
     		<q-field :error="$v.form.email.$error" error-label="" class="q-my-md">
     			<q-input v-model="form.email" type="text" placeholder="Correo eléctronico" class="bg-white mx-auto"/>
+    			<div class="error-messages q-px-sm" v-if="$v.form.email.$error">
+    				<p class="error-message mb-0" v-if="!$v.form.email.required">
+    					<i class="material-icons">error_outline</i> El campo es obligatorio.
+    				</p>
+    				<p class="error-message mb-0" v-if="!$v.form.email.email">
+    					<i class="material-icons">error_outline</i> Debe ingresar un email valido.
+    				</p>
+    			</div>
     		</q-field>
 
     		<q-field :error="$v.form.checked.$error" error-label="" class="q-my-md">
 	    		<q-checkbox v-model="form.checked" label="Autorizo la toma de datos personales" class="mx-auto"/>
+    			<div class="error-messages q-px-sm" v-if="$v.form.checked.$error">
+    				<p class="error-message mb-0" v-if="!$v.form.checked.sameAs">
+    					<i class="material-icons">error_outline</i>Debe autorizar los datos.
+    				</p>
+    			</div>
 	    	</q-field>
 
 	    	<div class="col-12 text-center">
@@ -46,47 +80,53 @@
 </template>
 
 <script>
-import { required, email, minLength } from 'vuelidate/lib/validators'
+import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
+
+const isPhone = (value) => /^1(3|4|5|7|8)\d{9}$/.test(value);  //phone valid
 
 export default {
 	name: 'PageIndex',
   	data () {
     	return {
-    		form : {
+    		form: {
     			phone: null,
     			email: null,
     			name: null,
     			document: null,
-    			type_document: 'cedula',
     			checked: false,
+    			type_document: 'cc',
     		},
       		selectOptions: [
         		{
-        		  label: 'Cédula',
-        		  value: 'cedula'
+        		  label: 'Cédula de ciudadanía',
+        		  value: 'cc'
+        		},
+        		{
+        		  label: 'Cédula de extranjería',
+        		  value: 'ce'
         		},
         		{
         		  label: 'Pasaporte',
-        		  value: 'pasaporte'
+        		  value: 'p'
         		}
     		],
     	}
     },
 	validations: {
 	    form: {
-	    	email: { required, email },
-	    	phone: { required },
+	    	document: { required,minLength: minLength(8) },
 	    	name: { required, minLength: minLength(4) },
-	    	document: { required,minLength: minLength(4) },
-	    	checked: { required },
-	    	type_document: { required }
+	    	phone: { required, minLength: minLength(11)},
+	    	email: { required, email },
+	    	type_document: { required },
+	    	checked: { required, sameAs: sameAs( () => true ) }
 	    }
 	},
 	methods: {
 	    submit () {
 	    	this.$v.form.$touch()
 	      	if (this.$v.form.$error) {
-	        	this.$q.notify({message: 'Please review fields again.',  position: 'top-right', closeBtn: true})
+	        	this.$q.notify({icon:'error', message: 'Por favor revise los campos de nuevo',  position: 'top-right', closeBtn: true})
 	        	return
 	      	}else
 	      		this.$router.push('data')
@@ -94,3 +134,18 @@ export default {
 	}
 }
 </script>
+
+
+<style>
+	.error-messages
+	{
+		background-color: #db2828
+	}
+	.error-messages .error-message
+	{
+		color: white;
+		font-size: .8rem;
+		line-height: 1.6;
+		opacity: 0.8;
+	}
+</style>

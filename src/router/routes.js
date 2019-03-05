@@ -17,6 +17,9 @@ Route.view('/', 'master')
       }),
       Route.view('/contract', 'pages/Contract').options({
         name: 'contract'
+      }),
+      Route.view('/ordens', 'pages/Ordens/index').options({
+        name: 'ordens'
       })
     }
   )

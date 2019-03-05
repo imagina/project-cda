@@ -2,7 +2,7 @@
   <q-layout view="lHh LpR lFr">
     <q-layout-header>
       <div class="row bg-primary align-items-center q-py-sm">
-        <div class="col-3 col-md-5 q-px-sm">
+        <div class="col-6 col-md-5 q-px-sm">
           <a href="javascript:void(0)" @click="leftDrawerOpen = !leftDrawerOpen">
             <img src="../assets/logo.svg" height="101px" class="header-logo">
           </a>
@@ -11,16 +11,18 @@
           <div class="row align-items-center">
             <div class="col header-col q-px-sm text-center">
               <p class="font-weight-bold">Hora de ingreso:</p>
-              <p class="font-weight-bold q-mb-xs">9:30px</p>
+              <p class="font-weight-bold q-mb-xs">{{ getIngresoTime() }}</p>
             </div>
             <div class="col header-col q-px-sm text-center">
               <p class="font-weight-bold">Fecha de ingreso</p>
-              <p class="font-weight-bold q-mb-xs">29/12/2018</p>
+              <p class="font-weight-bold q-mb-xs">{{ new Date().toJSON().slice(0,10).replace(/-/g,'/') }}</p>
             </div>
+            <!-- 
             <div class="col header-col--orden q-px-sm text-center">
               <p class="font-weight-bold q-mb-xs">ORDEN DE SERVICIO</p>
               <p class="font-weight-bold q-mb-xs h4">001</p>
             </div>
+            -->
           </div>
         </div>
       </div>
@@ -71,6 +73,10 @@
       toggleFullscreen() {
         this.$q.fullscreen.toggle()
       },
+      getIngresoTime() {
+        let time = new Date();
+        return time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+      }
     }
   }
 </script>

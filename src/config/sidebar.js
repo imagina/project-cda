@@ -17,6 +17,12 @@ export default {
     icon: 'fas fa-home',
     to: 'home',
   },
+  /*Ordens*/
+  ordens: {
+    title: 'Ordenes',
+    icon: 'fas fa-list',
+    to: 'ordens',
+  },
   /*User*/
   user: {
     title: 'Users',
