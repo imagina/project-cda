@@ -292,7 +292,7 @@ export default {
                 code: Math.round(Math.random()*1000000),
             },
             formSearch : {
-                plaque: 'AAA00A'
+                plaque: null
             },
         }
     },
