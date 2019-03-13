@@ -61,6 +61,7 @@ export default {
       });
     });
   },
+
   inventory() {
     return new Promise((resolve, reject) => {
       return http.get(config('api.api_icda') + '/inventory').then(response => {
@@ -71,6 +72,7 @@ export default {
       });
     });
   },
+
   addInventory(name) {
     return new Promise((resolve, reject) => {
       return http.post(config('api.api_icda') + '/inventory', {
@@ -83,4 +85,33 @@ export default {
       });
     });
   },
+
+  addImagenGallery(file,code) {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("code", code);
+    return new Promise((resolve, reject) => {
+      return http.post(config('api.api_icda') + '/inspections/media/upload',
+          formData,
+          { headers: { 'Content-Type': 'multipart/form-data' } }
+        ).then(response => {
+          resolve(response);
+        })
+      .catch(error => {
+        reject(error);
+      });
+    });
+  },
+
+  setInspections(data) {
+    return new Promise((resolve, reject) => {
+      return http.post(config('api.api_icda') + '/inspections',{data})
+        .then(response => {
+          resolve(response);
+        })
+      .catch(error => {
+        reject(error);
+      });
+    });
+  }
 }

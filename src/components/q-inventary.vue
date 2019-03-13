@@ -1,0 +1,107 @@
+<template>
+    <div>
+      <p class="font-weight-bold q-my-lg">Inventario</p>
+      <div class="row">
+        <div class="col col-md-8 mx-auto">
+            <div class="row border">
+                <div class="col q-py-md"></div>
+                <div class="col q-py-md border-l font-weight-bold col-checkout">B</div>
+                <div class="col q-py-md border-l font-weight-bold col-checkout">D</div>
+                <div class="col q-py-md border-l font-weight-bold col-checkout">M</div>
+                <div class="col q-py-md border-l font-weight-bold col-count"><span class="text-truncate">Cantidad</span></div>
+            </div>
+            <div class="row border border-t-0" v-for="item in inventory">
+                <div class="col q-py-md font-weight-bold">{{ item.name }}</div>
+                <div class="col q-py-sm border-l col-checkout text-center">
+                    <div class="q-mt-sm">
+                        <q-radio v-model="item.evaluation" val="B" class="q-mr-lg mx-auto"/>
+                    </div>
+                </div>
+                <div class="col q-py-sm border-l col-checkout">
+                    <div class="q-mt-sm">
+                        <q-radio v-model="item.evaluation" val="D" class="q-mr-lg mx-auto"/>
+                    </div>
+                </div>
+                <div class="col q-py-sm border-l col-checkout">
+                    <div class="q-mt-sm">
+                        <q-radio v-model="item.evaluation" val="M" class="q-mr-lg mx-auto"/>
+                    </div>
+                </div>
+                <div class="col q-py-sm border-l col-count q-px-md">
+                    <q-input v-model="item.quantity" type="number" class="bg-white q-py-sm q-my-md" min="0"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col q-mt-md text-left">
+                    <q-btn round color="primary" size="sm" @click="showAddInventary = true">
+                        <q-icon name="add"/>
+                    </q-btn>
+                    <span class="q-ml-sm font-weight-bold cursor-pointer" @click="showAddInventary = true"> Agregar Item</span>
+                </div>
+            </div>
+        </div>
+      </div>
+      <q-modal v-model="showAddInventary" :content-css="{minWidth: '80vw', padding: '25px'}">
+          <h4 class="mx-auto">Nuevo elemento para el inventario</h4>
+
+          <q-input-validation :model="$v.addInventory.name" :lineal="false" :labelShow="false" class="q-my-md w-100 d-block" label="Nombre"/>
+
+          <q-btn color="dark" @click="showAddInventary = false" label="Cerrar" class="mt-2 q-mr-md"/>
+          <q-btn color="primary" @click="addInventary" label="Aceptar" class="mt-2"/>
+      </q-modal>
+    </div>
+</template>
+<script>
+  import { required, email, minLength } from 'vuelidate/lib/validators';
+  import qInputValidation from './q-input-validation';
+  import resources from 'src/services/resources';
+
+  export default {
+    name: 'q-inventary',
+    components: { qInputValidation },
+    props: {
+      'inventory': { required: true },
+    },
+    data() {
+      return {
+        showAddInventary: false,
+        elementInventary: {
+            name: null,
+            inventory_id: null,
+            evaluation: null,
+            quantity: null
+        },
+        addInventory : {
+            name: null
+        },
+      }
+    },
+  	computed: { },
+    methods: {
+      addInventary () {
+          this.$v.addInventory.$touch()
+          this.$q.loading.show()
+          if (this.$v.addInventory.$error) {
+              this.$q.loading.hide()
+              this.$q.notify({message: 'Por favor revise los campos de nuevo.',  position: 'top-right', closeBtn: true})
+              return
+          }else { 
+            resources.addInventory(this.addInventory.name)
+            .then(response => {
+              this.elementInventary.name = response.data.name;
+              this.elementInventary.id = response.data.id
+              this.addInventory.name = null;
+              this.inventory.push(Object.assign({}, this.elementInventary))
+              this.$q.loading.hide()
+              this.showAddInventary = false;
+            })
+          }
+      },
+    },
+    validations: {
+      addInventory: {
+        name: { required, minLength: minLength(3) }
+      }
+    },
+  }
+</script>
