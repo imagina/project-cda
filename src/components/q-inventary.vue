@@ -44,8 +44,20 @@
       <q-modal v-model="showAddInventary" :content-css="{minWidth: '80vw', padding: '25px'}">
           <h4 class="mx-auto">Nuevo elemento para el inventario</h4>
 
-          <q-input-validation :model="$v.addInventory.name" :lineal="false" :labelShow="false" class="q-my-md w-100 d-block" label="Nombre"/>
-
+          <!-- <q-input-validation :model="$v.addInventory.name" :lineal="false" :labelShow="false" class="q-my-md w-100 d-block" label="Nombre" :noDisable="false"/> -->
+            <div class="font-weight-bold">
+                <q-field :error="$v.addInventory.name.$invalid" class="q-mt-lg">
+                  <q-input v-model="addInventory.name" type="text" placeholder="Nombre"/>
+                </q-field>
+                <q-tooltip>
+                    <p v-if="!$v.addInventory.name.required">
+                        <i class="material-icons"> error_outline </i> El campo es obligatorio.
+                    </p>
+                    <p v-if="!typeof $v.addInventory.name.minLength && !$v.addInventory.name.minLength">
+                        <i class="material-icons"> error_outline </i> El cambo debe contener minimo ({{ $v.addInventory.name.$params.minLength.min }}) caracteres.
+                    </p>
+                </q-tooltip>
+            </div>
           <q-btn color="dark" @click="showAddInventary = false" label="Cerrar" class="mt-2 q-mr-md"/>
           <q-btn color="primary" @click="addInventary" label="Aceptar" class="mt-2"/>
       </q-modal>
@@ -72,7 +84,7 @@
             quantity: null
         },
         addInventory : {
-            name: null
+          name: null
         },
       }
     },
