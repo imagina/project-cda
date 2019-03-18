@@ -19,9 +19,9 @@ export default {
   },
   /*Ordens*/
   ordens: {
-    title: 'Ordenes',
+    title: 'Inspecciones',
     icon: 'fas fa-list',
-    to: 'ordens',
+    to: 'inspections',
   },
   /*User*/
   user: {

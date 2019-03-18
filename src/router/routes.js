@@ -12,14 +12,11 @@ Route.view('/', 'master')
       Route.view('/', 'pages/Index').options({
         name: 'home'
       }),
-      Route.view('/data', 'pages/Data').options({
-        name: 'data'
+      Route.view('/nueva/inspeccion', 'pages/Data').options({
+        name: 'inspeccion'
       }),
-      Route.view('/contract', 'pages/Contract').options({
-        name: 'contract'
-      }),
-      Route.view('/ordens', 'pages/Ordens/index').options({
-        name: 'ordens'
+      Route.view('/inspections', 'pages/Inspections/index').options({
+        name: 'inspections'
       })
     }
   )

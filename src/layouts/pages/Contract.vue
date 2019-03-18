@@ -131,15 +131,3 @@ export default {
 	}
 }
 </script>
-
-<style>
-	.q-option-label
-	{
-		font-weight: bold;
-	}
-	.signatured {
-		border-radius: 10px;
-		border: 1px solid #333;
-		margin-bottom: 10px;
-	}
-</style>

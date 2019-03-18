@@ -105,7 +105,19 @@ export default {
 
   setInspections(data) {
     return new Promise((resolve, reject) => {
-      return http.post(config('api.api_icda') + '/inspections',{data})
+      return http.post(config('api.api_icda') + '/inspections',data)
+        .then(response => {
+          resolve(response);
+        })
+      .catch(error => {
+        reject(error);
+      });
+    });
+  },
+
+  getInspections(page) {
+    return new Promise((resolve, reject) => {
+      return http.get(config('api.api_icda') + '/inspections?page='+page+'&take=8')
         .then(response => {
           resolve(response);
         })

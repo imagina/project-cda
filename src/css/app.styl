@@ -35,18 +35,29 @@ body
 	.col:not(.q-if-inner)
 		// padding-left: 8px !important
 		// padding-left: 8px !important
+			
+.col-inventory-name
+	@media (max-width: 576px)
+		background: #ccc;
+		border-top: 1px solid #ccc
+		border-bottom: 1px solid #ccc
+	@media (min-width: 576px)
+		padding-bottom: 16px;
+		padding-top: 16px;
 input
 select,
 .q-input,
 .q-input-target
-	padding-left: 8px !important
-	padding-left: 8px !important
+	padding-left: 4px !important
+	padding-right: 8px !important
 
 .q-if-disabled,
+.q-if-disabled i,
 .q-if-disabled .disabled, [disabled]
 	opacity: 1 !important
-	cursor: initial !important
+	cursor: pointer !important
 	color: #00000
+	// padding-bottom: 7px
 
 .q-field-label-inner 
 	color: #000
@@ -60,7 +71,8 @@ select,
 .col-checkout
 	max-width: 80px !important
 .col-count
-	max-width: 200px !important
+	& > *
+		max-width: 200px !important
 	.q-input
 		margin: 0px
 	
@@ -278,28 +290,16 @@ h2,	.h2
 .q-if:not(.q-if-disabled):not(.q-if-error):not(.q-if-warning):hover:before,
 .q-if.q-if-readonly:not(.q-if-error):not(.q-if-warning):after
 	color: #80808052
+.color-danger { color: rgb(244, 67, 54)}
+.border-danger { border-color: rgb(244, 67, 54) !important}
 
+.q-input-validation
+	input,select, .q-input
+		cursor: initial !important
 .q-search
 	padding-right: 40px
     .q-if-error .q-if-inner {
         position: relative;
-    }
-    .q-if-error .q-if-inner::before {
-        position: absolute;
-        content: "!";
-        top: 0;
-        left: -12px;
-        bottom: 0;
-        margin: auto;
-        width: 16px;
-        border-radius: 50%;
-        color: white;
-        font-size: 15px;
-        padding-left: 6.8px;
-        height: 16px;
-        line-height: 1.1;
-        color: white;
-        background-color: #f44336bd;
     }
     .q-tooltip {
         background: #f44336bd !important;
@@ -307,7 +307,18 @@ h2,	.h2
         padding: 0px;
     }
     .q-tooltip p {
+    	color: white;
         margin-bottom: 0px;
         padding-left:  10px;
         padding-right: 10px;
     }
+    
+.q-option-label
+{
+	font-weight: bold;
+}
+.signatured {
+	border-radius: 10px;
+	border: 1px solid #333;
+	margin-bottom: 10px;
+}

@@ -4,14 +4,18 @@
       <div class="row">
         <div class="col col-md-8 mx-auto">
             <div class="row border">
-                <div class="col q-py-md"></div>
+                <div class="col-12 col-sm-4 col-md-5 col-lg-4"></div>
                 <div class="col q-py-md border-l font-weight-bold col-checkout">B</div>
                 <div class="col q-py-md border-l font-weight-bold col-checkout">D</div>
                 <div class="col q-py-md border-l font-weight-bold col-checkout">M</div>
-                <div class="col q-py-md border-l font-weight-bold col-count"><span class="text-truncate">Cantidad</span></div>
+                <div class="col q-py-md border-l font-weight-bold col-count"><span class="d-none d-sm-block">Cantidad</span></div>
             </div>
-            <div class="row border border-t-0" v-for="item in inventory">
-                <div class="col q-py-md font-weight-bold">{{ item.name }}</div>
+            <div class="row border border-t-0" v-for="(item,index) in inventory.$model">
+                <div class="col-12 col-sm-4 col-md-5 col-lg-4 col-inventory-name font-weight-bold boder-botton">
+                  <span :class="{'color-danger': inventory.$each[index].quantity.$error || inventory.$each[index].evaluation.$error }">
+                    {{ item.name }}
+                  </span>
+                </div>
                 <div class="col q-py-sm border-l col-checkout text-center">
                     <div class="q-mt-sm">
                         <q-radio v-model="item.evaluation" val="B" class="q-mr-lg mx-auto"/>
@@ -28,7 +32,9 @@
                     </div>
                 </div>
                 <div class="col q-py-sm border-l col-count q-px-md">
+                  <q-field :error="inventory.$each[index].quantity.$error">
                     <q-input v-model="item.quantity" type="number" class="bg-white q-py-sm q-my-md" min="0"/>
+                  </q-field>
                 </div>
             </div>
             <div class="row">
@@ -41,10 +47,8 @@
             </div>
         </div>
       </div>
-      <q-modal v-model="showAddInventary" :content-css="{minWidth: '80vw', padding: '25px'}">
-          <h4 class="mx-auto">Nuevo elemento para el inventario</h4>
-
-          <!-- <q-input-validation :model="$v.addInventory.name" :lineal="false" :labelShow="false" class="q-my-md w-100 d-block" label="Nombre" :noDisable="false"/> -->
+      <q-modal v-model="showAddInventary" :content-css="{minWidth: '30vw',padding: '25px', maxWidth: '100%'}">
+          <h6 class="mx-auto">Nuevo elemento para el inventario</h6>
             <div class="font-weight-bold">
                 <q-field :error="$v.addInventory.name.$invalid" class="q-mt-lg">
                   <q-input v-model="addInventory.name" type="text" placeholder="Nombre"/>
@@ -53,7 +57,7 @@
                     <p v-if="!$v.addInventory.name.required">
                         <i class="material-icons"> error_outline </i> El campo es obligatorio.
                     </p>
-                    <p v-if="!typeof $v.addInventory.name.minLength && !$v.addInventory.name.minLength">
+                    <p v-if="!$v.addInventory.name.minLength">
                         <i class="material-icons"> error_outline </i> El cambo debe contener minimo ({{ $v.addInventory.name.$params.minLength.min }}) caracteres.
                     </p>
                 </q-tooltip>
@@ -103,7 +107,7 @@
               this.elementInventary.name = response.data.name;
               this.elementInventary.id = response.data.id
               this.addInventory.name = null;
-              this.inventory.push(Object.assign({}, this.elementInventary))
+              this.inventory.$model.push(Object.assign({}, this.elementInventary))
               this.$q.loading.hide()
               this.showAddInventary = false;
             })
