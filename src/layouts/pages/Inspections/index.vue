@@ -5,18 +5,18 @@
 				<div class="col-12">
 					<q-list>
 					  	<q-list-header class="h2">Lista de Ordenes</q-list-header>
+					  	<hr>
 					  	<q-item v-for="(item, index) in ordens" :key="index" class="bg-white mb-2 shadow-1">
 					      	<q-item-tile sublabel lines="105" class="pl-2">
-					      		{{ item }}
-						        <!-- <h5 class="mx-auto">MATRICULA: {{ item[0].vehicle.board }}</h5> -->
+						        <h5 class="mx-auto">MATRICULA: {{ item.vehicle.board }}</h5>
 						       	<p class="q-mb-xs">
-						       		<!-- Inspector: {{ item[0].inspector.fullname }} -->
+						       		Inspector: {{ item.inspector.fullname }}
 						       	</p>
 						       	<p class="q-mb-xs">
-						       		<!-- Tipo de vehículo: {{ item[0].vehicle.typeVehicle }} -->
+						       		Tipo de vehículo: {{ item.vehicle.typeVehicle }}
 						       	</p>
 						       	<small>
-						       		<!-- {{ item[0].createdAtDate +' '+ item[0].createdAtTime }} -->
+						       		{{ item.createdAtDate +' '+ item.createdAtTime }}
 						       	</small>
 					      	</q-item-tile>
 					  	</q-item>
@@ -51,10 +51,9 @@ export default {
 	        	resources.getInspections(this.page)
 	        	.then(response => {
 	        		if(response.data.data.length > 0) {
-	        			this.ordens.push(response.data)
-	        			// this.ordens = this.ordens[0]
-						// console.log(response.data.data);
-						console.log(this.ordens);
+	        			response.data.data.forEach((val)=>{
+	        				this.ordens.push(val)
+	        			});
 	        			this.page = this.page + 1
 	        			this.busy = false
 	        		} else {
