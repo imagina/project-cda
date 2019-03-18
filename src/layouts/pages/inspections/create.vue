@@ -66,29 +66,29 @@
                         <div class="row mt-3 q-border">
                             <div class="col-12 col-md-6 q-px-md">
 
-                                <q-input-validation :model="$v.data.attributes.serviceType" class="d-block" label="Tipo de Servicio:"/>
+                                <q-input-validation :model="$v.data.attributes.service_type" class="d-block" label="Tipo de Servicio:"/>
 
-                                <q-input-validation :model="$v.data.attributes.typeVehicle" class="d-block" label="Clase de Vehículo:"/>
+                                <q-input-validation :model="$v.data.attributes.type_vehicle" class="d-block" label="Clase de Vehículo:"/>
 
                                 <q-input-validation :model="$v.data.attributes.brand" class="d-block" label="Marca:"/>
 
                                 <q-input-validation :model="$v.data.attributes.line" class="d-block" label="Línea:"/>
 
-                                <q-input-validation :model="$v.data.attributes.transitLicense" class="d-block" label="N° Licencia de Tránsito:"/>
+                                <q-input-validation :model="$v.data.attributes.transit_license" class="d-block" label="N° Licencia de Tránsito:"/>
 
-                                <q-input-validation :model="$v.data.attributes.enrollmentDate" class="d-block" label="Fecha de Matrícula:"/>
+                                <q-input-validation :model="$v.data.attributes.enrollment_date" class="d-block" label="Fecha de Matrícula:"/>
                             </div>
 
                             <div class="col-12 col-md-6 q-px-md">
                                 <q-input-validation :model="$v.data.attributes.color" class="d-block" label="Color:"/>
 
-                                <q-input-validation :model="$v.data.attributes.typeFuel" class="d-block" label="Tipo de combustible:"/>
+                                <q-input-validation :model="$v.data.attributes.type_fuel" class="d-block" label="Tipo de combustible:"/>
 
-                                <q-input-validation :model="$v.data.attributes.chasisNumber" class="d-block" label="N°Vin:"/>
+                                <q-input-validation :model="$v.data.attributes.chasis_number" class="d-block" label="N°Vin:"/>
 
-                                <q-input-validation :model="$v.data.attributes.chasisNumber" class="d-block" label="N° de Chasis:"/>
+                                <q-input-validation :model="$v.data.attributes.chasis_number" class="d-block" label="N° de Chasis:"/>
 
-                                <q-input-validation :model="$v.data.attributes.engineNumber" class="d-block" label="N° de Motor:"/>
+                                <q-input-validation :model="$v.data.attributes.engine_number" class="d-block" label="N° de Motor:"/>
 
                                 <q-input-validation :model="$v.data.attributes.displacement" class="d-block" label="Cilindraje:"/>
                             </div>
@@ -100,18 +100,17 @@
                                     <div class="col-4 col-md-3 col-lg-2 q-mb-lg"> <span class="font-weight-bold">Tipico de Vehículo:</span> </div>
                                     <div class="col-8 col-md-9 col-lg-10">
                                         <q-btn-group class="bg-white">
-
                                             <q-btn label="PESADO"
-                                                @click="data.attributes.typeVehicle = 'PESADO'" 
-                                                :class="{'bg-primary ' : data.attributes.typeVehicle == 'PESADO'}"/>
+                                                @click="data.type_vehicle = 'PESADO'" 
+                                                :class="{'bg-primary ' : data.type_vehicle == 'PESADO'}"/>
 
                                             <q-btn label="LIVIANO" 
-                                                @click="data.attributes.typeVehicle = 'LIVIANO'" 
-                                                :class="{'bg-primary ' : data.attributes.typeVehicle == 'LIVIANO'}"/>
+                                                @click="data.type_vehicle = 'LIVIANO'" 
+                                                :class="{'bg-primary ' : data.type_vehicle == 'LIVIANO'}"/>
 
                                             <q-btn label="MOTOCICLETA"
-                                                @click="data.attributes.typeVehicle = 'MOTOCICLETA'" 
-                                                :class="{'bg-primary ' : data.attributes.typeVehicle == 'MOTOCICLETA'}"/>
+                                                @click="data.type_vehicle = 'MOTOCICLETA'" 
+                                                :class="{'bg-primary ' : data.type_vehicle == 'MOTOCICLETA'}"/>
 
                                         </q-btn-group>
                                     </div>
@@ -137,14 +136,13 @@
                                     </q-tooltip>
                                 </q-field>
                             </div>
-
                             <!-- Gobernador & Taximetro -->
-                            <div class="col-12 q-px-md q-border" v-if="!isMotocicleta()">
+                            <div class="col-12 q-px-md q-border" v-if="!isMotocicleta() && data.type_vehicle != 'MOTOCICLETA'">
                                 <q-checkbox v-model="data.governor" label="Gobernador" :left-label="true" class="q-mr-lg"/>
                                 <q-checkbox v-model="data.taximeter" label="Taxímetro" :left-label="true" class="q-mr-lg"/>
                             </div>
 
-                            <div class="col-12 q-border" v-if="!isMotocicleta()">
+                            <div class="col-12 q-border" v-if="!isMotocicleta() && data.type_vehicle != 'MOTOCICLETA'">
                                 <div class="row">
                                     <div class="col-12 q-px-md ">
                                         <span class="d-inline-block q-mr-lg font-weight-bold">Vehículo a Gas:</span> 
@@ -174,7 +172,7 @@
                             </div>
                             
                             <!-- kilometraje & diametro -->
-                            <div class="col-12 q-border" v-if="!isMotocicleta()">
+                            <div class="col-12 q-border" v-if="!isMotocicleta() && data.type_vehicle != 'MOTOCICLETA'">
                                 <div class="row">
                                     <div class="col-12 col-sm-6">
                                         <div class="row">
@@ -408,7 +406,7 @@
                     vehicles_id: null,
                     inspections_types_id: null,
                     teaching_vehicle: null,
-                    mileage: 11,
+                    mileage: null,
                     exhosto_diameter: null,
                     engine_cylinders: null,
                     axes: [],
@@ -433,7 +431,7 @@
                     type_vehicle: null,
                     code: Math.round(Math.random()*1000000),
                 },
-                formSearch : { plaque: 'AAA00A' },
+                formSearch : { plaque: null },
                 selectInspection: [],
             }
         },
@@ -523,17 +521,17 @@
                     return this.showsignature
                 })},
                 attributes: {
-                    serviceType : { required, minLength: minLength(3) },
-                    typeVehicle : { required },
+                    service_type : { required, minLength: minLength(3) },
+                    type_vehicle : { required },
                     brand        : { required },
                     line         : { required },
                     model        : { required },
                     color           : { required },
-                    typeFuel       : { required },
-                    transitLicense : { required },
-                    enrollmentDate : { required },
-                    chasisNumber   : { required },
-                    engineNumber   : { required },
+                    type_fuel       : { required },
+                    transit_license : { required },
+                    enrollment_date : { required },
+                    chasis_number   : { required },
+                    engine_number   : { required },
                     displacement    : { required },
                 }
             },
@@ -623,7 +621,7 @@
                 }
             },
             isMotocicleta() {
-                return this.data.type_vehicle == 'MOTOCICLETA';
+                return this.data.attributes.type_vehicle == 'MOTOCICLETA';
             },
         }
     }
