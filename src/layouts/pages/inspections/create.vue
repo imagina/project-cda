@@ -232,8 +232,10 @@
                             <div class="col-12 q-border" v-else>
                                 <div class="row">
                                     <div class="col-12 col-md-6 q-px-md">
-                                        <q-field>
-                                            <span class="font-weight-bold q-mb-md d-block">Kilometraje:</span>
+                                        <q-field :error="$v.data.mileage.$error">
+                                            <span class="font-weight-bold q-mb-md d-block" :class="{'color-danger': $v.data.mileage.$error}">
+                                                <i class="material-icons color-danger q-mr-xs" v-show="$v.data.mileage.$error"> error_outline </i>Kilometraje:
+                                            </span>
                                             <q-input v-model="data.mileage" type="number" min="0" placeholder="Kilometraje" class="bg-white"/>
                                         </q-field>
                                     </div>
@@ -610,7 +612,10 @@
                     .then(response => {
                         this.data.vehicles_id = response.data.id
                         this.data.type_vehicle = response.data.typeVehicle
+                        console.log(this.data.type_vehicle)
                         this.data.attributes = response.data
+                        if(this.data.type_vehicle == null)
+                            this.data.type_vehicle = this.data.attributes.type_vehicle
                         setTimeout(this.$q.loading.hide(),1000)
                         this.showData = true;
                     }).catch(error => {
