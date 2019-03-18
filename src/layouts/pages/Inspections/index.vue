@@ -7,17 +7,13 @@
 					  	<q-list-header class="h2">Lista de Ordenes</q-list-header>
 					  	<hr>
 					  	<q-item v-for="(item, index) in ordens" :key="index" class="bg-white mb-2 shadow-1">
-					      	<q-item-tile sublabel lines="105" class="pl-2">
-						        <h5 class="mx-auto">MATRICULA: {{ item.vehicle.board }}</h5>
-						       	<p class="q-mb-xs">
-						       		Inspector: {{ item.inspector.fullname }}
-						       	</p>
-						       	<p class="q-mb-xs">
-						       		Tipo de vehículo: {{ item.vehicle.typeVehicle }}
-						       	</p>
-						       	<small>
-						       		{{ item.createdAtDate +' '+ item.createdAtTime }}
-						       	</small>
+					      	<q-item-tile sublabel lines="105" class="pl-2 d-block w-100">
+					      		<router-link :to="{ name: 'update.inspection', params: { board: item.vehicle.board, id: item.id }}" class="link">
+							        <h5 class="mx-auto">MATRICULA: {{ item.vehicle.board }}</h5>
+							       	<p class="q-mb-xs"> Inspector: {{ item.inspector.fullname }} </p>
+							       	<p class="q-mb-xs"> Tipo de vehículo: {{ item.vehicle.typeVehicle }} </p>
+							       	<small>{{ item.createdAtDate +' '+ item.createdAtTime }}</small>
+					      		</router-link>
 					      	</q-item-tile>
 					  	</q-item>
 					</q-list>

@@ -71,28 +71,30 @@
       }
     },
     created() {
-      if(!this.type) {
-        this.axes.$model.push([{
-          pressure_init: null,
-          adjustment: null,
-          type: "L"
-        },
-        {
-          pressure_init: null,
-          adjustment: null,
-          type: "R"
-        }])
-      }else {
-        this.axes.$model.push([{
-          pressure_init: null,
-          adjustment: null,
-          type: "L"
-        }],
-        [{
-          pressure_init: null,
-          adjustment: null,
-          type: "R"
-        }])
+      if(this.axes.$model.length == 0 ) {      
+        if(!this.type) {
+          this.axes.$model.push([{
+            pressure_init: null,
+            adjustment: null,
+            type: "L"
+          },
+          {
+            pressure_init: null,
+            adjustment: null,
+            type: "R"
+          }])
+        }else {
+          this.axes.$model.push([{
+            pressure_init: null,
+            adjustment: null,
+            type: "L"
+          }],
+          [{
+            pressure_init: null,
+            adjustment: null,
+            type: "R"
+          }])
+        }
       }
     },
     filters: {

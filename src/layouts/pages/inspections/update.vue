@@ -11,28 +11,6 @@
                     </div>
                 </div>
             </div>
-            <div class="row q-py-lg">
-                <div class="col-12 col-sm-10 col-md-4 mx-auto q-px-md">
-                    <div class="row">
-                        <div class="col-12 text-center font-weight-bold">
-                            <p>Datos de la Motocicleta</p>
-                        </div>
-                        <div class="col-12">
-                            <q-field :error="$v.formSearch.plaque.$error">
-                                <q-search v-model="formSearch.plaque" class="bg-white q-mt-sm" type="text" maxlength="6" minlength="6" placeholder="Placa" v-on:keyup.enter="searchPlaque"/>
-                                <q-tooltip :error="$v.formSearch.plaque.$error">
-                                    <p class="error-message mb-0" v-if="!$v.formSearch.plaque.required">
-                                        <i class="material-icons">error_outline</i> El campo es obligatorio.
-                                    </p>
-                                    <p class="error-message mb-0" v-if="!$v.formSearch.plaque.minLength">
-                                        <i class="material-icons">error_outline</i> Debe contener al menos 6 caracteres.
-                                    </p>
-                                </q-tooltip>
-                            </q-field>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <q-page v-show="showData">
                 <div v-if="data.attributes" class="q-my-lg q-pt-lg">
                     <!-- SOAP -->
@@ -119,19 +97,19 @@
                             </div>
                             <!-- Vehículo de Enseñanza -->
                             <div class="col-12 q-px-md q-border">
-                                <q-field :error="$v.data.teaching_vehicle.$invalid" class="d-inline-block">
+                                <q-field :error="$v.data.teachingVehicle.$invalid" class="d-inline-block">
                                     <div class="d-inline-block label-invalid">
                                         <span class="q-mr-lg font-weight-bold">
-                                            <i class="material-icons color-danger q-mr-xs" v-show="$v.data.teaching_vehicle.$error"> error_outline </i>
-                                            <span :class="{'color-danger': $v.data.teaching_vehicle.$error}">Vehículo de Enseñanza:</span>
+                                            <i class="material-icons color-danger q-mr-xs" v-show="$v.data.teachingVehicle.$error"> error_outline </i>
+                                            <span :class="{'color-danger': $v.data.teachingVehicle.$error}">Vehículo de Enseñanza:</span>
                                         </span> 
                                     </div>
                                     <div class="d-inline-block">
-                                        <q-radio v-model="data.teaching_vehicle" :val="true" label="Si" class="q-mr-lg"/>
-                                        <q-radio v-model="data.teaching_vehicle" :val="false" label="No" class="q-mr-lg"/>
+                                        <q-radio v-model="data.teachingVehicle" val="1" label="Si" class="q-mr-lg"/>
+                                        <q-radio v-model="data.teachingVehicle" val="0" label="No" class="q-mr-lg"/>
                                     </div>
-                                    <q-tooltip v-show="$v.data.teaching_vehicle.$error">
-                                        <span v-show="!$v.data.teaching_vehicle.required">
+                                    <q-tooltip v-show="$v.data.teachingVehicle.$error">
+                                        <span v-show="!$v.data.teachingVehicle.required">
                                             <i class="material-icons color-danger"> error_outline </i> El campo es obligatorio.
                                         </span>
                                     </q-tooltip>
@@ -386,11 +364,11 @@
 
 <script>
     import { required, email, minLength, sameAs, requiredIf, requiredUnless} from 'vuelidate/lib/validators';
-    import qInputValidation from '../../components/q-input-validation';
-    import qAxes from '../../components/q-axes';
-    import qInventary from '../../components/q-inventary';
-    import qGallery from '../../components/q-gallery';
-    import qContract from '../../components/q-contract';
+    import qInputValidation from '../../../components/q-input-validation';
+    import qAxes from '../../../components/q-axes';
+    import qInventary from '../../../components/q-inventary';
+    import qGallery from '../../../components/q-gallery';
+    import qContract from '../../../components/q-contract';
     import resources from 'src/services/resources';
     import VueSignaturePad from 'vue-signature-pad';
     export default {
@@ -403,37 +381,7 @@
                 showContract: false,
                 aceptContract: false,
                 showsignature: false,
-                data: {
-                    pre_inspections: [],
-                    vehicles_id: null,
-                    inspections_types_id: null,
-                    teaching_vehicle: null,
-                    mileage: 11,
-                    exhosto_diameter: null,
-                    engine_cylinders: null,
-                    axes: [],
-                    gallery: [],
-                    items: [],
-                    attributes: null,
-                    vehicle_gas: null,
-                    gas_certificate: null,
-                    gas_certifier: null,
-                    gas_certificate_expiration: null,
-                    governor: false,
-                    taximeter: false,
-                    polarized_glasses: false,
-                    armored_vehicle: false,
-                    modified_engine: false,
-                    spare_tires: null,
-                    observations: null,
-                    vehicle_prepared: null,
-                    seen_technical_director: null,
-                    vehicle_delivery_signature: null,
-                    signature_received_report: null,
-                    type_vehicle: null,
-                    code: Math.round(Math.random()*1000000),
-                },
-                formSearch : { plaque: 'AAA00A' },
+                data: { },
                 selectInspection: [],
             }
         },
@@ -448,7 +396,17 @@
                         value: e.id
                     }
                 })
+            })
+
+            resources.getInspection(this.$route.params.id)
+            .then(response =>{
+                console.log(response.data.data);
+                this.data = response.data.data;
+                this.data.attributes = response.data.data.vehicle;
+                this.data.items = response.data.data.itemsInventory;
+                // this.data.teachingVehicle = response.data.data.teachingVehicle == 1 ? true : false;
                 this.$q.loading.hide()
+                this.showData = true
             })
 
             resources.preInspections()
@@ -458,18 +416,6 @@
                         name: e.name,
                         pre_inspection_id: e.id,
                         value: null
-                    }
-                })
-            })
-
-            resources.inventory()
-            .then(response => {
-                this.data.items = response.data.map(e => {
-                    return {
-                        name: e.name,
-                        inventory_id: e.id,
-                        evaluation: null,
-                        quantity: null
                     }
                 })
             })
@@ -484,7 +430,7 @@
                 plaque: { required, minLength: minLength(6)  }
             },
             data: {
-                teaching_vehicle: { required },
+                teachingVehicle: { required },
                 mileage: { required },
                 axes: {
                     $each: {
@@ -583,7 +529,7 @@
                     resources.setInspections(jsonData)
                     .then(response => {
                         this.$q.notify({message: 'Creado exitosamente!',  position: 'top-right', closeBtn: true})
-                        this.$router.push('/')
+                        this.$router.push({ name: 'home' })
                     }).catch(error => {
                         this.$q.loading.hide()
                         // this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})

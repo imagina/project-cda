@@ -128,7 +128,7 @@ export default {
                 return
             }else {
                 this.$q.loading.show()
-                this.$router.push('/nueva/inspeccion')
+                this.$router.push({ name: 'create.inspection' })
             }
         }
     }

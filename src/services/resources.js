@@ -115,6 +115,18 @@ export default {
     });
   },
 
+  getInspection(id) {
+    return new Promise((resolve, reject) => {
+      return http.get(config('api.api_icda') + '/inspections/'+id)
+        .then(response => {
+          resolve(response);
+        })
+      .catch(error => {
+        reject(error);
+      });
+    });
+  },
+
   getInspections(page) {
     return new Promise((resolve, reject) => {
       return http.get(config('api.api_icda') + '/inspections?page='+page+'&take=8')
