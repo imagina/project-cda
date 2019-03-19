@@ -12,13 +12,13 @@ Route.view('/', 'master')
       Route.view('/', 'pages/Index').options({
         name: 'home'
       }),
-      Route.view('/inspections/create', 'pages/inspections/create').options({
+      Route.view('/inspections/create', 'pages/inspection/create').options({
         name: 'create.inspection'
       }),
-      Route.view('/inspeccion/:board/:id', 'pages/inspections/update').options({
+      Route.view('/inspections/:board/:id', 'pages/inspection/update').options({
         name: 'update.inspection'
       }),
-      Route.view('/inspections', 'pages/inspections/index').options({
+      Route.view('/inspections', 'pages/inspection/index').options({
         name: 'inspections'
       })
     }
