@@ -12,10 +12,10 @@ Route.view('/', 'master')
       Route.view('/', 'pages/Index').options({
         name: 'home'
       }),
-      Route.view('/inspections/create', 'pages/inspection/create').options({
+      Route.view('/inspections/create/:user_id/:inspection?', 'pages/inspection/create').options({
         name: 'create.inspection'
       }),
-      Route.view('/inspections/:board/:id', 'pages/inspection/update').options({
+      Route.view('/inspections/:user_id/:board/:id', 'pages/inspection/update').options({
         name: 'update.inspection'
       }),
       Route.view('/inspections', 'pages/inspection/index').options({

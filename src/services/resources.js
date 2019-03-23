@@ -137,5 +137,31 @@ export default {
         reject(error);
       });
     });
-  }
+  },
+
+  searchUser(typeDocument,document) {
+    return new Promise((resolve, reject) => { 
+      return http.get(config('api.api_url') + '/profile/users?take=1&filter={"field":{"name":"number_document","value":"'+document+'"}}')
+        .then(response => {
+          resolve(response);
+        })
+      .catch(error => {
+        reject(error);
+      });
+    });
+  },
+
+  createUser(data) {
+    return new Promise((resolve, reject) => {
+      return http.post(config('api.api_url') + '/profile/users',{
+          'attributes' : data
+        })
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
 }

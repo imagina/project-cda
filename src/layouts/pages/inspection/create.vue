@@ -34,7 +34,7 @@
                 </div>
             </div>
             <q-page v-show="showData">
-                <div v-if="data.attributes" class="q-my-lg q-pt-lg">
+                <div v-if="data.attributes != null" class="q-my-lg q-pt-lg">
                     <!-- SOAP -->
                     <div class="container-fluid bg-gray-10">
                         <div class="row align-items-center">
@@ -321,8 +321,8 @@
                         </div>
                         <div class="col-6">
                             <div class="d-inline-block">
-                              <q-radio v-model="data.vehicle_prepared" :val="true" label="Si" class="q-mr-lg"/>
-                              <q-radio v-model="data.vehicle_prepared" :val="false" label="No" class="q-mr-lg"/>
+                              <q-radio v-model="data.vehicle_prepared" val="1" label="Si" class="q-mr-lg"/>
+                              <q-radio v-model="data.vehicle_prepared" val="0" label="No" class="q-mr-lg"/>
                             </div>
                         </div>
                       </div>
@@ -334,8 +334,8 @@
                         </div>
                         <div class="col-6">
                             <div class="d-inline-block">
-                              <q-radio v-model="data.seen_technical_director" :val="true" label="Si" class="q-mr-lg"/>
-                              <q-radio v-model="data.seen_technical_director" :val="false" label="No" class="q-mr-lg"/>
+                              <q-radio v-model="data.seen_technical_director" val="1" label="Si" class="q-mr-lg"/>
+                              <q-radio v-model="data.seen_technical_director" val="0" label="No" class="q-mr-lg"/>
                             </div>
                         </div>
                       </div>
@@ -432,15 +432,18 @@
                     signature_received_report: null,
                     type_vehicle: null,
                     code: Math.round(Math.random()*1000000),
+                    user_id: null
                 },
                 formSearch : { plaque: null },
                 selectInspection: [],
             }
         },
         created() {
+
             this.$q.loading.show()
+
             resources.inspectionsTypes()
-            .then(response =>{
+            .then(response => {
                 this.selectInspection = response.data.map(e => {
                     this.data.inspections_types_id = e.id;
                     return {
@@ -448,7 +451,10 @@
                         value: e.id
                     }
                 })
-                this.$q.loading.hide()
+                if(this.$route.params.inspection)
+                    this.getInspection()
+                else
+                    this.$q.loading.hide()
             })
 
             resources.preInspections()
@@ -458,18 +464,6 @@
                         name: e.name,
                         pre_inspection_id: e.id,
                         value: null
-                    }
-                })
-            })
-
-            resources.inventory()
-            .then(response => {
-                this.data.items = response.data.map(e => {
-                    return {
-                        name: e.name,
-                        inventory_id: e.id,
-                        evaluation: null,
-                        quantity: null
                     }
                 })
             })
@@ -582,7 +576,7 @@
 
                     resources.setInspections(jsonData)
                     .then(response => {
-                        this.$q.notify({message: 'Creado exitosamente!',  position: 'top-right', closeBtn: true})
+                        this.$q.notify({type:'positive', message: 'Creado exitosamente!',  position: 'top-right', closeBtn: true})
                         this.$router.push({ name: 'home' })
                     }).catch(error => {
                         this.$q.loading.hide()
@@ -612,10 +606,10 @@
                     .then(response => {
                         this.data.vehicles_id = response.data.id
                         this.data.type_vehicle = response.data.typeVehicle
-                        console.log(this.data.type_vehicle)
                         this.data.attributes = response.data
                         if(this.data.type_vehicle == null)
                             this.data.type_vehicle = this.data.attributes.type_vehicle
+                        this.getInventory()
                         setTimeout(this.$q.loading.hide(),1000)
                         this.showData = true;
                     }).catch(error => {
@@ -625,9 +619,40 @@
                     });
                 }
             },
+            getInspection() {
+                resources.getInspection(this.$route.params.inspection)
+                .then(response => {
+                    this.data = response.data.data;
+                    if(this.data.type_vehicle == null)
+                        this.data.type_vehicle = response.data.data.vehicle.type_vehicle
+                    this.getInventory()
+                    this.data.attributes = response.data.data.vehicle
+                    this.showData = true;
+                }).catch(error => {
+                    this.$q.notify({message: 'Losiento, la inspeccion no se encuentra en nuestra data.',  position: 'top-right', closeBtn: true})
+                    console.error(error)
+                }).then(() => {
+                    this.$q.loading.hide()
+                });
+            },
+
             isMotocicleta() {
                 return this.data.attributes.type_vehicle == 'MOTOCICLETA';
             },
+            getInventory() {
+                resources.inventory()
+                .then(response => {
+                    this.data.items = response.data.map(e => {
+                        return {
+                            name: e.name,
+                            inventory_id: e.id,
+                            evaluation: null,
+                            quantity: null
+                        }
+                    })
+                    console.log(this.data.items)
+                })
+            }
         }
     }
 </script>

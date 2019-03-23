@@ -3,20 +3,41 @@
 	    <div class="layout-padding q-py-lg">
 			<div class="row">
 				<div class="col-12">
-					<q-list>
-					  	<q-list-header class="h2">Lista de Ordenes</q-list-header>
-					  	<hr>
-					  	<q-item v-for="(item, index) in ordens" :key="index" class="bg-white mb-2 shadow-1">
-					      	<q-item-tile sublabel lines="105" class="pl-2 d-block w-100">
-					      		<router-link :to="{ name: 'update.inspection', params: { board: item.vehicle.board, id: item.id }}" class="link">
-							        <h5 class="mx-auto">MATRICULA: {{ item.vehicle.board }}</h5>
-							       	<p class="q-mb-xs"> Inspector: {{ item.inspector.fullname }} </p>
-							       	<p class="q-mb-xs"> Tipo de vehículo: {{ item.vehicle.typeVehicle }} </p>
-							       	<small>{{ item.createdAtDate +' '+ item.createdAtTime }}</small>
-					      		</router-link>
-					      	</q-item-tile>
-					  	</q-item>
-					</q-list>
+					<q-timeline responsive color="black" :responsive="false">
+					  <q-timeline-entry heading>
+					    Lista de Ordenes
+					  </q-timeline-entry>
+
+					  <q-timeline-entry
+					  	:heading="false"
+					    v-for="(item, index) in ordens" :key="index"
+					    :subtitle="item.created_at_date + ' ' + item.created_at_time"
+					    side="right"
+					  >
+					    <div class="border-bottom">
+				    		<router-link  :to="{ 
+				    							name: 'create.inspection',
+						    					params: {
+						    						user_id: item.vehicle.user.id,
+						    						inspection: item.id
+						    					}
+						    				}"
+						    				class="link row">
+
+					    		<div class="col" style="max-width: 100px;">
+					    			<img :src="item.gallery | img" width="100%">
+					    		</div>
+					    		<div class="col px-2">
+					    			Matricula: <b>{{ item.vehicle.board }}</b> <br>
+					    			Tipo de Servicio: {{ item.vehicle.service_type }} <br>
+					    			Tipo de Vehiculo: {{ item.vehicle.type_vehicle }} <br>
+					    			Cliente: {{ item.vehicle.user.fullname }} <br>
+					    		</div>
+				    		</router-link>
+					    </div>
+					  </q-timeline-entry>
+
+					</q-timeline>
 				</div>
 				<div class="col-12 d-block q-py-md">
  					<div v-infinite-scroll="loadMore" :infinite-scroll-disabled="busy" infinite-scroll-distance="10"></div> 
@@ -28,6 +49,7 @@
 
 <script>
 import resources from 'src/services/resources';
+import config from 'src/config/index'
 
 export default {
 	name: 'PageOrdens',
@@ -40,32 +62,37 @@ export default {
     },
     created() {
     },
+    filters: {
+    	img: function(gallery) {
+    		return gallery ? config('api.base_url') +'/'+ gallery[0]  : 'assets/imagen.png';
+    	}
+    },
 	methods: {
 		loadMore () {
-        	if(!this.busy) {    		
+        	if(!this.busy) {
         		this.busy = true
+        		this.$q.loading.show()
 	        	resources.getInspections(this.page)
 	        	.then(response => {
-	        		if(response.data.data.length > 0) {
-	        			response.data.data.forEach((val)=>{
-	        				this.ordens.push(val)
-	        			});
-	        			this.page = this.page + 1
-	        			this.busy = false
-	        		} else {
-	        			this.busy = true
-	        		}
+
+        			response.data.data.forEach((val)=>{
+        				this.ordens.push(val)
+        			});
+
+        			let page = response.data.meta.page;
+
+        			this.page = page.currentPage +1 
+
+        			this.busy = page.lastPage == page.currentPage ? true : false
+
 	        	}).catch(error => {
+					this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
 					console.log(error);
+	        	}).then(() => {
+        			this.$q.loading.hide()
 	        	});
         	}
 		},
 	}
 }
 </script>
-
-<style>
-	.q-list{
-		border: none;
-	}
-</style>
