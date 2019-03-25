@@ -139,6 +139,21 @@ export default {
     });
   },
 
+  updateInspections(data) {
+    return new Promise((resolve, reject) => {
+      return http.put(config('api.api_icda') + '/inspections/'+data.id,data
+        )
+        .then(response => {
+          console.log(response)
+          resolve(response);
+        })
+        .catch(error => {
+          console.log(error)
+          reject(error);
+        });
+    });
+  },
+  
   searchUser(typeDocument,document) {
     return new Promise((resolve, reject) => { 
       return http.get(config('api.api_url') + '/profile/users?take=1&filter={"field":{"name":"number_document","value":"'+document+'"}}')

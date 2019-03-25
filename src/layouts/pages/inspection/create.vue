@@ -11,7 +11,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row q-py-lg">
+            <div class="row q-py-lg" v-if="!isUpdate">
                 <div class="col-12 col-sm-10 col-md-4 mx-auto q-px-md">
                     <div class="row">
                         <div class="col-12 text-center font-weight-bold">
@@ -97,7 +97,10 @@
                         <div class="row">
                             <div class="col-12 q-px-md q-border" v-if="!isMotocicleta()">
                                 <div class="row">
-                                    <div class="col-4 col-md-3 col-lg-2 q-mb-lg"> <span class="font-weight-bold">Tipico de Vehículo:</span> </div>
+                                    <div class="col-4 col-md-3 col-lg-2 q-mb-lg">
+                                        <span class="font-weight-bold">Tipico de Vehículo:</span>
+                                    </div>
+                                    {{ data.type_vehicle }}
                                     <div class="col-8 col-md-9 col-lg-10">
                                         <q-btn-group class="bg-white">
                                             <q-btn label="PESADO"
@@ -126,8 +129,8 @@
                                         </span> 
                                     </div>
                                     <div class="d-inline-block">
-                                        <q-radio v-model="data.teaching_vehicle" :val="true" label="Si" class="q-mr-lg"/>
-                                        <q-radio v-model="data.teaching_vehicle" :val="false" label="No" class="q-mr-lg"/>
+                                        <q-radio v-model="data.teaching_vehicle" val="1" label="Si" class="q-mr-lg"/>
+                                        <q-radio v-model="data.teaching_vehicle" val="0" label="No" class="q-mr-lg"/>
                                     </div>
                                     <q-tooltip v-show="$v.data.teaching_vehicle.$error">
                                         <span v-show="!$v.data.teaching_vehicle.required">
@@ -138,13 +141,13 @@
                             </div>
                             <!-- Gobernador & Taximetro -->
                             <div class="col-12 q-px-md q-border" v-if="!isMotocicleta() && data.type_vehicle != 'MOTOCICLETA'">
-                                <q-checkbox v-model="data.governor" label="Gobernador" :left-label="true" class="q-mr-lg"/>
-                                <q-checkbox v-model="data.taximeter" label="Taxímetro" :left-label="true" class="q-mr-lg"/>
+                                <q-checkbox v-model="data.governor" label="Gobernador" false-value="0" true-value="1" :left-label="true" class="q-mr-lg"/>
+                                <q-checkbox v-model="data.taximeter" label="Taxímetro" false-value="0" true-value="1" :left-label="true" class="q-mr-lg"/>
                             </div>
 
                             <div class="col-12 q-border" v-if="!isMotocicleta() && data.type_vehicle != 'MOTOCICLETA'">
                                 <div class="row">
-                                    <div class="col-12 q-px-md ">
+                                    <div class="col-12 q-px-md">
                                         <span class="d-inline-block q-mr-lg font-weight-bold">Vehículo a Gas:</span> 
                                         <div class="d-inline-block">
                                             <q-radio v-model="data.vehicle_gas" :val="true" label="Si" class="q-mr-lg"/>
@@ -202,17 +205,26 @@
                                         <div class="row">                                        
                                             <div class="col-12 q-my-sm q-px-md">
                                                 <q-field>
-                                                    <q-checkbox v-model="data.polarized_glasses" :left-label="true" label="Vidrios Polarizados: "/>
+                                                    <q-checkbox v-model="data.polarized_glasses"
+                                                        false-value="0" true-value="1"
+                                                        :left-label="true"
+                                                        label="Vidrios Polarizados: "/>
                                                 </q-field>
                                             </div>
                                             <div class="col-12 q-my-sm q-px-md">
                                                 <q-field>
-                                                    <q-checkbox v-model="data.armored_vehicle" :left-label="true" label="Vehículo Blindado: "/>
+                                                    <q-checkbox v-model="data.armored_vehicle"
+                                                        false-value="0" true-value="1"
+                                                        :left-label="true"
+                                                        label="Vehículo Blindado: "/>
                                                 </q-field>
                                             </div>
                                             <div class="col-12 q-my-sm q-px-md">
                                                 <q-field>
-                                                    <q-checkbox v-model="data.modified_engine" :left-label="true" label="Motor Modiﬁcado: " />
+                                                    <q-checkbox v-model="data.modified_engine"
+                                                        false-value="0" true-value="1"
+                                                        :left-label="true"
+                                                        label="Motor Modiﬁcado: "/>
                                                 </q-field>
                                             </div>
                                             <div class="col-12 q-my-sm q-px-md">
@@ -234,7 +246,10 @@
                                     <div class="col-12 col-md-6 q-px-md">
                                         <q-field :error="$v.data.mileage.$error">
                                             <span class="font-weight-bold q-mb-md d-block" :class="{'color-danger': $v.data.mileage.$error}">
-                                                <i class="material-icons color-danger q-mr-xs" v-show="$v.data.mileage.$error"> error_outline </i>Kilometraje:
+                                                <i class="material-icons color-danger q-mr-xs" v-show="$v.data.mileage.$error">
+                                                    error_outline
+                                                </i>
+                                                Kilometraje:
                                             </span>
                                             <q-input v-model="data.mileage" type="number" min="0" placeholder="Kilometraje" class="bg-white"/>
                                         </q-field>
@@ -344,13 +359,15 @@
                 <div class="row">
                     <div class="col-12 q-mb-lg">
                         <VueSignaturePad
-                            v-if="showsignature"
+                            v-if="showsignature && is_vehicle_delivery_signature"
                             width="100%"
                             height="200px"
                             ref="signatureEntrega"
                             class="border-bottom signatured"
                             :options="{ onEnd }"
                             :class="{'border-danger':$v.data.vehicle_delivery_signature.$error}"/>
+
+                        <img v-else :src="data.vehicle_delivery_signature" style="border: 2px solid #0c0c0c;border-radius: 8px;">
 
                         <p class="font-weight-bold" :class="{'color-danger':$v.data.vehicle_delivery_signature.$error}">
                             <i class="material-icons color-danger q-mr-xs" v-show="$v.data.vehicle_delivery_signature.$error"> error_outline </i>
@@ -403,12 +420,13 @@
                 showContract: false,
                 aceptContract: false,
                 showsignature: false,
+                is_vehicle_delivery_signature: true,
                 data: {
                     pre_inspections: [],
                     vehicles_id: null,
                     inspections_types_id: null,
-                    teaching_vehicle: null,
-                    mileage: null,
+                    teaching_vehicle: '1',
+                    mileage: 150,
                     exhosto_diameter: null,
                     engine_cylinders: null,
                     axes: [],
@@ -419,11 +437,11 @@
                     gas_certificate: null,
                     gas_certifier: null,
                     gas_certificate_expiration: null,
-                    governor: false,
-                    taximeter: false,
-                    polarized_glasses: false,
-                    armored_vehicle: false,
-                    modified_engine: false,
+                    governor: '1',
+                    taximeter: '1',
+                    polarized_glasses: '1',
+                    armored_vehicle: '1',
+                    modified_engine: '1',
                     spare_tires: null,
                     observations: null,
                     vehicle_prepared: null,
@@ -434,6 +452,7 @@
                     code: Math.round(Math.random()*1000000),
                     user_id: null
                 },
+                isUpdate: false,
                 formSearch : { plaque: null },
                 selectInspection: [],
             }
@@ -451,8 +470,10 @@
                         value: e.id
                     }
                 })
-                if(this.$route.params.inspection)
+                if(this.$route.params.inspection) {
                     this.getInspection()
+                    this.isUpdate = true
+                }
                 else
                     this.$q.loading.hide()
             })
@@ -547,7 +568,6 @@
                 }
             },
             submitContract() {
-                // this.router.push({ path: 'home' })
                 if(!this.aceptContract)
                     this.$q.notify({message: 'Debe aceptar los terminos para continuar.',  position: 'top-right', closeBtn: true})
                 else{
@@ -574,26 +594,45 @@
                     })
                     jsonData['items'] = items;
 
-                    resources.setInspections(jsonData)
-                    .then(response => {
-                        this.$q.notify({type:'positive', message: 'Creado exitosamente!',  position: 'top-right', closeBtn: true})
-                        this.$router.push({ name: 'home' })
-                    }).catch(error => {
-                        this.$q.loading.hide()
-                        // this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
-                    });
+                    if (!this.isUpdate) {                    
+                        resources.setInspections(jsonData)
+                        .then(response => {
+                            this.$q.notify({type:'positive', message: 'Creado exitosamente!',  position: 'top-right', closeBtn: true})
+                            this.$router.push({ name: 'home' })
+                        }).catch(error => {
+                            this.$q.loading.hide()
+                            this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
+                        });
+                    } else {
+                        resources.updateInspections(jsonData)
+                        .then(response => {
+                            console.log(response)
+                            this.$q.notify({type:'positive', message: 'Actualizado exitosamente!',  position: 'top-right', closeBtn: true})
+                            this.$router.push({ name: 'home' })
+                        }).catch(error => {
+                            console.log(error)
+                            this.$q.loading.hide()
+                            this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
+                        });
+                    }
                 }
             },
             onEnd() {
-                var { isEmpty, data } = this.$refs.signatureEntrega.saveSignature();
-                if(!isEmpty) {
-                    this.data.vehicle_delivery_signature = data
+                if ( this.is_vehicle_delivery_signature) {
+
+                    var { isEmpty, data } = this.$refs.signatureEntrega.saveSignature();
+                    if(!isEmpty) {
+                        this.data.vehicle_delivery_signature = data
+                    }
                 }
 
                 var { isEmpty, data } = this.$refs.signatureRecibido.saveSignature();
                 if(!isEmpty) {
                     this.data.signature_received_report = data
                 }
+            },
+            someFunction () {
+                console.log(1)
             },
             searchPlaque () {
                 this.$v.formSearch.$touch()
@@ -622,7 +661,10 @@
             getInspection() {
                 resources.getInspection(this.$route.params.inspection)
                 .then(response => {
+                    console.log(response.data.data)
                     this.data = response.data.data;
+                    this.data.inspections_types_id = response.data.data.inspection_type.id;
+                    this.is_vehicle_delivery_signature = false
                     if(this.data.type_vehicle == null)
                         this.data.type_vehicle = response.data.data.vehicle.type_vehicle
                     this.getInventory()
@@ -650,7 +692,6 @@
                             quantity: null
                         }
                     })
-                    console.log(this.data.items)
                 })
             }
         }

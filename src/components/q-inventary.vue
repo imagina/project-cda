@@ -6,7 +6,7 @@
             <div class="row border">
                 <div class="col-12 col-sm-4 col-md-5 col-lg-4"></div>
                 <div class="col q-py-md border-l font-weight-bold col-checkout">B</div>
-                <div class="col q-py-md border-l font-weight-bold col-checkout">D</div>
+                <div class="col q-py-md border-l font-weight-bold col-checkout">R</div>
                 <div class="col q-py-md border-l font-weight-bold col-checkout">M</div>
                 <div class="col q-py-md border-l font-weight-bold col-count"><span class="d-none d-sm-block">Cantidad</span></div>
             </div>
@@ -23,7 +23,7 @@
                 </div>
                 <div class="col q-py-sm border-l col-checkout">
                     <div class="q-mt-sm">
-                        <q-radio v-model="item.evaluation" val="D" class="q-mr-lg mx-auto"/>
+                        <q-radio v-model="item.evaluation" val="R" class="q-mr-lg mx-auto"/>
                     </div>
                 </div>
                 <div class="col q-py-sm border-l col-checkout">

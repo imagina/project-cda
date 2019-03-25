@@ -33,31 +33,23 @@
           </div>
           <hr class="col-12 q-mb-lg" v-if="axes.$model - 1 > item">
         </div>
-        <div v-if="!type">
+        <div class="q-mr-md d-inline-block" v-if="!type" @click="addAxes">
           <q-btn round color="primary" size="sm" @click="addAxes = true">
             <q-icon name="add"/>
           </q-btn>
-          <span class="q-ml-sm font-weight-bold cursor-pointer" @click="addAxes"> Agregar Eje</span>
+          <span class="q-ml-sm font-weight-bold cursor-pointer"> Agregar Eje</span>
+        </div>
+        <div class="q-mr-md d-inline-block" v-if="!type && axes.$model.length > 1" @click="removerAxes">
+          <q-btn round color="red" size="sm" @click="addAxes = true">
+            <q-icon name="remove"/>
+          </q-btn>
+          <span class="q-ml-sm font-weight-bold cursor-pointer"> Remover Eje</span>
         </div>
       </div>
     </div>
   </div>
 </template>
-<style>
-    .col-title {
-      max-width: 150px
-    }
-  @media screen and (max-width: 600px) {
-    .col-title{
-      height: auto;
-      width: 100%;
-    }
-    .col-axis {
-      height: auto;
-      width: 100%;
-    }
-  }
-</style>
+
 <script>
   export default {
     name: 'q-axes',
@@ -74,13 +66,13 @@
       if(this.axes.$model.length == 0 ) {      
         if(!this.type) {
           this.axes.$model.push([{
-            pressure_init: null,
-            adjustment: null,
+            pressure_init: 155,
+            adjustment: 155,
             type: "L"
           },
           {
-            pressure_init: null,
-            adjustment: null,
+            pressure_init: 155,
+            adjustment: 155,
             type: "R"
           }])
         }else {
@@ -135,7 +127,26 @@
             adjustment: null,
             type: "R"
           }])
+      },
+      removerAxes () {
+        this.axes.$model.pop();
       }
     }
   }
 </script>
+
+<style>
+    .col-title {
+      max-width: 150px
+    }
+  @media screen and (max-width: 600px) {
+    .col-title{
+      height: auto;
+      width: 100%;
+    }
+    .col-axis {
+      height: auto;
+      width: 100%;
+    }
+  }
+</style>

@@ -17,12 +17,12 @@
               <p class="font-weight-bold">Fecha de ingreso</p>
               <p class="font-weight-bold q-mb-xs">{{ new Date().toJSON().slice(0,10).replace(/-/g,'/') }}</p>
             </div>
-            <!-- 
-            <div class="col header-col--orden q-px-sm text-center">
+            
+            <div class="col header-col--orden q-px-sm text-center" v-show="inspection">
               <p class="font-weight-bold q-mb-xs">ORDEN DE SERVICIO</p>
-              <p class="font-weight-bold q-mb-xs h4">001</p>
+              <p class="font-weight-bold q-mb-xs h4">{{ inspection }}</p>
             </div>
-            -->
+           
           </div>
         </div>
       </div>
@@ -60,6 +60,9 @@
       widgetMenu,
       WidgetUserDepartment,
       WidgetUser},
+    created() {
+      this.inspection = this.$route.params.inspection ? this.$route.params.inspection : null
+    },
     mounted() {
       this.$nextTick(function () {})
     },
@@ -67,6 +70,7 @@
       return {
         leftDrawerOpen: false,
         drawerState: true,
+        inspection: null,
       }
     },
     methods: {

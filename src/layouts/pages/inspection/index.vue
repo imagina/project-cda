@@ -16,7 +16,7 @@
 					  >
 					    <div class="border-bottom">
 				    		<router-link  :to="{ 
-				    							name: 'create.inspection',
+				    							name: 'update.inspection',
 						    					params: {
 						    						user_id: item.vehicle.user.id,
 						    						inspection: item.id
@@ -70,9 +70,13 @@ export default {
 	methods: {
 		loadMore () {
         	if(!this.busy) {
+        		
         		this.busy = true
+
         		this.$q.loading.show()
+
 	        	resources.getInspections(this.page)
+
 	        	.then(response => {
 
         			response.data.data.forEach((val)=>{
