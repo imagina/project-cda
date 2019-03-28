@@ -76,7 +76,7 @@
     name: 'q-inventary',
     components: { qInputValidation },
     props: {
-      'inventory': { required: true },
+      'inventory'      : { required: true }
     },
     data() {
       return {
@@ -92,7 +92,6 @@
         },
       }
     },
-  	computed: { },
     methods: {
       addInventary () {
           this.$v.addInventory.$touch()

@@ -59,12 +59,18 @@
     components: {
       widgetMenu,
       WidgetUserDepartment,
-      WidgetUser},
+      WidgetUser
+    },
     created() {
       this.inspection = this.$route.params.inspection ? this.$route.params.inspection : null
     },
     mounted() {
       this.$nextTick(function () {})
+    },
+    watch:{
+      $route (to, from){
+        this.inspection = this.$route.params.inspection ? this.$route.params.inspection : null
+      }
     },
     data() {
       return {

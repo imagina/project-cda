@@ -51,6 +51,17 @@ export default {
     });
   },
 
+  updateVehicle(attributes) {
+    return new Promise((resolve, reject) => {
+      return http.put(config('api.api_icda') + '/vehicles/'+attributes.id,attributes).then(response => {
+        resolve(response);
+      })
+      .catch(error => {
+        reject(error);
+      });
+    });
+  },
+
   preInspections() {
     return new Promise((resolve, reject) => {
       return http.get(config('api.api_icda') + '/preInspections').then(response => {
@@ -90,16 +101,16 @@ export default {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("code", code);
-    return new Promise((resolve, reject) => {
-      return http.post(config('api.api_icda') + '/inspections/media/upload',
-          formData,
-          { headers: { 'Content-Type': 'multipart/form-data' } }
-        ).then(response => {
-          resolve(response);
-        })
-      .catch(error => {
-        reject(error);
-      });
+    return http.post(config('api.api_icda') + '/inspections/media/upload',
+        formData,
+        { headers: { 'Content-Type': 'multipart/form-data' } }
+      ).then(response => {
+        return response
+        // resolve(response);
+      })
+    .catch(error => {
+      console.log(error)
+      reject(error);
     });
   },
 
@@ -144,7 +155,6 @@ export default {
       return http.put(config('api.api_icda') + '/inspections/'+data.id,data
         )
         .then(response => {
-          console.log(response)
           resolve(response);
         })
         .catch(error => {

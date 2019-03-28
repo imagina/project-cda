@@ -9,7 +9,7 @@
               type="text"
               :placeholder="label" 
               :after="[
-                {icon: 'edit', content: true, handler(){ change_disable() }},
+                {icon: 'edit', content: isDisable, handler(){ change_disable() }},
                 {icon: 'settings_backup_restore', content: !disable, handler(){ change_restore() }},
               ]"
               :disable="disable"
@@ -36,6 +36,7 @@
       'model': { required: true },
       'label': { required: false, default: null },
       'labelShow': { required: false, default: true },
+      'isDisable' : { required: true, default: false }
     },
     data() {
       return {
