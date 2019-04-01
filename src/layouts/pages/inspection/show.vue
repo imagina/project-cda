@@ -126,30 +126,28 @@
                             <div class="col-12 q-px-md q-border" v-if="!isMotocicleta()">
                                 <div class="row">
                                     <div class="col-12">
-                                        <span class="font-weight-bold">
-                                        	Tipico de Vehículo:
-                                        </span>
-                                        {{ data.type_vehicle }}
+                                        <span class="font-weight-bold q-mr-sm">Tipico de Vehículo:</span>
+                                        <span class="badge badge-light">{{ data.type_vehicle }}</span>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Vehículo de Enseñanza -->
                             <div class="col-12 q-px-md q-border">
-                                <span class="font-weight-bold">Vehículo de Enseñanza:</span>
-								{{ data.teaching_vehicle ? 'SI' : 'NO' }}
+                                <span class="font-weight-bold q-mr-sm">Vehículo de Enseñanza:</span>
+								<span class="badge badge-light">{{ data.teaching_vehicle ? 'SI' : 'NO' }}</span>
                             </div>
 
                             <!-- Gobernador & Taximetro -->
                             <div class="col-12 q-px-md q-border" v-if="!isMotocicleta() && data.type_vehicle != 'MOTOCICLETA'">
                             	<div class="row">
                             		<div class="col">
-                            			<span class="font-weight-bold">Gobernador</span>	
-                            			{{ data.governor ? 'SI' : 'NO' }}
+                            			<span class="font-weight-bold q-mr-sm">Gobernador</span>	
+                            			<span class="badge badge-light">{{ data.governor ? 'SI' : 'NO' }}</span>
                             		</div>
                             		<div class="col">
-                            			<span class="font-weight-bold">Taxímetro</span>	
-                            			{{ data.taximeter ? 'SI' : 'NO' }}
+                            			<span class="font-weight-bold q-mr-sm">Taxímetro</span>	
+                            			<span class="badge badge-light">{{ data.taximeter ? 'SI' : 'NO' }}</span>
                             		</div>
                             	</div>
                             </div>
@@ -158,16 +156,16 @@
                             <div class="col-12 q-px-md q-border" v-if="!isMotocicleta() && data.type_vehicle != 'MOTOCICLETA'">
                                 <div class="row" v-if="is_vehicle_gas">
                                     <div class="col-12 col-sm-6 col-lg-4 q-my-md">
-                                		<span class="font-weight-bold">Certiﬁcado de Gas N°: </span>
-                                		{{ data.gas_certificate }}
+                                		<span class="font-weight-bold q-mr-sm">Certiﬁcado de Gas N°: </span>
+                                		<span class="badge badge-light">{{ data.gas_certificate }}</span>
                                 	</div>
                                     <div class="col-12 col-sm-6 col-lg-4 q-my-md">
-                                		<span class="font-weight-bold">Certiﬁcador: </span>
-                                		{{ data.gas_certifier }}
+                                		<span class="font-weight-bold q-mr-sm">Certiﬁcador: </span>
+                                		<span class="badge badge-light">{{ data.gas_certifier }}</span>
                                     </div>
                                     <div class="col-12 col-sm-6 col-lg-4 q-my-md">
-                                		<span class="font-weight-bold">Fecha de Vencimiento: </span>
-                                		{{ data.gas_certificate_expiration }}
+                                		<span class="font-weight-bold q-mr-sm">Fecha de Vencimiento: </span>
+                                		<span class="badge badge-light">{{ data.gas_certificate_expiration }}</span>
                                     </div>
                                 </div>
                                 <div class="row" v-else>
@@ -184,32 +182,32 @@
                                     <div class="col-12 col-sm-6">
                                         <div class="row">
                                             <div class="col-12 q-my-sm">
-                                                <span class="font-weight-bold q-mb-md"># Cilindros Motor:</span>
-                                                {{ data.engine_cylinders ? data.engine_cylinders : 0 }}
+                                                <span class="font-weight-bold q-mr-sm q-mb-md"># Cilindros Motor:</span>
+                                                <span class="badge badge-light">{{ data.engine_cylinders ? data.engine_cylinders : 0 }}</span>
                                             </div>
                                             <div class="col-12 q-my-sm">
-                                                <span class="font-weight-bold q-mb-sm"> Kilometraje: </span>
-                                                {{ data.mileage }}
+                                                <span class="font-weight-bold q-mr-sm q-mb-sm"> Kilometraje: </span>
+                                                <span class="badge badge-light">{{ data.mileage }}</span>
                                             </div>
                                         </div>                                        
                                     </div>
                                     <div class="col-12 col-sm-6">
                                         <div class="row">                              
                                             <div class="col-12 q-my-sm">
-                                                <span class="font-weight-bold">Vidrios Polarizados:</span>
-                                                {{ data.polarized_glasses ? 'SI' : 'NO' }}
+                                                <span class="font-weight-bold q-mr-sm">Vidrios Polarizados:</span>
+                                                <span class="badge badge-light">{{ data.polarized_glasses ? 'SI' : 'NO' }}</span>
                                             </div>
                                             <div class="col-12 q-my-sm">
-                                                <span class="font-weight-bold">Vehículo Blindado:</span>
-                                                {{ data.armored_vehicle ? 'SI' : 'NO' }}
+                                                <span class="font-weight-bold q-mr-sm">Vehículo Blindado:</span>
+                                                <span class="badge badge-light">{{ data.armored_vehicle ? 'SI' : 'NO' }}</span>
                                             </div>
                                             <div class="col-12 q-my-sm">
-                                                <span class="font-weight-bold">Motor Modiﬁcado:</span>
-                                                {{ data.modified_engine ? 'SI' : 'NO' }}
+                                                <span class="font-weight-bold q-mr-sm">Motor Modiﬁcado:</span>
+                                                <span class="badge badge-light">{{ data.modified_engine ? 'SI' : 'NO' }}</span>
                                             </div>
                                             <div class="col-12 q-my-sm">
-                                                <span class="font-weight-bold">Llanta de repuesto:</span>
-                                                {{ data.spare_tires ? data.spare_tires: 0 }}
+                                                <span class="font-weight-bold q-mr-sm">Llanta de repuesto:</span>
+                                                <span class="badge badge-light">{{ data.spare_tires ? data.spare_tires: 0 }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -221,11 +219,11 @@
                                 <div class="row">
                                     <div class="col-12 col-md-6 q-px-md">
                                         <span class="font-weight-bold"> Kilometraje:</span>
-                                        {{ data.mileage }}
+                                        <span class="badge badge-light">{{ data.mileage }}</span>
                                     </div>
                                     <div class="col-12 col-md-6 q-px-md">
                                         <span class="font-weight-bold">Diametro Exhosto:</span>
-                                        {{ data.exhosto_diameter }}
+                                        <span class="badge badge-light">{{ data.exhosto_diameter }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -238,7 +236,7 @@
 	                                </div>
 	                                <div class="col-12 col-sm-6 q-my-md" v-for="(pre_inspection,item) in data.pre_inspections">
 	                                    <span class="d-inline-block font-weight-bold q-mr-lg">{{ pre_inspection.name }}</span>
-	                                    {{ pre_inspection.value ? 'SI' : 'NO' }}
+	                                    <span class="badge badge-light">{{ pre_inspection.value | preInspection }}</span>
 	                                </div>
                             	</div>
                             </div>
@@ -304,6 +302,9 @@
                                                     </div>
                                                     <div class="col-4 text-center font-weight-bold">
                                                         {{ item.quantity }}
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <hr>
                                                     </div>
                                                 </div>
 							                </div>
@@ -556,6 +557,12 @@
         	},
             validity: function (value) {
                 return value? 'VIGENTE' : 'NO VIGENTE'
+            },
+            preInspection: function(value) {
+                if (typeof value === 'boolean')
+                    return value ? 'SI' : 'NO'
+                else
+                    return value
             },
             asset: function(img_url) {
             	return resources.asset(img_url)

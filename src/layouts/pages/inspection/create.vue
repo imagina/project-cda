@@ -11,7 +11,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row q-py-lg" v-if="!isUpdate">
+            <div class="row q-py-lg">
                 <div class="col-12 col-sm-10 col-md-4 mx-auto q-px-md">
                     <div class="row">
                         <div class="col-12 text-center font-weight-bold">
@@ -28,7 +28,6 @@
                                             searchPlaque()
                                         }
                                     }]"/>
-                                <!-- <q-search v-model="formSearch.plaque" class="bg-white q-mt-sm" type="text" maxlength="6" minlength="6" placeholder="Placa" v-on:keyup.enter="searchPlaque"/> -->
                                 <q-tooltip :error="$v.formSearch.plaque.$error">
                                     <p class="error-message mb-0" v-if="!$v.formSearch.plaque.required">
                                         <i class="material-icons">error_outline</i> El campo es obligatorio.
@@ -40,6 +39,13 @@
                             </q-field>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="row" v-show="notFound">
+                <div class="col-12 col-sm-10 col-md-8 mx-auto q-px-md">
+                    <q-alert color="red" icon="error" appear class="q-mb-sm">
+                        LA PLACA INGRESADA NO FUE ENCONTRADA
+                    </q-alert>
                 </div>
             </div>
             <q-page v-show="showData">
@@ -359,15 +365,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="layout-padding" v-else>
-                    <div class="row">
-                        <div class="col-12">                    
-                            <q-alert color="red" icon="error" appear class="q-mb-sm">
-                                LA PLACA INGRESADA NO PERTENECE A UN VEHÍCULO
-                            </q-alert>
-                        </div>
-                    </div>
-                </div>
             </q-page>
         </q-page>
         <q-page v-show="showContract">
@@ -494,6 +491,7 @@
                 is_vehicle_delivery_signature: true,
                 is_signature_received_report: true,
                 is_vehicle_gas: false,
+                notFound: false,
                 data: {
                     pre_inspections: [],
                     vehicles_id: null,
@@ -521,7 +519,7 @@
                     vehicle_delivery_signature: null,
                     signature_received_report: null,
                     type_vehicle: null,
-                    code: this.$route.params.inspection ? this.$route.params.inspection : Math.round(Math.random()*1000000),
+                    code: Math.round(Math.random()*1000000),
                     user_id: this.$route.params.user_id
                 },
                 isUpdate: false,
@@ -718,17 +716,14 @@
                     if ( !this.is_signature_received_report)
                         delete jsonData['signature_received_report'];
 
-                    resources.updateInspections(jsonData)
+                    resources.setInspections(jsonData)
                     .then(response => {
-                        resources.updateVehicle(this.data.attributes)
-                        .then(response => {
-                            this.$q.notify({type:'positive', message: 'Inspección registrada!',  position: 'top-right', closeBtn: true})
-                            this.$router.push({ name: 'home' })
-                        });
+                        this.$q.notify({type:'positive', message: 'Creado exitosamente!',  position: 'top-right', closeBtn: true})
+                        this.$router.push({ name: 'home' })
                     }).catch(error => {
                         this.$q.loading.hide()
                         this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
-                    });
+                    })
                 }
             },
             onEnd() {
@@ -751,17 +746,22 @@
             searchPlaque () {
                 this.$v.formSearch.$touch()
                 this.$q.loading.show()
+                this.notFound = false
                 if (this.$v.formSearch.$error){
                     this.$q.loading.hide()
                 }
                 else{
                     resources.vehicle(this.formSearch.plaque.replace(/ /g, ""))
                     .then(response => {
-                        this.data.vehicles_id = response.data.id
-                        this.data.type_vehicle = response.data.typeVehicle
-                        this.data.attributes = response.data
-                        if(this.data.type_vehicle == null)
-                            this.data.type_vehicle = this.data.attributes.type_vehicle
+                        console.log(response.data)
+                        if(response.data) {
+                            this.data.vehicles_id = response.data.id
+                            this.data.type_vehicle = response.data.typeVehicle
+                            this.data.attributes = response.data
+                            if(this.data.type_vehicle == null)
+                                this.data.type_vehicle = this.data.attributes.type_vehicle
+                        } else
+                            this.notFound = true
                         this.showData = true;
                     }).catch(error => {
                         this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})

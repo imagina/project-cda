@@ -62,32 +62,13 @@
         type_vehicle: 1,
       }
     },
+    watch: {
+      type: function(val) {
+        this.initial()
+      },
+    },
     created() {
-      if(this.axes.$model.length == 0 ) {      
-        if(!this.type) {
-          this.axes.$model.push([{
-            pressure_init: 155,
-            adjustment: 155,
-            type: "L"
-          },
-          {
-            pressure_init: 155,
-            adjustment: 155,
-            type: "R"
-          }])
-        }else {
-          this.axes.$model.push([{
-            pressure_init: null,
-            adjustment: null,
-            type: "L"
-          }],
-          [{
-            pressure_init: null,
-            adjustment: null,
-            type: "R"
-          }])
-        }
-      }
+      this.initial()
     },
     filters: {
         axes: function (axe) {
@@ -130,6 +111,32 @@
       },
       removerAxes () {
         this.axes.$model.pop();
+      },
+      initial() {
+          this.axes.$model = []
+          if(!this.type) {
+            this.axes.$model.push([{
+              pressure_init: null,
+              adjustment: null,
+              type: "L"
+            },
+            {
+              pressure_init: null,
+              adjustment: null,
+              type: "R"
+            }])
+          }else {
+            this.axes.$model.push([{
+              pressure_init: null,
+              adjustment: null,
+              type: "L"
+            }],
+            [{
+              pressure_init: null,
+              adjustment: null,
+              type: "R"
+            }])
+          }
       }
     }
   }
