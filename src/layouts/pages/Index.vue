@@ -142,7 +142,7 @@ export default {
             number_document: { required,minLength: minLength(8) },
             first_name:  { required, minLength: minLength(3) },
             last_name:  { required, minLength: minLength(3) },
-            phone: { required, minLength: minLength(11)},
+            phone: { required, minLength: minLength(10) },
             email: { email },
             type_document: { required },
             checked: { required, sameAs: sameAs( () => true ) }

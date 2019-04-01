@@ -15,7 +15,7 @@ Route.view('/', 'master')
       Route.view('/inspections/create/:user_id/:inspection?', 'pages/inspection/create').options({
         name: 'create.inspection'
       }),
-      Route.view('/inspections/update/:user_id/:inspection?', 'pages/inspection/create').options({
+      Route.view('/inspections/update/:user_id/:inspection?', 'pages/inspection/show').options({
         name: 'update.inspection'
       }),
       Route.view('/inspections', 'pages/inspection/index').options({

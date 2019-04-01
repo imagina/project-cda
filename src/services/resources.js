@@ -19,7 +19,12 @@ export default {
   inspectionsTypes() {
     return new Promise((resolve, reject) => {
       return http.get(config('api.api_icda') + '/inspectionsTypes').then(response => {
-        resolve(response.data);
+        resolve(response.data.data.map(e => {
+                  return {
+                      label: e.name,
+                      value: e.id
+                  }
+                }));
       })
       .catch(error => {
         reject(error);
@@ -65,7 +70,7 @@ export default {
   preInspections() {
     return new Promise((resolve, reject) => {
       return http.get(config('api.api_icda') + '/preInspections').then(response => {
-        resolve(response.data);
+        resolve(response.data.data);
       })
       .catch(error => {
         reject(error);
@@ -189,4 +194,41 @@ export default {
         });
     });
   },
+
+  getInspectionStatues(page) {
+    return new Promise((resolve, reject) => {
+      return http.get(config('api.api_icda') + '/inspectionStatues')
+        .then(response => {
+          resolve(response.data.data.map((e,index) => {
+              return {
+                  label: e,
+                  value: index
+              }
+          }));
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
+
+  inspectionHistory(inspections_id, status ) {
+    return new Promise((resolve, reject) => {
+      return http.post(config('api.api_icda') + '/inspectionHistory',{
+        inspections_id : inspections_id,
+        status: status,
+        comment: null
+      })
+      .then(response => {
+        resolve(response);
+      })
+      .catch(error => {
+        reject(error);
+      });
+    });
+  },
+
+  asset(img_url) {
+    return config('api.base_url') + '/' +img_url
+  }
 }

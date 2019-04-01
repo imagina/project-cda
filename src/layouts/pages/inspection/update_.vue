@@ -498,8 +498,8 @@
                     pre_inspections: [],
                     vehicles_id: null,
                     inspections_types_id: null,
-                    teaching_vehicle: null,
-                    mileage: null,
+                    teaching_vehicle: false,
+                    mileage: 150,
                     exhosto_diameter: null,
                     engine_cylinders: null,
                     axes: [],
@@ -534,60 +534,49 @@
         },
         created() {
             this.$q.loading.show()
-            Promise.all([
-                resources.inspectionsTypes(),
-                resources.preInspections(),
-                resources.inventory()
-            ]).then((response) => {
-                this.selectInspection = response[0].map((e,index) => {
-                    if (index === 0)
-                        this.data.inspections_types_id = e.value;
+
+            resources.inspectionsTypes()
+            .then(response => {
+                console.log(response)
+                this.selectInspection = response.map(e => {
+                    this.data.inspections_types_id = e.id;
                     return {
-                        label: e.label,
-                        value: e.value
+                        label: e.name,
+                        value: e.id
                     }
                 })
-
-                this.data.pre_inspections = response[1].map(e => {
-                    let options = null
-                    if (e.values) {
-                        options = e.values.map(e => {
-                            return {
-                                label: e,
-                                value: e
-                            }
-                        })
-                    }
-
-                    return {
-                        name: e.name,
-                        pre_inspection_id: e.id,
-                        options: options,
-                        value: null,
-                        type: e.type
-                    }
-                })
-
-                var items
-                items = response[2].data.map(e => {
-                    return {
-                        name: e.name,
-                        inventory_id: e.id,
-                        evaluation: null,
-                        quantity: null
-                    }
-                })
-                this.data.items = items
-
-            }).catch((err) => {
-                this.$q.notify({
-                        message: 'Losiento, ocurrio un error en el servidor. Intente de nuevo.',
-                        position: 'top-right'
-                    })
-                console.log('There is an error', err);
-            }).then(()=> {
-                this.$q.loading.hide()
+                if(this.$route.params.inspection) {
+                    this.getInspection()
+                    this.isUpdate = true
+                }
+                else {
+                    this.getInventory()     
+                }
             })
+
+            // resources.preInspections()
+            // .then(response => {
+            //     this.data.pre_inspections = response.map(e => {
+
+            //         let options = null
+            //         if (e.values) {
+            //             options = e.values.map(e => {
+            //                 return {
+            //                     label: e,
+            //                     value: e
+            //                 }
+            //             })
+            //         }
+
+            //         return {
+            //             name: e.name,
+            //             pre_inspection_id: e.id,
+            //             options: options,
+            //             value: null,
+            //             type: e.type
+            //         }
+            //     })
+            // })
         },
         watch: {
             is_vehicle_gas: function(val) {
@@ -711,24 +700,36 @@
                     })
 
                     jsonData['items'] = items;
-                    jsonData['gas_certificate'] = this.data.gas_certificate
-                    jsonData['gas_certifier']   = this.data.gas_certifier
-                    if ( !this.is_vehicle_delivery_signature)
-                        delete jsonData['vehicle_delivery_signature'];
-                    if ( !this.is_signature_received_report)
-                        delete jsonData['signature_received_report'];
 
-                    resources.updateInspections(jsonData)
-                    .then(response => {
-                        resources.updateVehicle(this.data.attributes)
+                    if (!this.isUpdate) {
+                        resources.setInspections(jsonData)
                         .then(response => {
-                            this.$q.notify({type:'positive', message: 'Inspección registrada!',  position: 'top-right', closeBtn: true})
+                            this.$q.notify({type:'positive', message: 'Creado exitosamente!',  position: 'top-right', closeBtn: true})
                             this.$router.push({ name: 'home' })
+                        }).catch(error => {
+                            this.$q.loading.hide()
+                            this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
                         });
-                    }).catch(error => {
-                        this.$q.loading.hide()
-                        this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
-                    });
+                    } else {
+                        jsonData['gas_certificate'] = this.data.gas_certificate
+                        jsonData['gas_certifier']   = this.data.gas_certifier
+                        if ( !this.is_vehicle_delivery_signature)
+                            delete jsonData['vehicle_delivery_signature'];
+                        if ( !this.is_signature_received_report)
+                            delete jsonData['signature_received_report'];
+
+                        resources.updateInspections(jsonData)
+                        .then(response => {
+                            resources.updateVehicle(this.data.attributes)
+                            .then(response => {
+                                this.$q.notify({type:'positive', message: 'Actualizado exitosamente!',  position: 'top-right', closeBtn: true})
+                                this.$router.push({ name: 'home' })
+                            });
+                        }).catch(error => {
+                            this.$q.loading.hide()
+                            this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
+                        });
+                    }
                 }
             },
             onEnd() {
@@ -755,25 +756,100 @@
                     this.$q.loading.hide()
                 }
                 else{
-                    resources.vehicle(this.formSearch.plaque.replace(/ /g, ""))
+                    resources.vehicle(this.formSearch.plaque)
                     .then(response => {
                         this.data.vehicles_id = response.data.id
                         this.data.type_vehicle = response.data.typeVehicle
                         this.data.attributes = response.data
                         if(this.data.type_vehicle == null)
                             this.data.type_vehicle = this.data.attributes.type_vehicle
+                        this.getInventory()
+                        setTimeout(this.$q.loading.hide(),1000)
                         this.showData = true;
                     }).catch(error => {
-                        this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
-                        console.error('Error ', error)
-                    }).then(() => {
                         this.$q.loading.hide()
-                    })
+                        this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
+                        reject(error);
+                    });
                 }
             },
+            getInspection() {
+                resources.getInspection(this.$route.params.inspection)
+                .then(response => {
+                    let data = response.data.data
+                    this.data.id                            = data.id
+                    this.data.pre_inspections               = data.pre_inspections
+                    this.data.vehicles_id                   = data.vehicles_id
+                    this.data.inspections_types_id          = data.inspection_type.id
+                    this.data.teaching_vehicle              = data.teaching_vehicle  ? true : false
+                    this.data.mileage                       = data.mileage
+                    this.data.exhosto_diameter              = data.exhosto_diameter
+                    this.data.engine_cylinders              = data.engine_cylinders
+                    this.data.axes                          = data.axes
+                    this.data.gallery                       = data.gallery ? data.gallery : []
+                    this.data.items                         = data.items_inventory
+                    this.data.governor                      = data.governor  == '1' ? true : false
+                    this.data.taximeter                     = data.taximeter == '1' ? true : false
+                    this.data.polarized_glasses             = data.polarized_glasses == '1' ? true : false
+                    this.data.armored_vehicle               = data.armored_vehicle   == '1' ? true : false
+                    this.data.modified_engine               = data.modified_engine   == '1' ? true : false
+                    this.data.attributes                    = data.vehicle
+                    this.data.gas_certificate               = data.gas_certificate
+                    this.data.gas_certifier                 = data.gas_certifier
+                    this.data.gas_certificate_expiration    = data.gas_certificate_expiration
+                    this.is_vehicle_gas                     = this.data.gas_certificate ? true : false
+                    this.data.spare_tires                   = data.spare_tires
+                    this.data.observations                  = data.observations
+                    this.data.vehicle_prepared              = data.vehicle_prepared == '1' ?  true : false
+                    this.data.seen_technical_director       = data.seen_technical_director == '1' ?  true : false
+                    this.data.vehicle_delivery_signature    = data.vehicle_delivery_signature
+                    this.is_vehicle_delivery_signature      = this.data.vehicle_delivery_signature ? false : true
+                    this.data.signature_received_report     = data.signature_received_report
+                    this.is_signature_received_report       = this.data.signature_received_report  ? false : true
+                    this.data.type_vehicle                  = data.vehicle.type_vehicle
+                    this.getInventory()
+
+                }).catch(error => {
+                    this.$q.notify(
+                            {message: 'Losiento, la inspeccion no se encuentra en nuestra data.',
+                            position: 'top-right',
+                            closeBtn: true
+                        })
+                });
+            },
+
             isMotocicleta() {
                 return this.data.attributes.type_vehicle == 'MOTOCICLETA';
             },
+            getInventory() {
+
+                resources.inventory()
+                .then(response => {
+
+                    var items
+
+                    items = response.data.map(e => {
+
+                        return {
+                            name: e.name,
+                            inventory_id: e.id,
+                            evaluation: null,
+                            quantity: null
+                        }
+                    })
+
+                    if(this.isUpdate) {
+                        this.selectItems = items
+                        this.showData = true;
+                    }
+                    else{
+                        this.data.items = items
+                    }
+
+
+                    this.$q.loading.hide()
+                })
+            }
         }
     }
 </script>

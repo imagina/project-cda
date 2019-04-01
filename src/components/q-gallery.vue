@@ -4,17 +4,16 @@
       <q-btn color="primary" size="md" label="Agregar fotografía" class="q-mx-md q-px-xs text-dark" icon="add" @click="openedUploader = true"/>
     </div>
     <q-modal v-model="openedUploader" :content-css="{minWidth: '80vw', padding: '25px'}">
-        <h4 class="mx-auto">Añadir imagen</h4>
-        <q-uploader :url="url" :auto-expand="true" @remove:cancel="removeUploader" :multiple="true" :filter="filterFiles" class="q-my-lg" extensions=".jpg,.jpeg,.png" ref="uploader" :upload-factory="uploadFile"/>
-        <q-btn color="dark" @click="openedUploader = false" label="Cerrar" class="mt-2 q-mr-sm"/>
-        <q-btn color="red" @click="addUploader" label="Añadir" class="mt-2 mr-2"/>
-      <q-inner-loading :visible="visible">
-      </q-inner-loading>
+      <h4 class="mx-auto">Añadir imagen</h4>
+      <q-uploader :url="url" :auto-expand="true" @remove:cancel="removeUploader" :multiple="true" :filter="filterFiles" class="q-my-lg" extensions=".jpg,.jpeg,.png" ref="uploader" :upload-factory="uploadFile"/>
+      <q-btn color="dark" @click="openedUploader = false" label="Cerrar" class="mt-2 q-mr-sm"/>
+      <q-btn color="red" @click="addUploader" label="Añadir" class="mt-2 mr-2"/>
+      <q-inner-loading :visible="visible"/>
     </q-modal>
   </div>
 </template>
 <script>
-  
+
   import resources from 'src/services/resources'
   import config from 'src/config/index'
 

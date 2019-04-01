@@ -24,7 +24,7 @@
 						    				}"
 						    				class="link row">
 
-					    		<div class="col" style="max-width: 100px;">
+					    		<div class="col mx-auto" style="max-width: 100px;">
 					    			<img :src="item.gallery | img" width="100%">
 					    		</div>
 					    		<div class="col px-2">
@@ -32,6 +32,7 @@
 					    			Tipo de Servicio: {{ item.vehicle.service_type }} <br>
 					    			Tipo de Vehiculo: {{ item.vehicle.type_vehicle }} <br>
 					    			Cliente: {{ item.vehicle.user.fullname }} <br>
+					    			Status: {{ item.inspection_status }} <br>
 					    		</div>
 				    		</router-link>
 					    </div>

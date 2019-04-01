@@ -28,7 +28,7 @@
       </div>
     </q-layout-header>
     <!-- === MENU === -->
-    <q-layout-drawer id="menu_master" v-model="leftDrawerOpen" :content-class="'bg-grey-2'">
+    <q-layout-drawer id="menu_master" v-model="leftDrawerOpen" :content-class="'bg-grey-2'" >
       <q-list no-border link inset-delimiter>
         <!-- === LOGO === -->
         <q-list-header class="text-center">
@@ -62,14 +62,14 @@
       WidgetUser
     },
     created() {
-      this.inspection = this.$route.params.inspection ? this.$route.params.inspection : null
+      this.inspection = this.$route.params.inspection ? this.PadLeft(this.$route.params.inspection,3) : null
     },
     mounted() {
       this.$nextTick(function () {})
     },
     watch:{
       $route (to, from){
-        this.inspection = this.$route.params.inspection ? this.$route.params.inspection : null
+        this.inspection = this.$route.params.inspection ? this.PadLeft(this.$route.params.inspection,3) : null
       }
     },
     data() {
@@ -80,6 +80,10 @@
       }
     },
     methods: {
+      PadLeft(value, length) {
+        value = value + "";
+        return (value.toString().length < length) ? this.PadLeft("0" + value, length) : value
+      },
       toggleFullscreen() {
         this.$q.fullscreen.toggle()
       },
