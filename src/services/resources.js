@@ -143,9 +143,9 @@ export default {
     });
   },
 
-  getInspections(page) {
+  getInspections(page, status) {
     return new Promise((resolve, reject) => {
-      return http.get(config('api.api_icda') + '/inspections?page='+page+'&take=8')
+      return http.get(config('api.api_icda') + '/inspections?page='+page+'&take=8&filter={"inspection_status":'+status+'}')
         .then(response => {
           resolve(response);
         })

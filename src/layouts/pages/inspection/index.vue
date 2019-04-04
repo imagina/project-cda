@@ -5,7 +5,11 @@
 				<div class="col-12">
 					<q-timeline responsive color="black" :responsive="false">
 					  <q-timeline-entry heading>
-					    Lista de Ordenes
+					    <span>Lista de Ordenes </span>
+	                    <div class="d-inline-block">
+	                        <q-select v-model="inspection_statues.status" :options="inspection_statues.options" class="bg-white q-py-sm q-my-md"/>
+	                    </div>
+	                   	<hr class="mt-0 q-my-sm">
 					  </q-timeline-entry>
 
 					  <q-timeline-entry
@@ -59,9 +63,36 @@ export default {
     		ordens: [],
     		busy: false,
     		page: 1,
+            inspection_statues: {
+            	status: 0,
+            	change: false,
+            	options: []
+            },
     	}
     },
     created() {
+    	resources.getInspectionStatues()
+        	.then((response) => {
+	            this.inspection_statues.options = response
+			}).catch((err) => {
+            	this.$q.loading.hide()
+                this.$q.notify({
+                		message: 'Losiento, ocurrio un error en el servidor. Intente de nuevo.',
+                        position: 'top-right'
+                    })
+			  	console.log('There is an error', err);
+			});
+    },
+    watch: {
+    	'inspection_statues.status': {
+  		handler(newValue, oldValue) {
+  			this.page = 1
+  			this.busy = false
+  			this.inspection_statues.change = true
+  			this.loadMore()
+  		},
+  			deep: true
+    	},
     },
     filters: {
     	img: function(gallery) {
@@ -76,13 +107,15 @@ export default {
 
         		this.$q.loading.show()
 
-	        	resources.getInspections(this.page)
+	        	resources.getInspections(this.page,this.inspection_statues.status)
 
 	        	.then(response => {
+	        		if(this.inspection_statues.change)
+        				this.ordens = []
 
-        			response.data.data.forEach((val)=>{
-        				this.ordens.push(val)
-        			});
+        				response.data.data.forEach((val)=>{
+        					this.ordens.push(val)
+        				});
 
         			let page = response.data.meta.page;
 

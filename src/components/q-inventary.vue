@@ -1,6 +1,10 @@
 <template>
     <div>
-      <p class="font-weight-bold q-my-lg">Inventario</p>
+      <p class="font-weight-bold q-my-lg"  :class="{'color-danger': itemsRequired}">
+        <span>Inventario</span>
+        <br>
+        <small v-show="itemsRequired">Complete al menos un item del inventario</small>
+      </p>
       <div class="row">
         <div class="col col-md-8 mx-auto">
             <div class="row border">
@@ -76,7 +80,8 @@
     name: 'q-inventary',
     components: { qInputValidation },
     props: {
-      'inventory'      : { required: true }
+      'inventory'      : { required: true },
+      'itemsRequired'  : { required: true }
     },
     data() {
       return {

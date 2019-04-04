@@ -1,7 +1,7 @@
 <template>
     <div id="printed">
         <q-page v-show="!showsignature && showData">
-        	<div class="col-12 q-border">
+        	<div class="col-12 q-border col-search">
 	            <div class="row">
 	                <div class="col-12 col-sm-10 col-md-6 mx-auto q-px-md">
 	                    <span class="w-50 d-inline-block font-weight-bold">
@@ -337,6 +337,7 @@
                             </div>
 
                             <div class="col-12 text-right">
+                                <q-btn color="red" size="md" label="Print" class="q-px-lg q-mr-sm btn-app" @click="print"/>
                                 <q-btn color="black" size="md" label="Guardar" class="q-px-lg btn-app" @click="submitData"/>
                             </div>
                         </div>
@@ -493,6 +494,16 @@
                 nextLabel: "<i class='fa fa-chevron-right' aria-hidden='true'></i>",
                 prevLabel: "<i class='fa fa-chevron-left' aria-hidden='true'></i>",
 			    cssText: `
+                    .col-search { display: none }
+                    .row { width: 100%; display: block}
+                    .col-12 { width: 100%; display: block }
+                    .col-md-3 { float: left; width: 25% }
+                    .col-md-3 { float: left; width: 16.6667% }
+                    .col-md-3 { float: left; width: 16.6667% }
+                    .col-md-6 { float: left; width: 50% }
+                    .col-md-2 { float: left; width: 16.6667%; }
+
+                    .q-icon { display: none }
 			      .printing {
 			        font-family: sans-serif;
 			        width: 500px;
@@ -609,7 +620,8 @@
             },
         },
         methods: {
-    		print () {
+    		print() {
+                console.log(1)
         		const d = new Printd()
     			const { contentWindow } = d.getIFrame()
         		d.print( this.$el,[ this.cssText ] )
@@ -714,6 +726,7 @@
                 }
             },
             updateInspections() {
+                console.log(this.is_signature_received_report)
             	if (this.is_signature_received_report) {
 
                 	var jsonData = {};

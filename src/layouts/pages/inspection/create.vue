@@ -339,7 +339,7 @@
                             <!-- /Llantas -->
 
                             <!-- Inventario -->
-                            <q-inventary :inventory="$v.data.items" class="col-12 q-px-md q-border text-center"/>
+                            <q-inventary :inventory="$v.data.items" :itemsRequired="$v.data.itemsRequired.$error" class="col-12 q-px-md q-border text-center"/>
 
                             <!-- CAROUSEL -->
                             <div class="col-12 q-px-md">
@@ -352,6 +352,11 @@
                                   </slide>
                                 </carousel>
                             </div>
+
+                            <!-- <q-btn color="primary" label="Get Picture" @click="captureImage" /> -->
+                            <!-- <img :src="imageSrc"> -->
+                            <!-- {{ IMEI }} -->
+
                             <q-gallery :gallery="data.gallery" :code="data.code" class="col-12 q-px-md"/>
 
                             <!-- opbservaciones -->
@@ -405,8 +410,8 @@
                         </div>
                         <div class="col-6">
                             <div class="d-inline-block">
-                              <q-radio v-model="data.seen_technical_director" :val="true" label="Si" class="q-mr-lg"/>
-                              <q-radio v-model="data.seen_technical_director" :val="false" label="No" class="q-mr-lg"/>
+                              <q-radio v-model="data.seen_technical_director" :disable="true" :val="true" label="Si" class="q-mr-lg"/>
+                              <q-radio v-model="data.seen_technical_director" :disable="true" :val="false" label="No" class="q-mr-lg"/>
                             </div>
                         </div>
                       </div>
@@ -414,6 +419,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12 q-mb-lg">
+                        <p class="font-weight-bold mb-0">Firma y Cédula Entrega de Vehículo</p>
                         <VueSignaturePad
                             v-if="showsignature && is_vehicle_delivery_signature"
                             width="100%"
@@ -435,6 +441,7 @@
                         </p>
                     </div>
                     <div class="col-12 q-mb-lg">
+                        <p class="font-weight-bold mb-0">Firma y Cédula Recibí informe. Fur y Motocicleta</p>
                         <VueSignaturePad 
                             v-if="showsignature && is_signature_received_report"
                             width="100%"
@@ -442,12 +449,8 @@
                             ref="signatureRecibido"
                             class="border-bottom signatured"
                             :options="{ onEnd }"
+                            :disable="true"
                             :class="{'border-danger':$v.data.signature_received_report.$error}"/>
-
-                        <img v-else :src="data.signature_received_report"
-                            style="border: 2px solid #0c0c0c;border-radius: 8px;"
-                            width="100%" 
-                            height="200px">
 
                         <p class="font-weight-bold" :class="{'color-danger':$v.data.signature_received_report.$error}">
                             <i class="material-icons color-danger q-mr-xs" v-show="$v.data.signature_received_report.$error"> error_outline </i>
@@ -483,6 +486,8 @@
         components: { qInputValidation, qGallery, qInventary, qAxes, qContract, VueSignaturePad, Carousel, Slide },
         data () {
             return {
+                imageSrc: '',
+                IMEI: window.device === void 0  ? 'Run this on a mobile/tablet device'  : window.device,
                 show: false,
                 showData: false,
                 showContract: false,
@@ -618,12 +623,22 @@
                         }
                     }
                 },
+                itemsRequired: {
+                    required: requiredIf(vm => {
+                        let isRequired = true
+                        var d = vm.items.map((e) => {
+                            isRequired = isRequired && e.quantity == null
+                            return e
+                        })
+                        return isRequired
+                    }),
+                },
                 items: {
                     $each: {
-                        evaluation: { required : requiredIf(function(model) {
+                        evaluation: { required : requiredIf((model) => {
                             return model.quantity != null
                         })},
-                        quantity: { required : requiredIf(function(model) {
+                        quantity: { required : requiredIf((model) => {
                             return model.evaluation != null
                         })},
                     }
@@ -734,14 +749,6 @@
                         this.data.vehicle_delivery_signature = data
                     }
                 }
-
-                if ( this.is_signature_received_report) {
-
-                    var { isEmpty, data } = this.$refs.signatureRecibido.saveSignature();
-                    if(!isEmpty) {
-                        this.data.signature_received_report = data
-                    }
-                }
             },
             searchPlaque () {
                 this.$v.formSearch.$touch()
@@ -753,7 +760,6 @@
                 else{
                     resources.vehicle(this.formSearch.plaque.replace(/ /g, ""))
                     .then(response => {
-                        console.log(response.data)
                         if(response.data) {
                             this.data.vehicles_id = response.data.id
                             this.data.type_vehicle = response.data.typeVehicle
@@ -774,6 +780,17 @@
             isMotocicleta() {
                 return this.data.attributes.type_vehicle == 'MOTOCICLETA';
             },
+            captureImage () {
+              navigator.camera.getPicture(
+                data => { // on success
+                  this.imageSrc = `data:image/jpeg;base64,${data}`
+                }, () => { // on fail
+                  this.$q.notify('Could not access device camera.')
+                },{
+                  // camera options
+                }
+              )
+            }
         }
     }
 </script>

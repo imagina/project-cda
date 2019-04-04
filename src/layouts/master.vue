@@ -62,6 +62,7 @@
       WidgetUser
     },
     created() {
+      console.log(this.$q)
       this.inspection = this.$route.params.inspection ? this.PadLeft(this.$route.params.inspection,3) : null
     },
     mounted() {
@@ -69,6 +70,7 @@
     },
     watch:{
       $route (to, from){
+        this.leftDrawerOpen = false
         this.inspection = this.$route.params.inspection ? this.PadLeft(this.$route.params.inspection,3) : null
       }
     },
