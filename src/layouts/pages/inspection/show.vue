@@ -667,6 +667,12 @@
                 resources.getInspection(this.$route.params.inspection)
                 .then(response => {
                     let data = response.data.data
+                    this.$store.commit('orden/SET_ORDEN',{
+                        timeEntry: data.created_at_time,
+                        dateEntry: data.created_at_date,
+                        id:  data.id
+                    })
+
                     this.data.id                            = this.$route.params.inspection
 					for (var item in this.inspection_statues.options) {
 	    				if ( this.inspection_statues.options[item].label == data.inspection_status ) {
@@ -708,10 +714,13 @@
                     this.showData = true
                 }).catch(error => {
                     this.$q.notify(
-                            {message: 'Losiento, la inspeccion no se encuentra en nuestra data.',
+                            {message: 'Los iento, la inspeccion no se encuentra en nuestra data.',
                             position: 'top-right',
                             closeBtn: true
                         })
+                })
+                .then(() => {
+                    this.$q.loading.hide()
                 });
             },
             isMotocicleta() {

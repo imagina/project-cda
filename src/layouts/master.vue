@@ -9,20 +9,18 @@
         </div>
         <div class="col">
           <div class="row align-items-center">
-            <div class="col header-col q-px-sm text-center">
+            <div class="col header-col q-px-sm text-center" v-show="$store.state.orden.timeEntry">
               <p class="font-weight-bold">Hora de ingreso:</p>
-              <p class="font-weight-bold q-mb-xs">{{ getIngresoTime() }}</p>
+              <p class="font-weight-bold q-mb-xs">{{$store.state.orden.timeEntry}}</p>
             </div>
-            <div class="col header-col q-px-sm text-center">
+            <div class="col header-col q-px-sm text-center" v-show="$store.state.orden.dateEntry">
               <p class="font-weight-bold">Fecha de ingreso</p>
-              <p class="font-weight-bold q-mb-xs">{{ new Date().toJSON().slice(0,10).replace(/-/g,'/') }}</p>
+              <p class="font-weight-bold q-mb-xs">{{$store.state.orden.dateEntry}}</p>
             </div>
-            
-            <div class="col header-col--orden q-px-sm text-center" v-show="inspection">
-              <p class="font-weight-bold q-mb-xs">ORDEN DE SERVICIO</p>
-              <p class="font-weight-bold q-mb-xs h4">{{ inspection }}</p>
-            </div>
-           
+            <div class="col header-col--orden q-px-sm text-center" v-show="$store.state.orden.id">
+              <p class="font-weight-bold">ORDEN DE SERVICIO</p>
+              <p class="font-weight-bold q-mb-xs h4">{{$store.state.orden.id}}</p>
+            </div>  
           </div>
         </div>
       </div>
@@ -59,26 +57,18 @@
     components: {
       widgetMenu,
       WidgetUserDepartment,
-      WidgetUser
-    },
-    created() {
-      console.log(this.$q)
-      this.inspection = this.$route.params.inspection ? this.PadLeft(this.$route.params.inspection,3) : null
-    },
-    mounted() {
-      this.$nextTick(function () {})
+      WidgetUser,
     },
     watch:{
       $route (to, from){
         this.leftDrawerOpen = false
-        this.inspection = this.$route.params.inspection ? this.PadLeft(this.$route.params.inspection,3) : null
-      }
+      },
     },
     data() {
       return {
         leftDrawerOpen: false,
         drawerState: true,
-        inspection: null,
+        inspection: null
       }
     },
     methods: {
@@ -88,10 +78,6 @@
       },
       toggleFullscreen() {
         this.$q.fullscreen.toggle()
-      },
-      getIngresoTime() {
-        let time = new Date();
-        return time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
       }
     }
   }

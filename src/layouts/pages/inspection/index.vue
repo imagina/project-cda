@@ -71,6 +71,13 @@ export default {
     	}
     },
     created() {
+        let time = new Date();
+        time = time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: false })
+        this.$store.commit('orden/SET_ORDEN',{
+           timeEntry: null,
+           dateEntry: null,
+           id:  null
+        })
     	resources.getInspectionStatues()
         	.then((response) => {
 	            this.inspection_statues.options = response
