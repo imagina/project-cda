@@ -90,7 +90,8 @@
             </q-field>
 
             <div class="col-12 text-center">
-                <q-btn color="black" size="md" label="ENVIAR" class="q-px-lg btn-app" @click="submit"/>
+                <q-btn color="black" size="md" label="ENVIAR" class="q-px-lg q-mx-sm btn-app" @click="submit"/>
+                <!-- <q-btn color="red" size="md" label="CONTINUAR" class="q-px-lg q-mx-sm btn-app" v-show="changeSearch" @click="next"/> -->
             </div>
         </div>
     </div>
@@ -107,14 +108,16 @@ export default {
     name: 'PageIndex',
     data () {
         return {
+            changeSearch: false,
             form: {
                 email: null,
                 phone: null,
                 first_name: null,
                 last_name: null,
+                user_id: null,
                 number_document: null,
                 checked: true,
-                roles: [],
+                roles: ['User'],
                 status: true,
                 type_document: 'cc',
             },
@@ -155,6 +158,9 @@ export default {
             checked: { required, sameAs: sameAs( () => true ) }
         },
     },
+    watch: {
+
+    },
     methods: {
         submit () {
             this.$q.loading.show()
@@ -184,9 +190,16 @@ export default {
             resources.searchUser(this.form.type_document,this.form.number_document)
             .then(response => {
                 if(response.data.data.length) {
-
-                    var user_id = response.data.data[0].id
-                    this.$router.push({ name: 'create.inspection', params: { user_id: user_id, update: false } })
+                    let user = response.data.data[0]
+                    this.form.user_id            =   user.id
+                    this.form.email              =   user.email
+                    this.form.phone              =   user.phone
+                    this.form.first_name         =   user.first_name
+                    this.form.last_name          =   user.last_name
+                    this.form.number_document    =   user.number_document
+                    // this.changeSearch = true
+                    this.$router.push({ name: 'create.inspection', params: { user_id: this.form.user_id, update: false } })
+                    this.$q.loading.hide()
                 }
                 else {
                     this.$q.notify({icon:'error', message: 'Usuario no encontrado, debe registrarse',  position: 'top-right', closeBtn: true})
@@ -196,6 +209,18 @@ export default {
                 this.$q.notify({icon:'error', message: 'Ocurrio un error inesperado',  position: 'top-right', closeBtn: true})
                 this.$q.loading.hide()
             })
+        },
+        next () {
+            this.$q.loading.show()
+            this.$v.form.$touch()
+            if (this.$v.form.$error) {
+                this.$q.loading.hide()
+                this.$q.notify({icon:'error', message: 'Por favor revise los campos de nuevo',  position: 'top-right', closeBtn: true})
+                return
+            }else {
+                this.$q.loading.hide()
+                this.$router.push({ name: 'create.inspection', params: { user_id: this.form.user_id, update: false } })
+            }
         }
     }
 }

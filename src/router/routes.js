@@ -19,17 +19,17 @@ Route.view('/', 'master')
       }),
       Route.view('/inspections/update/:inspection?', 'pages/inspection/show').options({
         name: 'update.inspection',
-        meta: {permission: 'icda.inspections.update'},
+        meta: { permission: 'icda.inspections.edit' },
         guard: access
       }),
       Route.view('/inspections', 'pages/inspection/index').options({
         name: 'inspections',
-        meta: {permission: 'icda.inspections.index'},
+        meta: { permission: 'icda.inspections.index'},
         guard: access
       }),
       Route.view('/vehicles', 'pages/vehicle/index').options({
         name: 'vehicles.index',
-        meta: {permission: 'icda.vehicles.update'},
+        meta: { permission: 'icda.vehicles.edit'},
         guard: access
       }),
       Route.view('/vehicles/create', 'pages/vehicle/create').options({
@@ -39,7 +39,7 @@ Route.view('/', 'master')
       }),
       Route.view('/vehicles/update/:board', 'pages/vehicle/update').options({
         name: 'vehicles.update',
-        meta: {permission: 'icda.vehicles.update'},
+        meta: {permission: 'icda.vehicles.edit'},
         guard: access
       })
     }

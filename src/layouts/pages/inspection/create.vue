@@ -21,6 +21,7 @@
                             <q-field :error="$v.formSearch.plaque.$error">
                                 <q-input v-model="formSearch.plaque" type="text" placeholder="Placa" class="bg-white q-mt-sm"
                                     v-on:keyup.enter="searchPlaque"
+                                    @input="formSearch.plaque = $event.target.value.toUpperCase()"
                                     :after="[
                                     {
                                         icon: 'search',
@@ -533,12 +534,7 @@
                 prevLabel: "<i class='fa fa-chevron-left' aria-hidden='true'></i>"
             }
         },
-        created() {
-            document.addEventListener("deviceready", onDeviceReady, false);
-            function onDeviceReady() {
-                console.log(device.cordova);
-            }
-            
+        created() {           
             this.$q.loading.show()
             Promise.all([
                 resources.inspectionsTypes(),
@@ -585,13 +581,15 @@
                 })
                 this.data.items = items
 
+                this.$q.loading.hide()
             }).catch((err) => {
                 this.$q.notify({
                         message: 'Losiento, ocurrio un error en el servidor. Intente de nuevo.',
                         position: 'top-right'
                     })
                 console.log('There is an error', err);
-            }).then(()=> {
+                this.$q.loading.hide()
+            }).then(() => {
                 this.$q.loading.hide()
             })
         },

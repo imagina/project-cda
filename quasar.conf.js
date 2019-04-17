@@ -10,7 +10,8 @@ module.exports = function (ctx) {
     plugins: [
       'i18n',
       'vuelidate',
-      'axios'
+      'axios',
+      'access'
     ],
     css: [
       'app.styl'

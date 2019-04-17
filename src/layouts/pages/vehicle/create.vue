@@ -127,8 +127,9 @@
 			        	<q-input v-model="attributes.axes_number" type="text" placeholder="Numero de ejes" class="q-mb-lg"/>
 			        </q-field>
 
-			        <q-field>
-			        	<span class="font-weight-bold d-inline-block">Fecha Fin De Vigencia:</span>
+			        <q-field :error="$v.attributes.insurance_expidition.$error">
+			        	<span class="font-weight-bold d-inline-block"
+			        			:class="{'color-danger': $v.attributes.insurance_expidition.$error}">Fecha Fin De Vigencia:</span>
                         <q-datetime v-model.trim="attributes.insurance_expidition"
                         	type="date"
                         	class="q-mb-lg"
@@ -136,8 +137,9 @@
                         </q-field>
 			        </q-field>
 
-			        <q-field>
-			        	<span class="font-weight-bold d-inline-block">Fecha de Expedición:</span>
+			        <q-field :error="$v.attributes.insurance_expiration.$error">
+			        	<span class="font-weight-bold d-inline-block"
+			        			:class="{'color-danger': $v.attributes.insurance_expiration.$error}">Fecha de Expedición:</span>
                         <q-datetime v-model.trim="attributes.insurance_expiration"
                         	type="date"
                         	class="q-mb-lg"
@@ -244,7 +246,9 @@
                 engine_number   : { required },
                 displacement    : { required },
                 user_id	    	: { required },
-                axes_number    	: { required }
+                axes_number    	: { required },
+                insurance_expidition : { required },
+                insurance_expiration : { required },
             },
         	search: {
         	    number_document: { required,minLength: minLength(6) },

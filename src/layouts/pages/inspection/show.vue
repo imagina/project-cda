@@ -316,7 +316,7 @@
 							</div>
 
                             <!-- CAROUSEL -->
-                            <div class="col-12 q-px-md" v-if="data.gallery.lenght">
+                            <div class="col-12 print-col-12 q-px-md" v-if="data.gallery.length">
                                 <p class="font-weight-bold q-px-md q-pt-md">Fotografías</p>
                                 <carousel :perPage="3" :paginationEnabled="false" :autoplay="true" :navigationEnabled="true" :navigationNextLabel="nextLabel" :navigationPrevLabel="prevLabel" >
                                   <slide v-for="(img, index) in data.gallery" :key="index">
@@ -338,7 +338,7 @@
                                 	class="bg-white"/>
                             </div>
 
-                            <div class="col-12 text-right print-none">
+                            <div class="col-12 text-right print-none q-mt-sm">
                                 <q-btn color="red" size="md" label="Print" class="q-px-lg q-mr-sm btn-app" @click="print"/>
                                 <q-btn color="black" size="md" label="Guardar" class="q-px-lg btn-app" @click="submitData"/>
                             </div>
@@ -502,6 +502,7 @@
                 .q-input-target.q-input-area,
                 .q-if-baseline {  display: none }
                 textarea,
+                img { width: 25%; display: inline-block; }
                 .print-row { width: 100%; display: block; padding-top: 5px; padding-bottom: 5px}
                 .q-input-validation { padding-bottom: 5px; padding-top: 5px}
                 .q-input-validation > .d-inline-block { float: left; width: 100% }

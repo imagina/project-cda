@@ -102,25 +102,27 @@
                 <div class="col-12">
 					<div class="row">
 						<div class="col-12 col-md-6 q-px-md">
-				        	<q-field>
-					        	<span class="font-weight-bold d-inline-block">Fecha Fin De Vigencia:</span>
-		                        <q-datetime v-model.trim="attributes.insurance_expedition"
+					        <q-field :error="$v.attributes.insurance_expidition.$error">
+					        	<span class="font-weight-bold d-inline-block"
+					        			:class="{'color-danger': $v.attributes.insurance_expidition.$error}">Fecha Fin De Vigencia:</span>
+		                        <q-datetime v-model.trim="attributes.insurance_expidition"
 		                        	type="date"
 		                        	class="q-mb-lg"
 		                        	format="YYYY-MM-DD"/>
 		                        </q-field>
-				        	</q-field>
+					        </q-field>
 						</div>						
 
 						<div class="col-12 col-md-6 q-px-md">
-				        	<q-field>
-					        	<span class="font-weight-bold d-inline-block">Fecha de Expedición:</span>
+					        <q-field :error="$v.attributes.insurance_expiration.$error">
+					        	<span class="font-weight-bold d-inline-block"
+					        			:class="{'color-danger': $v.attributes.insurance_expiration.$error}">Fecha de Expedición:</span>
 		                        <q-datetime v-model.trim="attributes.insurance_expiration"
 		                        	type="date"
 		                        	class="q-mb-lg"
 		                        	format="YYYY-MM-DD"/>
 		                        </q-field>
-				        	</q-field>
+					        </q-field>
 						</div>
 					</div>
 				</div>
@@ -209,7 +211,9 @@
                 engine_number   : { required },
                 displacement    : { required },
                 user_id	    	: { required },
-                axes_number    	: { required }
+                axes_number    	: { required },
+                insurance_expidition : { required },
+                insurance_expiration : { required },
             }
         },
         methods: {

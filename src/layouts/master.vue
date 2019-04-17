@@ -74,18 +74,20 @@
       }
     },
     mounted() {
-      var pusher = new Pusher(env('PUSHER_APP_KEY'), {
-        broadcaster: env('BROADCAST_DRIVER', 'pusher'),
-        key: env('PUSHER_APP_KEY'),
-        id: env('PUSHER_APP_ID'),
-        cluster: env('PUSHER_APP_CLUSTER'),
-        encrypted: env('PUSHER_APP_ENCRYPTED'),
-      });
+      if (this.$auth.hasAccess('icda.inspections.create')) {
+        var pusher = new Pusher(env('PUSHER_APP_KEY'), {
+          broadcaster: env('BROADCAST_DRIVER', 'pusher'),
+          key: env('PUSHER_APP_KEY'),
+          id: env('PUSHER_APP_ID'),
+          cluster: env('PUSHER_APP_CLUSTER'),
+          encrypted: env('PUSHER_APP_ENCRYPTED'),
+        });
 
-      var channel = pusher.subscribe('inspections-list');
-      channel.bind('Modules\\Icda\\Events\\RecordListInspections', (data) =>  {
-        this.$q.notify({message: data.message,  position: 'bottom-left', closeBtn: true, type: 'positive'})
-      });
+        var channel = pusher.subscribe('inspections-list');
+        channel.bind('Modules\\Icda\\Events\\RecordListInspections', (data) =>  {
+          this.$q.notify({message: data.message,  position: 'bottom-left', closeBtn: true, type: 'positive'})
+        });
+      }
     },
     methods: {
       PadLeft(value, length) {
