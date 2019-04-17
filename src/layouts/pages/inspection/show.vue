@@ -1,7 +1,7 @@
 <template>
     <div id="printed">
         <q-page v-show="!showsignature && showData">
-        	<div class="col-12 q-border col-search">
+        	<div class="col-12 q-border col-search print-none">
 	            <div class="row">
 	                <div class="col-12 col-sm-10 col-md-6 mx-auto q-px-md">
 	                    <span class="w-50 d-inline-block font-weight-bold">
@@ -29,24 +29,24 @@
                 <div v-if="data.attributes != null" class="q-pb-lg">
                     <!-- SOAP -->
                     <div class="container-fluid bg-gray-10">
-                        <div class="row align-items-center">
-                            <div class="col-12 col-md-3 px-2 py-3 bg-primary text-right">
+                        <div class="row print-row align-items-center">
+                            <div class="col-12 col-md-3 px-2 py-3 bg-primary text-right print-none">
                                 <span class="h2 font-weight-bold my-3 d-block">SOAT</span>
                             </div>
-                            <div class="col-4 col-md-2 mx-auto py-3 text-center">
-                                <p class="font-weight-bold font-famili"><b>Fecha de Expedición</b></p>
+                            <div class="col-4 col-md-2 mx-auto py-3 text-center print-col-3 print-center">
+                                <p class="font-weight-bold font-family"><b>Fecha de Expedición</b></p>
                                 <p class="mb-0">{{ data.attributes.insurance_expiration }}</p>
                             </div>
-                            <div class="col-4 col-md-3 mx-auto py-3 text-center">
-                                <p class="font-weight-bold font-famili"><b>Fecha Inicio De Vigencia</b></p>
+                            <div class="col-4 col-md-3 mx-auto py-3 text-center print-col-3 print-center">
+                                <p class="font-weight-bold font-family"><b>Fecha Inicio De Vigencia</b></p>
                                 <p class="mb-0">{{ data.attributes.insurance_expedition }}</p>
                             </div>
-                            <div class="col-4 col-md-2 mx-auto py-3 text-center">
-                                <p class="font-weight-bold font-famili"><b>Fecha Fin De Vigencia</b></p>
+                            <div class="col-4 col-md-2 mx-auto py-3 text-center print-col-3 print-center">
+                                <p class="font-weight-bold font-family"><b>Fecha Fin De Vigencia</b></p>
                                 <p class="mb-0">{{ data.attributes.insurance_expiration }}</p>
                             </div>
-                            <div class="col-4 col-md-2 mx-auto py-3 text-center">
-                                <p class="font-weight-bold font-famili"><b>Estado</b></p>
+                            <div class="col-4 col-md-2 mx-auto py-3 text-center print-col-3 print-center">
+                                <p class="font-weight-bold font-family"><b>Estado</b></p>
                                 <p class="mb-0 text-uppercase" :class="{'text-green': data.attributes.gas_certificate, 'text-red': !data.attributes.gas_certificate}">
                                     <b>{{ data.attributes.gas_certificate|validity }}</b>
                                 </p>
@@ -55,8 +55,8 @@
                     </div>
                     <div class="layout-padding q-py-lg">
                         <!-- Atributos -->
-                        <div class="row mt-3 q-border">
-                            <div class="col-12 col-md-6 q-px-md">
+                        <div class="row print-row mt-3 q-border">
+                            <div class="col-12 col-md-6 q-px-md print-col-6">
 
                                 <q-input-validation :isDisable="isUpdate"
                                     :model="$v.data.attributes.service_type" 
@@ -89,7 +89,7 @@
                                     label="Fecha de Matrícula:"/>
                             </div>
 
-                            <div class="col-12 col-md-6 q-px-md">
+                            <div class="col-12 col-md-6 q-px-md print-col-6">
                                 <q-input-validation :isDisable="isUpdate"
                                     :model="$v.data.attributes.color" 
                                     class="d-block"
@@ -122,8 +122,8 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-12 q-px-md q-border" v-if="!isMotocicleta()">
+                        <div class="row print-row">
+                            <div class="col-12 print-col-12 q-px-md q-border" v-if="!isMotocicleta()">
                                 <div class="row">
                                     <div class="col-12">
                                         <span class="font-weight-bold q-mr-sm">Tipico de Vehículo:</span>
@@ -133,19 +133,19 @@
                             </div>
 
                             <!-- Vehículo de Enseñanza -->
-                            <div class="col-12 q-px-md q-border">
+                            <div class="col-12 print-col-12 q-px-md q-border">
                                 <span class="font-weight-bold q-mr-sm">Vehículo de Enseñanza:</span>
 								<span class="badge badge-light">{{ data.teaching_vehicle ? 'SI' : 'NO' }}</span>
                             </div>
 
                             <!-- Gobernador & Taximetro -->
-                            <div class="col-12 q-px-md q-border" v-if="!isMotocicleta() && data.type_vehicle != 'MOTOCICLETA'">
+                            <div class="col-12 print-col-12 q-px-md q-border" v-if="!isMotocicleta() && data.type_vehicle != 'MOTOCICLETA'">
                             	<div class="row">
-                            		<div class="col">
+                            		<div class="col print-col-6">
                             			<span class="font-weight-bold q-mr-sm">Gobernador</span>	
                             			<span class="badge badge-light">{{ data.governor ? 'SI' : 'NO' }}</span>
                             		</div>
-                            		<div class="col">
+                            		<div class="col print-col-6">
                             			<span class="font-weight-bold q-mr-sm">Taxímetro</span>	
                             			<span class="badge badge-light">{{ data.taximeter ? 'SI' : 'NO' }}</span>
                             		</div>
@@ -153,17 +153,17 @@
                             </div>
 								
 							<!-- vehicle_gas -->
-                            <div class="col-12 q-px-md q-border" v-if="!isMotocicleta() && data.type_vehicle != 'MOTOCICLETA'">
-                                <div class="row" v-if="is_vehicle_gas">
-                                    <div class="col-12 col-sm-6 col-lg-4 q-my-md">
+                            <div class="col-12 print-col-12 q-px-md q-border" v-if="!isMotocicleta() && data.type_vehicle != 'MOTOCICLETA'">
+                                <div class="row print-row" v-if="is_vehicle_gas">
+                                    <div class="col-12 col-sm-6 col-lg-4 print-col-4 q-my-md">
                                 		<span class="font-weight-bold q-mr-sm">Certiﬁcado de Gas N°: </span>
                                 		<span class="badge badge-light">{{ data.gas_certificate }}</span>
                                 	</div>
-                                    <div class="col-12 col-sm-6 col-lg-4 q-my-md">
+                                    <div class="col-12 col-sm-6 col-lg-4 print-col-4 q-my-md">
                                 		<span class="font-weight-bold q-mr-sm">Certiﬁcador: </span>
                                 		<span class="badge badge-light">{{ data.gas_certifier }}</span>
                                     </div>
-                                    <div class="col-12 col-sm-6 col-lg-4 q-my-md">
+                                    <div class="col-12 col-sm-6 col-lg-4 print-col-4 q-my-md">
                                 		<span class="font-weight-bold q-mr-sm">Fecha de Vencimiento: </span>
                                 		<span class="badge badge-light">{{ data.gas_certificate_expiration }}</span>
                                     </div>
@@ -177,9 +177,9 @@
                             </div>
                             
                             <!-- kilometraje & diametro -->
-                            <div class="col-12 q-px-md q-border" v-if="!isMotocicleta() && data.type_vehicle != 'MOTOCICLETA'">
-                                <div class="row">
-                                    <div class="col-12 col-sm-6">
+                            <div class="col-12 print-col-12 q-px-md q-border" v-if="!isMotocicleta() && data.type_vehicle != 'MOTOCICLETA'">
+                                <div class="row print-row">
+                                    <div class="col-12 col-sm-6 print-col-6">
                                         <div class="row">
                                             <div class="col-12 q-my-sm">
                                                 <span class="font-weight-bold q-mr-sm q-mb-md"># Cilindros Motor:</span>
@@ -191,7 +191,7 @@
                                             </div>
                                         </div>                                        
                                     </div>
-                                    <div class="col-12 col-sm-6">
+                                    <div class="col-12 col-sm-6 print-col-6">
                                         <div class="row">                              
                                             <div class="col-12 q-my-sm">
                                                 <span class="font-weight-bold q-mr-sm">Vidrios Polarizados:</span>
@@ -230,13 +230,15 @@
 
                             <!-- Pre-Inspección -->
                             <div class="col-12 q-px-md q-border">
-                            	<div class="row">                        		
-	                                <div class="col-12 q-mb-md">
+                            	<div class="row print-row">                        		
+	                                <div class="col-12 print-col-12 q-mb-md">
 	                                    <span class="font-weight-bold">Pre-Inspección:</span>
 	                                </div>
-	                                <div class="col-12 col-sm-6 q-my-md" v-for="(pre_inspection,item) in data.pre_inspections">
-	                                    <span class="d-inline-block font-weight-bold q-mr-lg">{{ pre_inspection.name }}</span>
-	                                    <span class="badge badge-light">{{ pre_inspection.value | preInspection }}</span>
+	                                <div class="col-12 col-sm-6 print-col-6 q-my-md" v-for="(pre_inspection,item) in data.pre_inspections">
+                                        <div v-if="pre_inspection.value"> 
+	                                       <span class="d-inline-block font-weight-bold q-mr-lg">{{ pre_inspection.name }}</span>
+	                                       <span class="badge badge-light">{{ pre_inspection.value | preInspection }}</span>
+                                        </div>
 	                                </div>
                             	</div>
                             </div>
@@ -244,17 +246,17 @@
                             <!-- Llantas -->
 							<div class="col-12 q-px-md q-border">
 							    <div class="row">
-							      	<div class="col-12 col-sm-4 col-md-3 col-lg-2 q-mb-lg">
+							      	<div class="col-12 col-sm-4 col-md-3 col-lg-2 q-mb-lg print-col-2">
 							      		<span class="font-weight-bold">Llantas</span>
 							      	</div>
-							      	<div class="col-12 col-sm-8 col-md-9 col-lg-10">
+							      	<div class="col-12 col-sm-8 col-md-9 col-lg-10 print-col-10">
 								        <div class="row" v-for="(eje,item) in data.axes">
-								          <div class="col" style="max-width: 200px">
+								          <div class="col print-none" style="max-width: 200px">
 								            <p class="font-weight-bold q-my-md">Eje  {{ item + 1 }}</p>
 								            <p class="font-weight-bold q-mr-lg q-mt-md q-mb-lg">Presión Inicial:</p>
 								            <p class="font-weight-bold q-mr-lg q-my-md">Ajuste:</p>
 								          </div>
-								          <div class="col q-mx-sm" v-for="(llanta,key) in eje" style="max-width: 130px">
+								          <div class="col print-col-12 print-mx q-mx-sm" v-for="(llanta,key) in eje" style="max-width: 130px">
 								            <div class="text-center d-block q-my-sm">
 								            	<span v-if="!isMotocicleta()">{{ llanta.type|axes }}</span>
 								            	<span v-else>&nbsp;</span>
@@ -273,37 +275,37 @@
 							</div>
 
                             <!-- Inventario -->
-						    <div class="col-12 q-px-md q-border" v-if="data.items.length > 0">
+						    <div class="col-12 print-col-12 q-px-md q-border" v-if="data.items.length > 0">
 						      	<p class="font-weight-bold q-my-lg">Inventario</p>
-						      	<div class="row">
+						      	<div class="row print-row">
 							        <div class="col col-md-8 mx-auto">
 							            <div class="row boder-botton">
 							                <div class="col-12">
                                                 <div class="row mb-2">
-                                                    <div class="col-4 q-pl-sm font-weight-bold">
+                                                    <div class="col-4 print-col-4 q-pl-sm font-weight-bold">
                                                         NOMBRE
                                                     </div>
-                                                    <div class="col-4 q-pl-sm font-weight-bold text-center">
+                                                    <div class="col-4 print-col-4 q-pl-sm font-weight-bold text-center">
                                                         EVALUACIÓN
                                                     </div>
-                                                    <div class="col-4 q-pl-sm font-weight-bold text-center">
+                                                    <div class="col-4 print-col-4 q-pl-sm font-weight-bold text-center">
                                                         CANTIDAD
                                                     </div>
-                                                    <div class="col-12">
+                                                    <div class="col-12 print-col-12">
                                                         <hr>
                                                     </div>
                                                 </div>
                                                 <div class="row" v-for="(item,index) in data.items">
-                                                    <div class="col-4 q-pl-sm font-weight-bold">
+                                                    <div class="col-4 print-col-4 q-pl-sm font-weight-bold">
                                                         {{ item.name }}
                                                     </div>
-                                                    <div class="col-4 text-center font-weight-bold">
+                                                    <div class="col-4 print-col-4 text-center font-weight-bold">
                                                         {{ item.evaluation }}
                                                     </div>
-                                                    <div class="col-4 text-center font-weight-bold">
+                                                    <div class="col-4 print-col-4 text-center font-weight-bold">
                                                         {{ item.quantity }}
                                                     </div>
-                                                    <div class="col-12">
+                                                    <div class="col-12 print-col-12">
                                                         <hr>
                                                     </div>
                                                 </div>
@@ -314,7 +316,7 @@
 							</div>
 
                             <!-- CAROUSEL -->
-                            <div class="col-12 q-px-md">
+                            <div class="col-12 q-px-md" v-if="data.gallery.lenght">
                                 <p class="font-weight-bold q-px-md q-pt-md">Fotografías</p>
                                 <carousel :perPage="3" :paginationEnabled="false" :autoplay="true" :navigationEnabled="true" :navigationNextLabel="nextLabel" :navigationPrevLabel="prevLabel" >
                                   <slide v-for="(img, index) in data.gallery" :key="index">
@@ -326,7 +328,7 @@
                             </div>
 
                             <!-- opbservaciones -->
-                            <div class="col-12 q-my-md">
+                            <div class="col-12 q-my-md" v-if="data.observations">
                                 <q-input v-model="data.observations" 
                                 	:disabled='true'
                                 	type="textarea"
@@ -336,7 +338,7 @@
                                 	class="bg-white"/>
                             </div>
 
-                            <div class="col-12 text-right">
+                            <div class="col-12 text-right print-none">
                                 <q-btn color="red" size="md" label="Print" class="q-px-lg q-mr-sm btn-app" @click="print"/>
                                 <q-btn color="black" size="md" label="Guardar" class="q-px-lg btn-app" @click="submitData"/>
                             </div>
@@ -347,7 +349,7 @@
         </q-page>
         <q-page v-show="showsignature">
             <div class="layout-padding q-py-lg">
-                <div class="row q-my-lg">
+                <div class="row print-row q-my-lg">
                     <hr class="col-12 q-my-lg">
                     <div class="col-12 col-md-6">
                       <div class="row">
@@ -390,8 +392,7 @@
                             :disable="!is_vehicle_delivery_signature"
                             :options="{ onEnd }"
                             :class="{'border-danger':$v.data.vehicle_delivery_signature.$error}"/>
-
-                        <img v-else :src="data.vehicle_delivery_signature" 
+                        <img v-else :src="data.vehicle_delivery_signature|asset" 
                             style="border: 2px solid #0c0c0c;border-radius: 8px;"
                             width="100%" 
                             height="200px">
@@ -411,7 +412,7 @@
                             :options="{ onEnd }"
                             :class="{'border-danger':$v.data.signature_received_report.$error}"/>
 
-                        <img v-else :src="data.signature_received_report"
+                        <img v-else :src="data.signature_received_report|asset"
                             style="border: 2px solid #0c0c0c;border-radius: 8px;"
                             width="100%" 
                             height="200px">
@@ -481,7 +482,7 @@
                     vehicle_delivery_signature: null,
                     signature_received_report: null,
                     type_vehicle: null,
-                    user_id: this.$route.params.user_id
+                    user_id: null
                 },
                 selectInspection: [],
                 inspection_statues: {
@@ -494,36 +495,26 @@
                 nextLabel: "<i class='fa fa-chevron-right' aria-hidden='true'></i>",
                 prevLabel: "<i class='fa fa-chevron-left' aria-hidden='true'></i>",
 			    cssText: `
-                    .col-search { display: none }
-                    .row { width: 100%; display: block}
-                    .col-12 { width: 100%; display: block }
-                    .col-md-3 { float: left; width: 25% }
-                    .col-md-3 { float: left; width: 16.6667% }
-                    .col-md-3 { float: left; width: 16.6667% }
-                    .col-md-6 { float: left; width: 50% }
-                    .col-md-2 { float: left; width: 16.6667%; }
-
-                    .q-icon { display: none }
-			      .printing {
-			        font-family: sans-serif;
-			        width: 500px;
-			        border: solid 1px #ccc;
-			        text-align: center;
-			        padding: 1em;
-			        margin: 2em auto;
-			      }
-
-			      button {
-			        background-color: #f0f0f0;
-			        border: solid 1px #bbb;
-			        padding: 10px;
-			        font-size: 15px;
-			        border-radius: 5px;
-			      }
-
-			      pre {
-			        color: #c7254e;
-			      }
+                .q-icon,
+                button,
+                .print-none,
+                .q-if-label-spacer,
+                .q-input-target.q-input-area,
+                .q-if-baseline {  display: none }
+                textarea,
+                .print-row { width: 100%; display: block; padding-top: 5px; padding-bottom: 5px}
+                .q-input-validation { padding-bottom: 5px; padding-top: 5px}
+                .q-input-validation > .d-inline-block { float: left; width: 100% }
+                // .q-input-validation .d-inline-block span { float: left; width: 25% !important  }
+                // .q-input-validation .d-inline-block div { float: left; width: 83.3333%  !important  }
+                .print-col-2  { padding-bottom: 10px; float: left; width: 16.6667% !important }
+                .print-col-3  { padding-bottom: 10px; float: left; width: 25% !important }
+                .print-col-4  { padding-bottom: 10px; float: left; width: 33.33333% !important }
+                .print-col-6  { padding-bottom: 10px; float: left; width: 50% !important }
+                .print-col-10 { padding-bottom: 10px; float: left; width: 83.3333% !important }
+                .print-col-12 { padding-bottom: 10px; float: left; width: 100% !important }
+                .print-center { padding-bottom: 10px; text-align: center}
+                .print-mx { padding: 5px}
 			    `
             }
         },
@@ -549,14 +540,16 @@
         watch: {
         	'inspection_statues.status': {
      			handler(newValue, oldValue) {
-     				if(oldValue)
+     				if(oldValue != null) {
         				this.inspection_statues.change = true
+                    }
      			},
      			deep: true
         	},
         	'data.attributes' : {
      			handler(newValue, oldValue) {
-     				if(oldValue)
+                    console.log(newValue + ' . ' +oldValue)
+     				if(oldValue != null)
      					this.changeAtributtes = true
      			},
      			deep: true
@@ -621,7 +614,6 @@
         },
         methods: {
     		print() {
-                console.log(1)
         		const d = new Printd()
     			const { contentWindow } = d.getIFrame()
         		d.print( this.$el,[ this.cssText ] )
@@ -635,7 +627,7 @@
                     this.$q.notify({message: 'Por favor revise los campos de nuevo.',  position: 'top-right', closeBtn: true})
                     return
                 } else {
-                    if(this.is_vehicle_delivery_signature) {
+                    if(this.is_signature_received_report) {
                     	this.showData = false
                         this.showsignature = true
                     	this.$q.loading.hide()
@@ -672,7 +664,6 @@
                         dateEntry: data.created_at_date,
                         id:  data.id
                     })
-
                     this.data.id                            = this.$route.params.inspection
 					for (var item in this.inspection_statues.options) {
 	    				if ( this.inspection_statues.options[item].label == data.inspection_status ) {
@@ -710,6 +701,7 @@
                     this.data.type_vehicle                  = data.type_vehicle
 					this.inspection_statues.change 			= false
      				this.changeAtributtes					= false
+                    this.data.user_id                       = data.vehicle.user.id
                     this.$q.loading.hide()
                     this.showData = true
                 }).catch(error => {
@@ -735,11 +727,8 @@
                 }
             },
             updateInspections() {
-                console.log(this.is_signature_received_report)
             	if (this.is_signature_received_report) {
-
                 	var jsonData = {};
-
                 	jsonData['id'] = this.data.id
                 	jsonData['signature_received_report'] 	= this.data.signature_received_report
                 	jsonData['seen_technical_director'] 	= this.data.seen_technical_director
@@ -759,7 +748,6 @@
             	}else
             		return false
             }
-
         }
     }
 </script>

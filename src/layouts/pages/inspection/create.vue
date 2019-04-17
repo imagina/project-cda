@@ -353,9 +353,7 @@
                                 </carousel>
                             </div>
 
-                            <!-- <q-btn color="primary" label="Get Picture" @click="captureImage" /> -->
-                            <!-- <img :src="imageSrc"> -->
-                            <!-- {{ IMEI }} -->
+                            <q-btn color="primary" label="Get Picture" @click="captureImage"/>
 
                             <q-gallery :gallery="data.gallery" :code="data.code" class="col-12 q-px-md"/>
 
@@ -536,6 +534,11 @@
             }
         },
         created() {
+            document.addEventListener("deviceready", onDeviceReady, false);
+            function onDeviceReady() {
+                console.log(device.cordova);
+            }
+            
             this.$q.loading.show()
             Promise.all([
                 resources.inspectionsTypes(),
@@ -730,7 +733,6 @@
                         delete jsonData['vehicle_delivery_signature'];
                     if ( !this.is_signature_received_report)
                         delete jsonData['signature_received_report'];
-
                     resources.setInspections(jsonData)
                     .then(response => {
                         this.$q.notify({type:'positive', message: 'Creado exitosamente!',  position: 'top-right', closeBtn: true})
@@ -781,15 +783,23 @@
                 return this.data.attributes.type_vehicle == 'MOTOCICLETA';
             },
             captureImage () {
-              navigator.camera.getPicture(
-                data => { // on success
-                  this.imageSrc = `data:image/jpeg;base64,${data}`
-                }, () => { // on fail
-                  this.$q.notify('Could not access device camera.')
-                },{
-                  // camera options
-                }
-              )
+                var cameraError = function(error) { 
+                    navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error'); 
+                };
+                var cameraSuccess = function(mediaFiles) { 
+                    alert(JSON.stringify(mediaFiles));
+                }; 
+
+                console.log(navigator.camera)
+                navigator.camera.getPicture(cameraSuccess, cameraError,
+                    data => { // on success
+                        console.log(`data:image/jpeg;base64,${data}`)
+                    }, () => { // on fail
+                        this.$q.notify('Could not access device camera.')
+                    },{
+                      // camera options
+                    }
+                )
             }
         }
     }

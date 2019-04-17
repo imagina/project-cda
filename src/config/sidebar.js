@@ -23,6 +23,11 @@ export default {
     icon: 'fas fa-list',
     to: 'inspections',
   },
+  Vehiculos: {
+    title: 'Vehiculos',
+    icon: 'fas fa-car',
+    to: 'vehicles.index',
+  },
   /*User*/
   user: {
     title: 'Users',

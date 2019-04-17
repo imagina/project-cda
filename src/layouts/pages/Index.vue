@@ -14,7 +14,7 @@
                     <q-select v-model="form.type_document" :options="selectOptions" class="bg-white q-my-md"/>
                 </div>
             </q-field>
-            {{ $v.search }}
+            
             <q-field :error="$v.form.number_document.$error" class="q-my-md">
                 <q-input v-model="form.number_document" type="text" placeholder="N° Cédula" class="bg-white mx-auto"
                     v-on:keyup.enter="searchUser"

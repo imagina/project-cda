@@ -36,7 +36,7 @@
       'model': { required: true },
       'label': { required: false, default: null },
       'labelShow': { required: false, default: true },
-      'isDisable' : { required: true, default: false }
+      'isDisable' : { required: false, default: false }
     },
     data() {
       return {

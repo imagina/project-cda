@@ -2,14 +2,14 @@
 	<div id="container-section-login" >
 	  	<q-page class="container-section" style="padding-top: 0px !important; padding-bottom: 0px !important">
 		    <div class="row q-mx-md" style="min-height: 100vh">
-		      	<div id="form-login-left" class="col-10 col-md-4 bg-primary text-center q-py-lg">
+		      	<div id="form-login-left" class="col-12 col-sm-10 col-md-4 bg-primary text-center q-py-lg q-px-md">
 		      		 <img src="../../assets/logo.svg" width="50%" class="q-my-lg">
 		      		<hr class="col-12 q-my-lg">
 			       	<p class="text-center q-mt-none q-my-lg q-pb-sm font-weight-bold">
 			       		ORDEN DE SERVICIO
 			       	</p>
 			        <!-- USER -->
-			        <q-field :error="$v.form.username.$error" error-label="This field is required">
+			        <q-field :error="$v.form.username.$error" error-label="Este campo es requerido">
 			        	<q-input name="email"
 			                   autofocus
 			                   autocomplete="off"
@@ -22,7 +22,7 @@
 			        </q-field>
 
 			        <!-- PASS -->
-			        <q-field :error="$v.form.password.$error" error-label="This field is required">
+			        <q-field :error="$v.form.password.$error" error-label="Este campo es requerido">
 				        <q-input v-model="form.password"
 				                   type="password"
 				                   name="password"

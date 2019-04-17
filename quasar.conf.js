@@ -1,7 +1,6 @@
 // Configuration for your app
 var webpack = require('webpack')
 var path = require('path')
-
 // Get our env variables
 const envparser = require('./env/envparser')
 

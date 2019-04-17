@@ -5,6 +5,29 @@ import {remember} from '@imagina/qhelper/_plugins/remember'
 
 export default {
 
+  getVehicles(page) {
+    let route = config('api.api_icda') + '/vehicles?page='+page+'&take=10&filter={"order":{"field":"created_at","way":"desc"}}'
+    return new Promise((resolve, reject) => {
+      return http.get(route).then(response => {
+        resolve(response.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+    });
+  },
+  createVehicle(data) {
+    let route = config('api.api_icda') + '/vehicles'
+    return new Promise((resolve, reject) => {
+      return http.post(route, data).then(response => {
+        resolve(response);
+      })
+      .catch(error => {
+        reject(error);
+      });
+    });
+  },
+  
   typesVehicles() {
     return new Promise((resolve, reject) => {
       return http.get(config('api.api_icda') + '/typesVehicles').then(response => {
@@ -145,7 +168,7 @@ export default {
 
   getInspections(page, status) {
     return new Promise((resolve, reject) => {
-      return http.get(config('api.api_icda') + '/inspections?page='+page+'&take=8&filter={"inspection_status":'+status+'}')
+      return http.get(config('api.api_icda') + '/inspections?page='+page+'&take=10&filter={"inspection_status":'+status+',"order":{"field":"created_at","way":"desc"}}')
         .then(response => {
           resolve(response);
         })
@@ -157,8 +180,7 @@ export default {
 
   updateInspections(data) {
     return new Promise((resolve, reject) => {
-      return http.put(config('api.api_icda') + '/inspections/'+data.id,data
-        )
+      return http.put(config('api.api_icda') + '/inspections/'+data.id,data)
         .then(response => {
           resolve(response);
         })
@@ -197,7 +219,7 @@ export default {
 
   getInspectionStatues(page) {
     return new Promise((resolve, reject) => {
-      return http.get(config('api.api_icda') + '/inspectionStatues')
+      return http.get(config('api.api_icda') + '/inspectionStatuses')
         .then(response => {
           resolve(response.data.data.map((e,index) => {
               return {

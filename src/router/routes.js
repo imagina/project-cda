@@ -5,7 +5,6 @@ import auth from '@imagina/quser/_router/middlewares/auth' //Middleware auth
 // Define path where your views are stored
 Route.setViewResolver(component => require('src/layouts/' + component).default)
 
-
 Route.view('/', 'master')
   .guard(auth)
   .children(() => {
@@ -15,15 +14,24 @@ Route.view('/', 'master')
       Route.view('/inspections/create/:user_id/:inspection?', 'pages/inspection/create').options({
         name: 'create.inspection'
       }),
-      Route.view('/inspections/update/:user_id/:inspection?', 'pages/inspection/show').options({
+      Route.view('/inspections/update/:inspection?', 'pages/inspection/show').options({
         name: 'update.inspection'
       }),
       Route.view('/inspections', 'pages/inspection/index').options({
         name: 'inspections'
+      }),
+      Route.view('/vehicles', 'pages/vehicle/index').options({
+        name: 'vehicles.index'
+      }),
+      Route.view('/vehicles/create', 'pages/vehicle/create').options({
+        name: 'vehicles.create'
+      }),
+      Route.view('/vehicles/update/:board', 'pages/vehicle/update').options({
+        name: 'vehicles.update'
       })
     }
   )
-  
+
 Route.view('/', 'blank')
   	.children(() => {
     	Route.view('/login-0', 'pages/login').options({

@@ -22,7 +22,6 @@
 				    		<router-link  :to="{ 
 				    							name: 'update.inspection',
 						    					params: {
-						    						user_id: item.vehicle.user.id,
 						    						inspection: item.id
 						    					}
 						    				}"
@@ -32,7 +31,7 @@
 					    			<img :src="item.gallery | img" width="100%">
 					    		</div>
 					    		<div class="col px-2">
-					    			Matricula: <b>{{ item.vehicle.board }}</b> <br>
+					    			Matricula: <b>{{ item.vehicle.board }} - {{ item.id }}</b> <br>
 					    			Tipo de Servicio: {{ item.vehicle.service_type }} <br>
 					    			Tipo de Vehiculo: {{ item.vehicle.type_vehicle }} <br>
 					    			Cliente: {{ item.vehicle.user.fullname }} <br>
@@ -44,6 +43,11 @@
 
 					</q-timeline>
 				</div>
+                <div class="col-12 q-px-md" v-show="ordens.length == 0">
+                    <q-alert color="red" icon="error" appear class="q-mb-sm">
+                        NO SE ENCONTRO ORDENES
+                    </q-alert>
+                </div>
 				<div class="col-12 d-block q-py-md">
  					<div v-infinite-scroll="loadMore" :infinite-scroll-disabled="busy" infinite-scroll-distance="10"></div> 
 				</div>
