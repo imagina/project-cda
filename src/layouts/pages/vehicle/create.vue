@@ -1,5 +1,5 @@
 <template>
-	<q-page>
+	<q-page class="create-vehicle">
 	    <div class="layout-padding">
 	    	<div class="row mt-3">
             	<div class="col-12 q-px-md">
@@ -329,9 +329,3 @@
         }
 	}
 </script>
-
-<style>
-	.q-field-content span {
-		font-size: .8rem
-	}
-</style>

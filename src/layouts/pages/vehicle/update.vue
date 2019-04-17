@@ -1,5 +1,5 @@
 <template>
-	<q-page>
+	<q-page class="create-vehicle">
 	    <div class="layout-padding">
             <div class="row">
             	<div class="col-12 q-px-md">

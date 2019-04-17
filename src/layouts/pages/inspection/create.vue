@@ -21,7 +21,6 @@
                             <q-field :error="$v.formSearch.plaque.$error">
                                 <q-input v-model="formSearch.plaque" type="text" placeholder="Placa" class="bg-white q-mt-sm"
                                     v-on:keyup.enter="searchPlaque"
-                                    @input="formSearch.plaque = $event.target.value.toUpperCase()"
                                     :after="[
                                     {
                                         icon: 'search',
@@ -236,8 +235,8 @@
                                     <div class="col-12 col-sm-6">
                                         <div class="row">
                                             <div class="col-12 q-my-sm q-px-md">
+                                                <span class="font-weight-bold q-mb-sm d-block"># Cilindros Motor:</span>
                                                 <q-field>
-                                                    <span class="font-weight-bold q-mb-md d-block"># Cilindros Motor:</span>
                                                     <q-input v-model="data.engine_cylinders" type="number" min="0" placeholder="# Cilindros Motor" class="bg-white q-my-sm"/>
                                                 </q-field>
                                             </div>
@@ -354,7 +353,7 @@
                                 </carousel>
                             </div>
 
-                            <q-btn color="primary" label="Get Picture" @click="captureImage"/>
+                            <!-- <q-btn color="primary" label="Get Picture" @click="captureImage"/> -->
 
                             <q-gallery :gallery="data.gallery" :code="data.code" class="col-12 q-px-md"/>
 
