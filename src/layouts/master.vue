@@ -74,7 +74,6 @@
       }
     },
     mounted() {
-      // console.log(Auth.hasAccess('account.api-keys.create'))
       var pusher = new Pusher(env('PUSHER_APP_KEY'), {
         broadcaster: env('BROADCAST_DRIVER', 'pusher'),
         key: env('PUSHER_APP_KEY'),
@@ -92,9 +91,6 @@
       PadLeft(value, length) {
         value = value + "";
         return (value.toString().length < length) ? this.PadLeft("0" + value, length) : value
-      },
-      toggleFullscreen() {
-        this.$q.fullscreen.toggle()
       }
     }
   }

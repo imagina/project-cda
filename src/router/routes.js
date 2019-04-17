@@ -1,6 +1,7 @@
 import Route from 'vue-routisan'
 import user from '@imagina/quser/_router/routes' //Routes module QUser
 import auth from '@imagina/quser/_router/middlewares/auth' //Middleware auth
+import access from '@imagina/quser/_router/middlewares/access'
 
 // Define path where your views are stored
 Route.setViewResolver(component => require('src/layouts/' + component).default)
@@ -12,31 +13,43 @@ Route.view('/', 'master')
         name: 'home'
       }),
       Route.view('/inspections/create/:user_id/:inspection?', 'pages/inspection/create').options({
-        name: 'create.inspection'
+        name: 'create.inspection',
+        meta: {permission: 'icda.inspections.create'},
+        guard: access
       }),
       Route.view('/inspections/update/:inspection?', 'pages/inspection/show').options({
-        name: 'update.inspection'
+        name: 'update.inspection',
+        meta: {permission: 'icda.inspections.update'},
+        guard: access
       }),
       Route.view('/inspections', 'pages/inspection/index').options({
-        name: 'inspections'
+        name: 'inspections',
+        meta: {permission: 'icda.inspections.index'},
+        guard: access
       }),
       Route.view('/vehicles', 'pages/vehicle/index').options({
-        name: 'vehicles.index'
+        name: 'vehicles.index',
+        meta: {permission: 'icda.vehicles.update'},
+        guard: access
       }),
       Route.view('/vehicles/create', 'pages/vehicle/create').options({
-        name: 'vehicles.create'
+        name: 'vehicles.create',
+        meta: {permission: 'icda.vehicles.create'},
+        guard: access
       }),
       Route.view('/vehicles/update/:board', 'pages/vehicle/update').options({
-        name: 'vehicles.update'
+        name: 'vehicles.update',
+        meta: {permission: 'icda.vehicles.update'},
+        guard: access
       })
     }
   )
 
 Route.view('/', 'blank')
-  	.children(() => {
-    	Route.view('/login-0', 'pages/login').options({
-    	  name: 'login-0'
-    	})
+    .children(() => {
+      Route.view('/login-0', 'pages/login').options({
+        name: 'login-0'
+      })
     }
   )
 

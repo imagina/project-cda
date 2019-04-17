@@ -108,8 +108,8 @@ export default {
     data () {
         return {
             form: {
-                phone: null,
                 email: null,
+                phone: null,
                 first_name: null,
                 last_name: null,
                 number_document: null,
@@ -168,11 +168,15 @@ export default {
                 .then(response => {
                     let user_id = response.data.succes.detail.id
                     this.$router.push({ name: 'create.inspection', params: { user_id: user_id, update: false } })
-                }).catch(error => {
-                    this.$q.notify({icon:'error', message: 'Ocurrio un error inesperado',  position: 'top-right', closeBtn: true})
-                }).then(() => {
+                }).catch((error) => {
+                    let errors = JSON.parse(error.response.data.errors)
+                    let message;
+                    for (var clave in errors){
+                        message = errors[clave]
+                    }
                     this.$q.loading.hide()
-                });
+                    this.$q.notify({icon:'error', message: message,  position: 'top-right', closeBtn: true})
+                })
             }
         },
         searchUser () {
@@ -184,13 +188,14 @@ export default {
                     var user_id = response.data.data[0].id
                     this.$router.push({ name: 'create.inspection', params: { user_id: user_id, update: false } })
                 }
-                else
+                else {
                     this.$q.notify({icon:'error', message: 'Usuario no encontrado, debe registrarse',  position: 'top-right', closeBtn: true})
+                    this.$q.loading.hide()
+                }
             }).catch(error => {
                 this.$q.notify({icon:'error', message: 'Ocurrio un error inesperado',  position: 'top-right', closeBtn: true})
-            }).then(() => {
                 this.$q.loading.hide()
-            });
+            })
         }
     }
 }

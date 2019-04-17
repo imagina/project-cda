@@ -55,7 +55,7 @@
                     </div>
                     <div class="layout-padding q-py-lg">
                         <!-- Atributos -->
-                        <div class="row print-row mt-3 q-border">
+                        <div class="row mt-3 q-border">
                             <div class="col-12 col-md-6 q-px-md print-col-6">
 
                                 <q-input-validation :isDisable="isUpdate"
@@ -122,7 +122,7 @@
                             </div>
                         </div>
 
-                        <div class="row print-row">
+                        <div class="row">
                             <div class="col-12 print-col-12 q-px-md q-border" v-if="!isMotocicleta()">
                                 <div class="row">
                                     <div class="col-12">
@@ -153,8 +153,8 @@
                             </div>
 								
 							<!-- vehicle_gas -->
-                            <div class="col-12 print-col-12 q-px-md q-border" v-if="!isMotocicleta() && data.type_vehicle != 'MOTOCICLETA'">
-                                <div class="row print-row" v-if="is_vehicle_gas">
+                            <div class="col-12 print-col-12 q-px-md q-border" :class="{ 'print-none': !is_vehicle_gas }" v-if="!isMotocicleta() && data.type_vehicle != 'MOTOCICLETA'">
+                                <div class="row" v-if="is_vehicle_gas">
                                     <div class="col-12 col-sm-6 col-lg-4 print-col-4 q-my-md">
                                 		<span class="font-weight-bold q-mr-sm">Certiﬁcado de Gas N°: </span>
                                 		<span class="badge badge-light">{{ data.gas_certificate }}</span>
@@ -168,7 +168,7 @@
                                 		<span class="badge badge-light">{{ data.gas_certificate_expiration }}</span>
                                     </div>
                                 </div>
-                                <div class="row" v-else>
+                                <div class="row" v-else :class="{ 'print-none': is_vehicle_gas }">
                                 	<div class="col-12">
                                     	<span class="font-weight-bold">Vehículo a Gas:</span> 
                                     	NO
@@ -178,7 +178,7 @@
                             
                             <!-- kilometraje & diametro -->
                             <div class="col-12 print-col-12 q-px-md q-border" v-if="!isMotocicleta() && data.type_vehicle != 'MOTOCICLETA'">
-                                <div class="row print-row">
+                                <div class="row">
                                     <div class="col-12 col-sm-6 print-col-6">
                                         <div class="row">
                                             <div class="col-12 q-my-sm">
@@ -229,8 +229,8 @@
                             </div>
 
                             <!-- Pre-Inspección -->
-                            <div class="col-12 q-px-md q-border">
-                            	<div class="row print-row">                        		
+                            <div class="col-12 q-px-md q-border" :class="{'print-none':data.pre_inspections.length > 0}">
+                            	<div class="row">                        		
 	                                <div class="col-12 print-col-12 q-mb-md">
 	                                    <span class="font-weight-bold">Pre-Inspección:</span>
 	                                </div>
@@ -505,8 +505,10 @@
                 .print-row { width: 100%; display: block; padding-top: 5px; padding-bottom: 5px}
                 .q-input-validation { padding-bottom: 5px; padding-top: 5px}
                 .q-input-validation > .d-inline-block { float: left; width: 100% }
-                // .q-input-validation .d-inline-block span { float: left; width: 25% !important  }
-                // .q-input-validation .d-inline-block div { float: left; width: 83.3333%  !important  }
+                .q-input-validation .d-inline-block span { display: inline-block; float: left; width: 50% !important  }
+                .q-input-validation .d-inline-block div { float: left; width: 50%  !important  }
+                textarea,
+                input { bordr: none !important; background: white !important; box-shadow: none !important }
                 .print-col-2  { padding-bottom: 10px; float: left; width: 16.6667% !important }
                 .print-col-3  { padding-bottom: 10px; float: left; width: 25% !important }
                 .print-col-4  { padding-bottom: 10px; float: left; width: 33.33333% !important }

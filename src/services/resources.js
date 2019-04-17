@@ -23,6 +23,7 @@ export default {
         resolve(response);
       })
       .catch(error => {
+        console.log(error)
         reject(error);
       });
     });
@@ -205,9 +206,7 @@ export default {
 
   createUser(data) {
     return new Promise((resolve, reject) => {
-      return http.post(config('api.api_url') + '/profile/users',{
-          'attributes' : data
-        })
+      return http.post(config('api.api_url') + '/profile/users',{ 'attributes' : data })
         .then(response => {
           resolve(response);
         })
