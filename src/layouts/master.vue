@@ -74,18 +74,23 @@
       }
     },
     mounted() {
+      var pusher = new Pusher(env('PUSHER_APP_KEY'), {
+        broadcaster: env('BROADCAST_DRIVER', 'pusher'),
+        key: env('PUSHER_APP_KEY'),
+        id: env('PUSHER_APP_ID'),
+        cluster: env('PUSHER_APP_CLUSTER'),
+        encrypted: env('PUSHER_APP_ENCRYPTED'),
+      });
       if (this.$auth.hasAccess('icda.inspections.create')) {
-        var pusher = new Pusher(env('PUSHER_APP_KEY'), {
-          broadcaster: env('BROADCAST_DRIVER', 'pusher'),
-          key: env('PUSHER_APP_KEY'),
-          id: env('PUSHER_APP_ID'),
-          cluster: env('PUSHER_APP_CLUSTER'),
-          encrypted: env('PUSHER_APP_ENCRYPTED'),
-        });
 
         var channel = pusher.subscribe('inspections-list');
         channel.bind('Modules\\Icda\\Events\\RecordListInspections', (data) =>  {
           this.$q.notify({message: data.message,  position: 'bottom-left', closeBtn: true, type: 'positive'})
+        });
+
+        var channel = pusher.subscribe('vehicles-list');
+        channel.bind('Modules\\Icda\\Events\\RecordListVehicles', (data) =>  {
+          this.$q.notify({message: data.message,  position: 'bottom-right', closeBtn: true, type: 'positive'})
         });
       }
     },
@@ -97,23 +102,3 @@
     }
   }
 </script>
-
-<style>
-  @media screen and (max-width: 600px) {
-    .header-col {
-      margin: auto;
-    }
-    .header-col p {
-      font-size: .7rem;
-      margin-bottom: 0;
-    }
-  }
-  @media screen and (max-width: 765px) {
-    .header-col p {
-      margin-bottom: 0;
-    }
-    .order-col {
-      margin-top: 10px;
-    }
-  }
-</style>

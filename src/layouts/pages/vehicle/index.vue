@@ -21,7 +21,7 @@
 			    					:to="{ name: 'vehicles.update', params: { board: item.board } }">
 							<q-timeline-entry
 							  	:heading="false"
-							    :title="item.brand + '' + item.model + ' | ' + item.board"
+							    :title="item | title"
 							    :subtitle="item.created_at_date + ' ' + item.created_at_time"
 							    side="right">
 						  		<p class="mb-0"><b>Tipo de Servicio:</b>{{ item.service_type }}</p>
@@ -40,7 +40,6 @@
 </template>
 
 <script>
-	// import resources from 'src/services/resources';
 	import resources from 'src/services/vehicle';
 	import config from 'src/config/index'
 
@@ -56,6 +55,12 @@
 	    created() {
 	    	this.loadMore()
 	    },
+		filters: {
+			title: function (item) {
+				let model = item.model ? '|' + item.model : ''
+				return item.board + model
+			}
+		},
 		methods: {
 			loadMore () {
 	        	if(!this.busy) {

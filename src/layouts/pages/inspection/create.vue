@@ -43,13 +43,14 @@
             </div>
             <div class="row" v-show="notFound">
                 <div class="col-12 col-sm-10 col-md-8 mx-auto q-px-md">
-                    <q-alert color="red" icon="error" appear class="q-mb-sm">
-                        LA PLACA INGRESADA NO FUE ENCONTRADA
-                    </q-alert>
+                    <q-alert icon="error"  color="warning"
+                        message="LA PLACA NO FUE ENCONTRADA"
+                        :detail="'SE CREARA UN NUEVO VEHICULO CON LA PLACA [' +formSearch.plaque+']'"
+                    />
                 </div>
             </div>
-            <q-page v-show="showData">
-                <div v-if="data.attributes != null" class="q-my-lg q-pt-lg">
+            <q-page v-if="showData">
+                <div class="q-my-lg q-pt-lg">
                     <!-- SOAP -->
                     <div class="container-fluid bg-gray-10">
                         <div class="row align-items-center">
@@ -58,15 +59,15 @@
                             </div>
                             <div class="col-4 col-md-2 mx-auto py-3 text-center">
                                 <p class="font-weight-bold font-famili"><b>Fecha de Expedición</b></p>
-                                <p class="mb-0">{{ data.attributes.insurance_expiration }}</p>
+                                <p class="mb-0">{{ data.attributes.insurance_expiration ? data.attributes.insurance_expiration : 'N/D' }}</p>
                             </div>
                             <div class="col-4 col-md-3 mx-auto py-3 text-center">
                                 <p class="font-weight-bold font-famili"><b>Fecha Inicio De Vigencia</b></p>
-                                <p class="mb-0">{{ data.attributes.insurance_expedition }}</p>
+                                <p class="mb-0">{{ data.attributes.insurance_expedition ? data.attributes.insurance_expedition : 'N/D' }}</p>
                             </div>
                             <div class="col-4 col-md-2 mx-auto py-3 text-center">
                                 <p class="font-weight-bold font-famili"><b>Fecha Fin De Vigencia</b></p>
-                                <p class="mb-0">{{ data.attributes.insurance_expiration }}</p>
+                                <p class="mb-0">{{ data.attributes.insurance_expiration ? data.attributes.insurance_expiration : 'N/D' }}</p>
                             </div>
                             <div class="col-4 col-md-2 mx-auto py-3 text-center">
                                 <p class="font-weight-bold font-famili"><b>Estado</b></p>
@@ -80,68 +81,57 @@
                         <!-- Atributos -->
                         <div class="row mt-3 q-border">
                             <div class="col-12 col-md-6 q-px-md">
-
-                                <q-input-validation :isDisable="isUpdate"
-                                    :model="$v.data.attributes.service_type" 
-                                    class="d-block"
-                                    label="Tipo de Servicio:"/>
-
-                                <q-input-validation :isDisable="isUpdate"
-                                    :model="$v.data.attributes.type_vehicle" 
-                                    class="d-block"
-                                    label="Clase de Vehículo:"/>
-
-                                <q-input-validation :isDisable="isUpdate"
-                                    :model="$v.data.attributes.brand" 
-                                    class="d-block"
-                                    label="Marca:"/>
-
-                                <q-input-validation :isDisable="isUpdate"
-                                    :model="$v.data.attributes.line" 
-                                    class="d-block"
-                                    label="Línea:"/>
-
-                                <q-input-validation :isDisable="isUpdate"
-                                    :model="$v.data.attributes.transit_license" 
-                                    class="d-block"
-                                    label="N° Licencia de Tránsito:"/>
-
-                                <q-input-validation :isDisable="isUpdate"
-                                    :model="$v.data.attributes.enrollment_date" 
-                                    class="d-block"
-                                    label="Fecha de Matrícula:"/>
+                                <div class="d-block q-mb-lg q-mt-sm">
+                                    <span class="font-weight-bold">Tipo de Servicio:</span>
+                                        {{ data.attributes.service_type ? data.attributes.service_type : 'N/D' }}
+                                </div>
+                                <div class="d-block q-mb-lg q-mt-sm">
+                                    <span class="font-weight-bold">Clase de Vehículo:</span>
+                                        {{ data.attributes.type_vehicle ? data.attributes.type_vehicle : 'N/D' }}
+                                </div>
+                                <div class="d-block q-mb-lg q-mt-sm">
+                                    <span class="font-weight-bold">Marca:</span>
+                                        {{ data.attributes.brand ? data.attributes.brand : 'N/D' }}
+                                </div>
+                                <div class="d-block q-mb-lg q-mt-sm">
+                                    <span class="font-weight-bold">Línea:</span>
+                                        {{ data.attributes.line ? data.attributes.line : 'N/D' }}
+                                </div>
+                                <div class="d-block q-mb-lg q-mt-sm">
+                                    <span class="font-weight-bold">Licencia de Tránsito:</span>
+                                        {{ data.attributes.transit_license ? data.attributes.transit_license : 'N/D' }}
+                                </div>
+                                <div class="d-block q-mb-lg q-mt-sm">
+                                    <span class="font-weight-bold">Fecha de Matrícula:</span>
+                                        {{ data.attributes.enrollment_date ? data.attributes.enrollment_date : 'N/D' }}
+                                </div>
                             </div>
 
                             <div class="col-12 col-md-6 q-px-md">
-                                <q-input-validation :isDisable="isUpdate"
-                                    :model="$v.data.attributes.color" 
-                                    class="d-block"
-                                    label="Color:"/>
-
-                                <q-input-validation :isDisable="isUpdate"
-                                    :model="$v.data.attributes.type_fuel" 
-                                    class="d-block"
-                                    label="Tipo de combustible:"/>
-
-                                <q-input-validation :isDisable="isUpdate"
-                                    :model="$v.data.attributes.chasis_number" 
-                                    class="d-block"
-                                    label="N°Vin:"/>
-
-                                <q-input-validation :isDisable="isUpdate"
-                                    :model="$v.data.attributes.chasis_number" 
-                                    class="d-block"
-                                    label="N° de Chasis:"/>
-
-                                <q-input-validation :isDisable="isUpdate"
-                                    :model="$v.data.attributes.engine_number" 
-                                    class="d-block"
-                                    label="N° de Motor:"/>
-
-                                <q-input-validation :isDisable="isUpdate"
-                                    :model="$v.data.attributes.displacement" 
-                                    class="d-block"
-                                    label="Cilindraje:"/>
+                                <div class="d-block q-mb-lg q-mt-sm">
+                                    <span class="font-weight-bold">Color:</span>
+                                        {{ data.attributes.color ? data.attributes.color : 'N/D' }}
+                                </div>
+                                <div class="d-block q-mb-lg q-mt-sm">
+                                    <span class="font-weight-bold">Tipo de combistible:</span>
+                                        {{ data.attributes.type_fuel ? data.attributes.type_fuel : 'N/D' }}
+                                </div>
+                                <div class="d-block q-mb-lg q-mt-sm">
+                                    <span class="font-weight-bold">N°Vin:</span>
+                                        {{ data.attributes.chasis_number ? data.attributes.chasis_number : 'N/D' }}
+                                </div>
+                                <div class="d-block q-mb-lg q-mt-sm">
+                                    <span class="font-weight-bold">N° de Chasis:</span>
+                                        {{ data.attributes.chasis_number ? data.attributes.chasis_number : 'N/D' }}
+                                </div>
+                                <div class="d-block q-mb-lg q-mt-sm">
+                                    <span class="font-weight-bold">N° de Motor:</span>
+                                        {{ data.attributes.engine_number ? data.attributes.engine_number : 'N/D' }}
+                                </div>
+                                <div class="d-block q-mb-lg q-mt-sm">
+                                    <span class="font-weight-bold">Cilindraje:</span>
+                                        {{ data.attributes.displacement ? data.attributes.displacement : 'N/D' }}
+                                </div>
                             </div>
                         </div>
 
@@ -523,7 +513,8 @@
                     signature_received_report: null,
                     type_vehicle: null,
                     code: Math.round(Math.random()*1000000),
-                    user_id: this.$route.params.user_id
+                    user_id: this.$route.params.user_id,
+                    board: null
                 },
                 isUpdate: false,
                 formSearch : { plaque: null },
@@ -661,20 +652,6 @@
                 vehicle_prepared : { required : requiredIf(function (model) {
                     return this.showsignature
                 })},
-                attributes: {
-                    service_type : { required, minLength: minLength(3) },
-                    type_vehicle : { required },
-                    brand        : { required },
-                    line         : { required },
-                    model        : { required },
-                    color           : { required },
-                    type_fuel       : { required },
-                    transit_license : { required },
-                    enrollment_date : { required },
-                    chasis_number   : { required },
-                    engine_number   : { required },
-                    displacement    : { required },
-                }
             },
         },
         methods: {
@@ -757,11 +734,14 @@
                     this.$q.loading.hide()
                 }
                 else{
-                    resources.vehicle(this.formSearch.plaque.replace(/ /g, ""))
+                    let board = this.formSearch.plaque.replace(/ /g, "")
+                    this.data.board = board
+                    resources.vehicle(board)
                     .then(response => {
-                        if(response.data) {
-                            this.data.vehicles_id = response.data.id
-                            this.data.type_vehicle = response.data.typeVehicle
+                        this.data.attributes = []
+                        this.data.vehicles_id = response.data.id
+                        this.data.type_vehicle = response.data.typeVehicle
+                        if(response.data.brand) {
                             this.data.attributes = response.data
                             if(this.data.type_vehicle == null)
                                 this.data.type_vehicle = this.data.attributes.type_vehicle

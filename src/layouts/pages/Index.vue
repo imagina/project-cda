@@ -2,7 +2,7 @@
   <q-page class="container-section q-py-lg">
     <div class="row">
         <div class="col-12 col-sm-8 col-md-6 col-lg-5 mx-auto">
-            <div class="row q-py-sm">
+            <div class="row q-pt-sm">
                 <div class="col-12 text-center">
                     <p>Datos de Usuario</p>
                 </div>
@@ -11,7 +11,7 @@
             <q-field :error="$v.form.type_document.$error" class="q-mb-md">
                 <span class="w-50 d-inline-block"> Tipo de documento </span>
                 <div class="w-50 d-inline-block">
-                    <q-select v-model="form.type_document" :options="selectOptions" class="bg-white q-my-md"/>
+                    <q-select v-model="form.type_document" :options="selectOptions" class="bg-white q-mb-md"/>
                 </div>
             </q-field>
             
@@ -225,18 +225,3 @@ export default {
     }
 }
 </script>
-
-
-<style>
-    .error-messages
-    {
-        background-color: #db2828
-    }
-    .error-messages .error-message
-    {
-        color: white;
-        font-size: .8rem;
-        line-height: 1.6;
-        opacity: 0.8;
-    }
-</style>
