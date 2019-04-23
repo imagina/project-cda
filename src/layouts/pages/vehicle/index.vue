@@ -13,12 +13,32 @@
 				    				<router-link :to="{ name: 'vehicles.create'}" class="text-decoration-none q-btn inline relative-position q-btn-item non-selectable q-btn-rectangle q-focusable q-hoverable bg-red text-white">
 				    					<q-icon name="add"/>
 				    				</router-link>
+<!-- 				    				<q-btn class="q-mx-sm" color="primary">
+				    					<q-icon name="search" color="black"/>
+				    				</q-btn> -->
 						  		</div>
 					  		</div>
+					  		<div class="row q-my-md q-mb-lg">
+	                            <q-field :error="$v.search.text.$error" class="col-12">
+							  		<q-input v-model="search.text"
+							  				 class="w-100"
+							  				 placeholder="BUSCAR POR PLACA"
+							  				 v-on:keyup.enter="searchPlaque"
+		                                     :after="[{
+		                                        icon: 'search',
+		                                        handler() {
+		                                        	searchPlaque()
+		                                        }
+		                                     }]"/>
+	                            </q-field>
+					  		</div>
 					  	</q-timeline-entry>
-			    		<router-link  v-for="(item, index) in vehicles" :key="index"
+
+			    		<router-link  v-for="(item, index) in $store.getters['vehicle/GET_VEHICLES']"
+			    					:key="index"
+			    					v-show="!search.show"
 			    					class="q-timeline-link"
-			    					:to="{ name: 'vehicles.update', params: { board: item.board } }">
+			    					:to="{ name: 'vehicles.update', params: { board: uppercase(item.board) } }">
 							<q-timeline-entry
 							  	:heading="false"
 							    :title="item | title"
@@ -32,7 +52,7 @@
 					</q-timeline>
 				</div>
 				<div class="col-12 d-block q-py-md">
- 					<div v-infinite-scroll="loadMore" :infinite-scroll-disabled="busy" infinite-scroll-distance="10"></div> 
+ 					<div v-infinite-scroll="loadMore" :infinite-scroll-disabled="$store.getters['inspections/GET_PAGE_BUSY']" infinite-scroll-distance="10"></div> 
 				</div>
 			</div>
 		</div>
@@ -40,48 +60,72 @@
 </template>
 
 <script>
-	import resources from 'src/services/vehicle';
 	import config from 'src/config/index'
+    import { required, minLength } from 'vuelidate/lib/validators';
 
 	export default {
 		name: 'PageOrdens',
-	  	data () {
-	    	return {
-	    		vehicles: [],
-				busy: false,
-				page: 1,
-	    	}
-	    },
+		data() {
+			return {
+				search: {
+					text: null,
+					show: false
+				}
+			}
+		},
 	    created() {
-	    	this.loadMore()
+        	if(this.$store.getters['vehicle/IF_EMPYT_VEHICLES']) {
+        		this.$store.commit('vehicle/RESET_VEHICLE_LIST')
+	    		this.loadMore()
+        	}
 	    },
+  		beforeDestroy() {
+  			this.clearSearch()
+  		},
 		filters: {
 			title: function (item) {
 				let model = item.model ? '|' + item.model : ''
-				return item.board + model
+				return item.board.toUpperCase() + model
+			},
+			uppercase: function (item) {
+				return item.toUpperCase()
 			}
 		},
+        validations: {
+            search: {
+                text: { required, minLength: minLength(6)  }
+            },
+        },
 		methods: {
+			clearSearch() {
+    			this.search.text = null
+    			this.search.show = false
+			},
+			uppercase(board) {
+				return board.toUpperCase()
+			},
 			loadMore () {
-	        	if(!this.busy) {
+        		if(!this.$store.getters['vehicle/GET_PAGE_BUSY']) {
 	        		
-	        		this.busy = true
+    				this.$store.commit('vehicle/SET_PAGE_BUSY',true)
 
 	        		this.$q.loading.show()
 
-		        	resources.getVehicles(this.page)
+		        	this.$resources.getVehicles(this.$store.getters['vehicle/GET_PAGE'])
 
 		        	.then(response => {
 
         				response.data.forEach((val)=>{
-        					this.vehicles.push(val)
+        					this.$store.commit('vehicle/ADD_VEHICLE_LIST',val)
         				});
 
-        				let page = response.meta.page
-        				
-	        			this.page = page.currentPage +1 
+        				this.$store.commit('vehicle/INCREMENT_PAGE')
 
-	        			this.busy = page.lastPage == page.currentPage ? true : false
+	        			let page = response.meta.page;
+
+	        			let busy = page.lastPage == page.currentPage ? true : false
+
+	    				this.$store.commit('vehicle/SET_PAGE_BUSY',busy)
 
 		        	}).catch(error => {
 						this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
@@ -91,6 +135,25 @@
 		        	});
 	        	}
 			},
+            searchPlaque () {
+                this.$v.search.$touch()
+                this.$q.loading.show()
+                if (this.$v.search.$error){
+                    this.$q.loading.hide()
+                }
+                else{
+                    let board = this.search.text.replace(/ /g, "")
+                    this.$resources.vehicle(board).then(response => {
+                    	console.log(response)
+                    }).catch(error => {
+                        this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
+                        console.error('Error ', error)
+                    }).then(() => {
+                    	this.search.show = true
+                        this.$q.loading.hide()
+                    })
+                }
+            },
 		}
 	}
 </script>

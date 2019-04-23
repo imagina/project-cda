@@ -7,6 +7,7 @@
 	                    <span class="w-50 d-inline-block font-weight-bold">
 	                        TIPO DE INSPECCIÓN:
 	                    </span>
+                        {{ data.inspections_types_id }}
 	                    <div class="w-50 d-inline-block">
 	                        <q-select v-model="data.inspections_types_id" :options="selectInspection" class="bg-white q-py-sm q-my-md"/>
 	                    </div>
@@ -35,15 +36,15 @@
                             </div>
                             <div class="col-4 col-md-2 mx-auto py-3 text-center print-col-3 print-center">
                                 <p class="font-weight-bold font-family"><b>Fecha de Expedición</b></p>
-                                <p class="mb-0">{{ data.attributes.insurance_expiration }}</p>
+                                <p class="mb-0">{{ data.attributes.insurance_expiration ? data.attributes.insurance_expiration : 'N/D' }}</p>
                             </div>
                             <div class="col-4 col-md-3 mx-auto py-3 text-center print-col-3 print-center">
                                 <p class="font-weight-bold font-family"><b>Fecha Inicio De Vigencia</b></p>
-                                <p class="mb-0">{{ data.attributes.insurance_expedition }}</p>
+                                <p class="mb-0">{{ data.attributes.insurance_expedition ? data.attributes.insurance_expedition : 'N/D' }}</p>
                             </div>
                             <div class="col-4 col-md-2 mx-auto py-3 text-center print-col-3 print-center">
                                 <p class="font-weight-bold font-family"><b>Fecha Fin De Vigencia</b></p>
-                                <p class="mb-0">{{ data.attributes.insurance_expiration }}</p>
+                                <p class="mb-0">{{ data.attributes.insurance_expiration ? data.attributes.insurance_expiration : 'N/D' }}</p>
                             </div>
                             <div class="col-4 col-md-2 mx-auto py-3 text-center print-col-3 print-center">
                                 <p class="font-weight-bold font-family"><b>Estado</b></p>
@@ -491,6 +492,7 @@
                 	change: false
                 },
                 changeAtributtes: false,
+                changeInspection: false,
                 isUpdate: true,
                 nextLabel: "<i class='fa fa-chevron-right' aria-hidden='true'></i>",
                 prevLabel: "<i class='fa fa-chevron-left' aria-hidden='true'></i>",
@@ -522,22 +524,9 @@
             }
         },
         created() {
-            this.$q.loading.show()
-			Promise.all([
-				resources.inspectionsTypes(),
-				resources.getInspectionStatues(),
-			]).then((response) => {
-				this.selectInspection = response[0]
-				this.inspection_statues.options = response[1]
-            	this.getInspection()
-			}).catch((err) => {
-            	this.$q.loading.hide()
-                this.$q.notify({
-                		message: 'Losiento, ocurrio un error en el servidor. Intente de nuevo.',
-                        position: 'top-right'
-                    })
-			  	console.log('There is an error', err);
-			});
+            this.selectInspection = this.$store.getters['data/GET_TYPES_INSPECTIONS']
+            this.inspection_statues.options = this.$store.getters['data/GET_TYPES_INSPECTIONS_STATUES']
+            this.getInspection()
         },
         mounted() {},
         watch: {
@@ -551,12 +540,18 @@
         	},
         	'data.attributes' : {
      			handler(newValue, oldValue) {
-                    console.log(newValue + ' . ' +oldValue)
      				if(oldValue != null)
      					this.changeAtributtes = true
      			},
      			deep: true
-        	}
+        	},
+            'data.inspections_types_id' : {
+                handler(newValue, oldValue) {
+                    if(oldValue != null)
+                        this.changeInspection = true
+                },
+                deep: true 
+            }
         },
         filters: {
         	axes: function (axe) {
@@ -730,17 +725,24 @@
                 }
             },
             updateInspections() {
+                var jsonData = {};
+                jsonData['id'] = this.data.id
             	if (this.is_signature_received_report) {
-                	var jsonData = {};
-                	jsonData['id'] = this.data.id
                 	jsonData['signature_received_report'] 	= this.data.signature_received_report
                 	jsonData['seen_technical_director'] 	= this.data.seen_technical_director
+                    jsonData['inspections_types_id']        = this.data.inspections_types_id
                     return resources.updateInspections(jsonData)
-            	}else
+            	}else {
+                    if(this.changeInspection) {
+                        jsonData['inspections_types_id']    = this.data.inspections_types_id
+                        return resources.updateInspections(jsonData)
+                    }
             		return false
+                }
             },
             inspectionHistory() {
                 if (this.inspection_statues.change) {
+                    this.$store.commit('inspections/RESET_INSPECTIONS_LIST')
 					return resources.inspectionHistory(this.data.id, this.inspection_statues.status)
                 }else
                 	return false

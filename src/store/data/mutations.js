@@ -14,6 +14,10 @@ export const SET_TYPES_DOCUMENT = (state, data) => {
 	state.types_document = data
 };
 
+export const SET_TYPES_INSPECTIONS = (state, data) => {
+	state.types_inspections = data
+};
+
 export const SET_TYPES_INSPECTIONS_STATUES = (state, data) => {
 	state.types_inspections_statues = data
 };

@@ -137,7 +137,6 @@
 <script>
     import { required, email, minLength, sameAs, requiredIf, requiredUnless} from 'vuelidate/lib/validators';
     import qInputValidation from '../../../components/q-input-validation';
-	import resources from 'src/services/resources';
 	import config from 'src/config/index'
 
 	export default {
@@ -168,27 +167,13 @@
 	    },
 	    created() {
 	    	this.$q.loading.show()
-            Promise.all([
-	    		resources.typesVehicles(),
-            	resources.vehicle(this.$route.params.board)
-            ]).then((response) => {
-
-            	this.attributes = response[1].data
-
-            	this.attributes.user_id = response[1].data.user.id
-
-                this.selectTypesVehicles = response[0].data.map((e,index) => {
-                    if (index === 0)
-                        this.attributes.type_vehicle = e;
-                    return {
-                        label: e,
-                        value: e
-                    }
-                })
-
+            this.selectTypesVehicles = this.$store.getters['data/GET_TYPES_VEHICLES']
+            this.$resources.vehicle(this.$route.params.board).then((response) => {
+            	this.attributes = response.data
+            	this.attributes.user_id = response.data.user.id
             }).catch((err) => {
                 this.$q.notify({
-                        message: 'Losiento, ocurrio un error en el servidor. Intente de nuevo.',
+                        message: 'Lo siento, ocurrio un error en el servidor. Intente de nuevo.',
                         position: 'top-right'
                     })
                 console.log('There is an error', err);
@@ -232,7 +217,7 @@
                     	}
                     });
                     
-                    resources.updateVehicle(attributes)
+                    this.$resources.updateVehicle(attributes)
                     .then(response => {
                         this.$q.notify({type:'positive', message: 'Vehiculo actualizado exitosamente!',  position: 'top-right', closeBtn: true})
                         this.$router.push({ name: 'vehicles.index' })

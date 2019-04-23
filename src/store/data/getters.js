@@ -1,5 +1,11 @@
 export const GET_TYPES_VEHICLES = (state) => {
-	return state.types_vehicles
+    return  state.types_vehicles.map((e,index) => {
+        return {
+            label: e,
+            value: e
+        }
+    })
+	// return state.types_vehicles
 };
 
 export const GET_TYPES_MODELOS = (state) => {
@@ -12,6 +18,10 @@ export const GET_TYPES_FUEL = (state) => {
 
 export const GET_TYPES_DOCUMENT = (state) => {
 	return state.types_document
+};
+
+export const GET_TYPES_INSPECTIONS = (state) => {
+	return state.types_inspections
 };
 
 export const GET_TYPES_INSPECTIONS_STATUES = (state) => {

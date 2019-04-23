@@ -7,14 +7,14 @@
 					  <q-timeline-entry heading>
 					    <span>Lista de Ordenes </span>
 	                    <div class="d-inline-block">
-	                        <q-select v-model="inspection_statues.status" :options="inspection_statues.options" class="bg-white q-py-sm q-my-md"/>
+	                        <q-select v-model="inspection_statues.status" :options="$store.getters['data/GET_TYPES_INSPECTIONS_STATUES']" class="bg-white q-py-sm q-my-md"/>
 	                    </div>
 	                   	<hr class="mt-0 q-my-sm">
 					  </q-timeline-entry>
 
 					  <q-timeline-entry
 					  	:heading="false"
-					    v-for="(item, index) in ordens" :key="index"
+					    v-for="(item, index) in $store.getters['inspections/GET_INSPECTIONS']" :key="index"
 					    :subtitle="item.created_at_date + ' ' + item.created_at_time + ' ID-'+item.id+''"
 					    side="right"
 					  >
@@ -32,10 +32,10 @@
 					    		</div>
 					    		<div class="col px-2">
 					    			Matricula: <b>{{ item.vehicle.board }}</b> <br>
-					    			Tipo de Servicio: {{ item.vehicle.service_type }} <br>
-					    			Tipo de Vehiculo: {{ item.vehicle.type_vehicle }} <br>
-					    			Cliente: {{ item.vehicle.user.fullname }} <br>
-					    			Status: {{ item.inspection_status }} <br>
+					    			Tipo de Servicio: <b>{{ item.vehicle.service_type }}</b> <br>
+					    			Tipo de Vehiculo: <b>{{ item.vehicle.type_vehicle }}</b> <br>
+					    			Cliente: <b>{{ item.vehicle.user.fullname }}</b> <br>
+					    			Status: <b>{{ item.inspection_status }}</b> <br>
 					    		</div>
 				    		</router-link>
 					    </div>
@@ -43,13 +43,13 @@
 
 					</q-timeline>
 				</div>
-                <div class="col-12 q-px-md" v-show="ordens.length == 0">
+                <div class="col-12 q-px-md" v-show="$store.getters['inspections/GET_INSPECTIONS_LENGTH'] < 1">
                     <q-alert color="red" icon="error" appear class="q-mb-sm">
                         NO SE ENCONTRO ORDENES
                     </q-alert>
                 </div>
 				<div class="col-12 d-block q-py-md">
- 					<div v-infinite-scroll="loadMore" :infinite-scroll-disabled="busy" infinite-scroll-distance="10"></div> 
+ 					<div v-infinite-scroll="loadMore" :infinite-scroll-disabled="$store.getters['inspections/GET_PAGE_BUSY']" infinite-scroll-distance="10"></div> 
 				</div>
 			</div>
 	    </div>
@@ -57,35 +57,28 @@
 </template>
 
 <script>
-import resources from 'src/services/resources';
 import config from 'src/config/index'
 
 export default {
 	name: 'PageOrdens',
   	data () {
     	return {
-    		ordens: [],
-    		busy: false,
-    		page: 1,
             inspection_statues: {
             	status: 0,
-            	change: false,
-            	options: []
+            	change: false
             },
     	}
     },
     created() {
-        this.$store.commit('orden/RESET_ORDEN')
-	    this.inspection_statues.options = this.$store.getters['data/GET_TYPES_INSPECTIONS_STATUES']
+    	this.$q.loading.hide()
     },
     watch: {
     	'inspection_statues.status': {
-  		handler(newValue, oldValue) {
-  			this.page = 1
-  			this.busy = false
-  			this.inspection_statues.change = true
-  			this.loadMore()
-  		},
+	  		handler(newValue, oldValue) {
+    			this.$store.commit('inspections/RESET_INSPECTIONS_LIST')
+	  			this.inspection_statues.change = true
+	  			this.loadMore()
+	  		},
   			deep: true
     	},
     },
@@ -96,27 +89,27 @@ export default {
     },
 	methods: {
 		loadMore () {
-        	if(!this.busy) {
-        		
-        		this.busy = true
+        	if(!this.$store.getters['inspections/GET_PAGE_BUSY']) {
 
         		this.$q.loading.show()
 
-	        	resources.getInspections(this.page,this.inspection_statues.status)
+    			this.$store.commit('inspections/SET_PAGE_BUSY',true)
+
+	        	this.$resources.getInspections(this.$store.getters['inspections/GET_PAGE'],this.inspection_statues.status)
 
 	        	.then(response => {
-	        		if(this.inspection_statues.change)
-        				this.ordens = []
+	        		
+    				response.data.data.forEach((val)=>{
+    					this.$store.commit('inspections/ADD_INSPECTION_LIST',val)
+    				});
 
-        				response.data.data.forEach((val)=>{
-        					this.ordens.push(val)
-        				});
+        			this.$store.commit('inspections/INCREMENT_PAGE')
 
         			let page = response.data.meta.page;
 
-        			this.page = page.currentPage +1 
+        			let busy = page.lastPage == page.currentPage ? true : false
 
-        			this.busy = page.lastPage == page.currentPage ? true : false
+    				this.$store.commit('inspections/SET_PAGE_BUSY',busy)
 
 	        	}).catch(error => {
 					this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})

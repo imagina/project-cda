@@ -19,7 +19,7 @@
                         </div>
                         <div class="col-12">
                             <q-field :error="$v.formSearch.plaque.$error">
-                                <q-input v-model="formSearch.plaque" type="text" placeholder="Placa" class="bg-white q-mt-sm"
+                                <q-input v-model="formSearch.plaque" type="text" placeholder="Placa" class="bg-white q-mt-sm uppercase"
                                     v-on:keyup.enter="searchPlaque"
                                     :after="[
                                     {
@@ -343,8 +343,6 @@
                                   </slide>
                                 </carousel>
                             </div>
-
-                            <!-- <q-btn color="primary" label="Get Picture" @click="captureImage"/> -->
 
                             <q-gallery :gallery="data.gallery" :code="data.code" class="col-12 q-px-md"/>
 

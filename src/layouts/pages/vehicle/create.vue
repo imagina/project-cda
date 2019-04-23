@@ -33,43 +33,43 @@
 			        <q-field :error="$v.attributes.board.$error">
 			        	<span class="font-weight-bold d-inline-block"
 			        		:class="{'color-danger': $v.attributes.board.$error}">Placa:</span>
-			        	<q-input v-model="attributes.board" type="text" placeholder="Placa" class="q-mb-lg"/>
+			        	<q-input v-model="attributes.board" type="text" placeholder="Placa" class="q-mb-lg uppercase"/>
 			        </q-field>
 
 			        <q-field :error="$v.attributes.service_type.$error">
 			        	<span class="font-weight-bold d-inline-block"
 			        		:class="{'color-danger': $v.attributes.service_type.$error}">Tipo de Servicio:</span>
-			        	<q-input v-model="attributes.service_type" type="text" placeholder="Tipo de Servicio" class="q-mb-lg"/>
+			        	<q-input v-model="attributes.service_type" type="text" placeholder="Tipo de Servicio" class="q-mb-lg uppercase"/>
 			        </q-field>
 
 			        <q-field :error="$v.attributes.type_vehicle.$error">
 			        	<span class="font-weight-bold d-inline-block"
 			        		:class="{'color-danger': $v.attributes.type_vehicle.$error}">Clase de Vehículo</span>
-			        		 <q-select v-model="attributes.type_vehicle" class="q-mb-lg" :options="selectTypesVehicles"/>
+			        		 <q-select v-model="attributes.type_vehicle" class="q-mb-lg uppercase" :options="selectTypesVehicles"/>
 			        </q-field>
 
 			        <q-field :error="$v.attributes.brand.$error">
 			        	<span class="font-weight-bold d-inline-block"
 			        		:class="{'color-danger': $v.attributes.brand.$error}">Marca:</span>
-			        	<q-input v-model="attributes.brand" type="text" placeholder="Marca" class="q-mb-lg"/>
+			        	<q-input v-model="attributes.brand" type="text" placeholder="Marca" class="q-mb-lg uppercase"/>
 			        </q-field>
 
 			        <q-field :error="$v.attributes.line.$error">
 			        	<span class="font-weight-bold d-inline-block"
 			        		:class="{'color-danger': $v.attributes.line.$error}">Línea:</span>
-			        	<q-input v-model="attributes.line" type="text" placeholder="Línea" class="q-mb-lg"/>
+			        	<q-input v-model="attributes.line" type="text" placeholder="Línea" class="q-mb-lg uppercase"/>
 			        </q-field>
 
 			        <q-field :error="$v.attributes.model.$error">
 			        	<span class="font-weight-bold d-inline-block"
 			        		:class="{'color-danger': $v.attributes.model.$error}">Modelo:</span>
-			        	<q-input v-model="attributes.model" type="text" placeholder="Modelo" class="q-mb-lg"/>
+			        	<q-input v-model="attributes.model" type="text" placeholder="Modelo" class="q-mb-lg uppercase"/>
 			        </q-field>
 
 			        <q-field :error="$v.attributes.transit_license.$error">
 			        	<span class="font-weight-bold d-inline-block"
 			        		:class="{'color-danger': $v.attributes.transit_license.$error}">N° Licencia de Tránsito:</span>
-			        	<q-input v-model="attributes.transit_license" type="text" placeholder="N° Licencia de Tránsito" class="q-mb-lg"/>
+			        	<q-input v-model="attributes.transit_license" type="text" placeholder="N° Licencia de Tránsito" class="q-mb-lg uppercase"/>
 			        </q-field>
 
 			        <q-field :error="$v.attributes.enrollment_date.$error">
@@ -208,27 +208,7 @@
 	    	}
 	    },
 	    created() {
-	    	this.$q.loading.show()
-            Promise.all([
-	    		resources.typesVehicles()
-            ]).then((response) => {
-                this.selectTypesVehicles = response[0].data.map((e,index) => {
-                    if (index === 0)
-                        this.attributes.type_vehicle = e;
-                    return {
-                        label: e,
-                        value: e
-                    }
-                })
-            }).catch((error) => {
-                this.$q.notify({
-                        message: 'Losiento, ocurrio un error en el servidor. Intente de nuevo.',
-                        position: 'top-right'
-                    })
-                console.error('There is an error', error);
-            }).then(()=> {
-                this.$q.loading.hide()
-            })
+			this.selectTypesVehicles = this.$store.getters['data/GET_TYPES_VEHICLES']
 	    },
         validations: {
             attributes: {
