@@ -138,8 +138,9 @@
                         <div class="row">
                             <div class="col-12 q-px-md q-border" v-if="!isMotocicleta()">
                                 <div class="row">
-                                    <div class="col-4 col-md-3 col-lg-2 q-mb-lg">
-                                        <span class="font-weight-bold">Tipico de Vehículo:</span>
+                                    <div class="col-4 col-md-3 col-lg-2 q-mb-lg q-mt-sm">
+                                        <i class="material-icons color-danger q-mr-xs" v-show="$v.data.type_vehicle.$error"> error_outline </i>
+                                        <span class="font-weight-bold" :class="{'color-danger': $v.data.type_vehicle.$error}">Tipico de Vehículo:</span>
                                     </div>
                                     <div class="col-8 col-md-9 col-lg-10">
                                         <q-btn-group class="bg-white">
@@ -604,6 +605,7 @@
                 plaque: { required, minLength: minLength(6)  }
             },
             data: {
+                type_vehicle: { required },
                 teaching_vehicle: { required },
                 mileage: { required },
                 axes: {

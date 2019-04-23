@@ -3,7 +3,7 @@
 	    <div class="layout-padding q-py-lg">
 			<div class="row">
 				<div class="col-12">
-					<q-timeline responsive color="black" :responsive="false">
+					<q-timeline responsive color="black" :responsive="false" class="border-bottom-none">
 					  <q-timeline-entry heading>
 					    <span>Lista de Ordenes </span>
 	                    <div class="d-inline-block">
@@ -15,7 +15,7 @@
 					  <q-timeline-entry
 					  	:heading="false"
 					    v-for="(item, index) in ordens" :key="index"
-					    :subtitle="item.created_at_date + ' ' + item.created_at_time"
+					    :subtitle="item.created_at_date + ' ' + item.created_at_time + ' ID-'+item.id+''"
 					    side="right"
 					  >
 					    <div class="border-bottom">
@@ -31,7 +31,7 @@
 					    			<img :src="item.gallery | img" width="100%">
 					    		</div>
 					    		<div class="col px-2">
-					    			Matricula: <b>{{ item.vehicle.board }} - {{ item.id }}</b> <br>
+					    			Matricula: <b>{{ item.vehicle.board }}</b> <br>
 					    			Tipo de Servicio: {{ item.vehicle.service_type }} <br>
 					    			Tipo de Vehiculo: {{ item.vehicle.type_vehicle }} <br>
 					    			Cliente: {{ item.vehicle.user.fullname }} <br>
@@ -75,24 +75,8 @@ export default {
     	}
     },
     created() {
-        let time = new Date();
-        time = time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: false })
-        this.$store.commit('orden/SET_ORDEN',{
-           timeEntry: null,
-           dateEntry: null,
-           id:  null
-        })
-    	resources.getInspectionStatues()
-        	.then((response) => {
-	            this.inspection_statues.options = response
-			}).catch((err) => {
-            	this.$q.loading.hide()
-                this.$q.notify({
-                		message: 'Losiento, ocurrio un error en el servidor. Intente de nuevo.',
-                        position: 'top-right'
-                    })
-			  	console.log('There is an error', err);
-			});
+        this.$store.commit('orden/RESET_ORDEN')
+	    this.inspection_statues.options = this.$store.getters['data/GET_TYPES_INSPECTIONS_STATUES']
     },
     watch: {
     	'inspection_statues.status': {

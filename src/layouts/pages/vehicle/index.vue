@@ -24,8 +24,8 @@
 							    :title="item | title"
 							    :subtitle="item.created_at_date + ' ' + item.created_at_time"
 							    side="right">
-						  		<p class="mb-0"><b>Tipo de Servicio:</b>{{ item.service_type }}</p>
-						  		<p class="mb-0"><b>Tipo de Vehículo:</b> {{ item.type_vehicle }}</p>
+						  		<p class="mb-0"><b>Tipo de Servicio:</b>{{ item.service_type ? item.service_type : 'N/D' }}</p>
+						  		<p class="mb-0"><b>Tipo de Vehículo:</b> {{ item.type_vehicle ? item.type_vehicle : 'N/D' }}</p>
 						  	</q-timeline-entry>
 						</router-link>
 

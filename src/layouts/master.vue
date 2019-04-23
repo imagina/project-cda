@@ -52,7 +52,6 @@
   import WidgetUser from "@imagina/quser/_components/widget-user";
   import WidgetUserDepartment from "@imagina/quser/_components/widget-user-department";
   import widgetMenu from "src/components/menu/widget-menu";
-  import Echo from "laravel-echo";
 
   export default {
     components: {
@@ -73,22 +72,30 @@
         Echo: null
       }
     },
-    mounted() {
-      var pusher = new Pusher(env('PUSHER_APP_KEY'), {
-        broadcaster: env('BROADCAST_DRIVER', 'pusher'),
-        key: env('PUSHER_APP_KEY'),
-        id: env('PUSHER_APP_ID'),
-        cluster: env('PUSHER_APP_CLUSTER'),
-        encrypted: env('PUSHER_APP_ENCRYPTED'),
+    created() {
+      this.$q.loading.show()
+      // console.log(this.$store.getters['data/GET_TYPES_INSPECTIONS_STATUES'])
+      Promise.all([
+        this.$resources.getInspectionStatues(),
+      ]).then((response) => {
+        this.$store.commit('data/SET_TYPES_INSPECTIONS_STATUES',response[0])
+      }).catch((err) => {
+        this.$q.notify({ message: 'Ups! Ocurrio un error de conexion. Intente de nuevo.', position: 'top-right'})
+        console.log('There is an error', err);
+      }).then((response) => {
+        this.$q.loading.hide()
       });
+    },
+    mounted() {
       if (this.$auth.hasAccess('icda.inspections.create')) {
-
-        var channel = pusher.subscribe('inspections-list');
+        var channel = this.$pusher.subscribe('inspections-list');
         channel.bind('Modules\\Icda\\Events\\RecordListInspections', (data) =>  {
           this.$q.notify({message: data.message,  position: 'bottom-left', closeBtn: true, type: 'positive'})
         });
+      }
 
-        var channel = pusher.subscribe('vehicles-list');
+      if (this.$auth.hasAccess('icda.vehicles.create')) {
+        var channel = this.$pusher.subscribe('vehicles-list');
         channel.bind('Modules\\Icda\\Events\\RecordListVehicles', (data) =>  {
           this.$q.notify({message: data.message,  position: 'bottom-right', closeBtn: true, type: 'positive'})
         });

@@ -11,7 +11,9 @@ module.exports = function (ctx) {
       'i18n',
       'vuelidate',
       'axios',
-      'access'
+      'access',
+      'resources',
+      'pusher'
     ],
     css: [
       'app.styl'
@@ -47,35 +49,8 @@ module.exports = function (ctx) {
       open: true // opens browser window automatically
     },
     framework: 'all',
-    /*framework: {
-      components: [
-        'QLayout',
-        'QLayoutHeader',
-        'QLayoutDrawer',
-        'QPageContainer',
-        'QPage',
-        'QToolbar',
-        'QToolbarTitle',
-        'QBtn',
-        'QIcon',
-        'QList',
-        'QListHeader',
-        'QItem',
-        'QItemMain',
-        'QItemSide'
-      ],
-      directives: [
-        'Ripple'
-      ],
-      // Quasar plugins
-      plugins: [
-        'Notify'
-      ]
-      // iconSet: ctx.theme.mat ? 'material-icons' : 'ionicons'
-      // i18n: 'de' // Quasar language
-    },*/
-    // animations: 'all' --- includes all animations
-    animations: [],
+    animations: 'all',
+    // animations: [],
     ssr: {
       pwa: false
     },
