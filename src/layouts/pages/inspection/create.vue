@@ -45,7 +45,7 @@
                 <div class="col-12 col-sm-10 col-md-8 mx-auto q-px-md">
                     <q-alert icon="error"  color="warning"
                         message="LA PLACA NO FUE ENCONTRADA"
-                        :detail="'SE CREARA UN NUEVO VEHICULO CON LA PLACA [' +formSearch.plaque+']'"
+                        :detail="'SE CREARA UN NUEVO VEHICULO CON LA PLACA '+formSearch.plaque | uppercase"
                     />
                 </div>
             </div>
@@ -53,6 +53,13 @@
                 <div class="q-my-lg q-pt-lg">
                     <!-- SOAP -->
                     <div class="container-fluid bg-gray-10">
+                        <div class="row q-py-sm" style="background-color: #fed80a">
+                            <div class="col q-px-md text-center">
+                                Datos del cliente: <span class="badge badge-light font-weight-bold">{{ user.first_name + ' ' + user.last_name }}</span> | 
+                                Email: <span class="badge badge-light font-weight-bold">{{  user.email ? user.email : 'N/D'}}</span> |
+                                Teléfono: <span class="badge badge-light font-weight-bold">{{ user.phone ? user.phone : 'N/D'}}</span>
+                            </div>
+                        </div>
                         <div class="row align-items-center">
                             <div class="col-12 col-md-3 px-2 py-3 bg-primary text-right">
                                 <span class="h2 font-weight-bold my-3 d-block">SOAT</span>
@@ -87,7 +94,7 @@
                                 </div>
                                 <div class="d-block q-mb-lg q-mt-sm">
                                     <span class="font-weight-bold">Clase de Vehículo:</span>
-                                        {{ data.attributes.type_vehicle ? data.attributes.type_vehicle : 'N/D' }}
+                                        {{ data.attributes.type_vehicle_text ? data.attributes.type_vehicle_text : 'N/D' }}
                                 </div>
                                 <div class="d-block q-mb-lg q-mt-sm">
                                     <span class="font-weight-bold">Marca:</span>
@@ -118,7 +125,7 @@
                                 </div>
                                 <div class="d-block q-mb-lg q-mt-sm">
                                     <span class="font-weight-bold">N°Vin:</span>
-                                        {{ data.attributes.chasis_number ? data.attributes.chasis_number : 'N/D' }}
+                                        {{ data.attributes.vin_number ? data.attributes.vin_number : 'N/D' }}
                                 </div>
                                 <div class="d-block q-mb-lg q-mt-sm">
                                     <span class="font-weight-bold">N° de Chasis:</span>
@@ -146,7 +153,7 @@
                                         <q-btn-group class="bg-white">
                                             <q-btn label="PESADO"
                                                 @click="data.type_vehicle = 'PESADO'" 
-                                                :class="{'bg-primary ' : data.type_vehicle == 'PESADO'}"/>
+                                                :class="{'bg-primary ' : data.type_vehicle == 'HEAVY'}"/>
 
                                             <q-btn label="LIVIANO" 
                                                 @click="data.type_vehicle = 'LIVIANO'" 
@@ -326,7 +333,7 @@
                             <!-- /Pre-Inspección -->
 
                             <!-- Llantas -->
-                            <q-axes :axes="$v.data.axes" :type="isMotocicleta()" class="col-12 q-px-md q-border"/>
+                            <q-axes :axes="$v.data.axes" :type="data.type_vehicle == 'MOTOCICLETA'" class="col-12 q-px-md q-border"/>
                             <!-- /Llantas -->
 
                             <!-- Inventario -->
@@ -390,19 +397,6 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-12 col-md-6">
-                      <div class="row">
-                        <div class="col-6">
-                          <p class="font-weight-bold">Visto bueno director <br>técnico</p>
-                        </div>
-                        <div class="col-6">
-                            <div class="d-inline-block">
-                              <q-radio v-model="data.seen_technical_director" :disable="true" :val="true" label="Si" class="q-mr-lg"/>
-                              <q-radio v-model="data.seen_technical_director" :disable="true" :val="false" label="No" class="q-mr-lg"/>
-                            </div>
-                        </div>
-                      </div>
-                    </div>
                 </div>
                 <div class="row">
                     <div class="col-12 q-mb-lg">
@@ -424,24 +418,7 @@
 
                         <p class="font-weight-bold" :class="{'color-danger':$v.data.vehicle_delivery_signature.$error}">
                             <i class="material-icons color-danger q-mr-xs" v-show="$v.data.vehicle_delivery_signature.$error"> error_outline </i>
-                            Acepto y estoy conforme con el inventario realizado a mí Motocicleta y he leído, entiendo y acepto todas las bservaciones hechas, politicas de inspección, tratamiento de información y conﬁdencialidad.
-                        </p>
-                    </div>
-                    <div class="col-12 q-mb-lg">
-                        <p class="font-weight-bold mb-0">Firma y Cédula Recibí informe. Fur y Motocicleta</p>
-                        <VueSignaturePad 
-                            v-if="showsignature && is_signature_received_report"
-                            width="100%"
-                            height="200px"
-                            ref="signatureRecibido"
-                            class="border-bottom signatured"
-                            :options="{ onEnd }"
-                            :disable="true"
-                            :class="{'border-danger':$v.data.signature_received_report.$error}"/>
-
-                        <p class="font-weight-bold" :class="{'color-danger':$v.data.signature_received_report.$error}">
-                            <i class="material-icons color-danger q-mr-xs" v-show="$v.data.signature_received_report.$error"> error_outline </i>
-                            Acepto y estoy conforme con el inventario realizado a mí Motocicleta y he leído, entiendo y acepto todas las bservaciones hechas, politicas de inspección, tratamiento de información y conﬁdencialidad.
+                            Acepto y estoy conforme con el inventario realizado a mí Motocicleta y he leído, entiendo y acepto todas las oservaciones hechas, politicas de inspección, tratamiento de información y conﬁdencialidad.
                         </p>
                     </div>
                 </div>
@@ -515,21 +492,25 @@
                     user_id: this.$route.params.user_id,
                     board: null
                 },
-                isUpdate: false,
+                created: false,
                 formSearch : { plaque: null },
                 selectInspection: [],
                 selectItems: [],
                 nextLabel: "<i class='fa fa-chevron-right' aria-hidden='true'></i>",
-                prevLabel: "<i class='fa fa-chevron-left' aria-hidden='true'></i>"
+                prevLabel: "<i class='fa fa-chevron-left' aria-hidden='true'></i>",
+                selectTypesServices: []
             }
         },
-        created() {           
+        created() {
             this.$q.loading.show()
             Promise.all([
                 resources.inspectionsTypes(),
                 resources.preInspections(),
-                resources.inventory()
+                resources.inventory(),
+                resources.users(this.data.user_id),
+                resources.typesVehicles()
             ]).then((response) => {
+
                 this.selectInspection = response[0].map((e,index) => {
                     if (index === 0)
                         this.data.inspections_types_id = e.value;
@@ -559,8 +540,7 @@
                     }
                 })
 
-                var items
-                items = response[2].data.map(e => {
+                this.data.items = response[2].data.map(e => {
                     return {
                         name: e.name,
                         inventory_id: e.id,
@@ -568,9 +548,15 @@
                         quantity: null
                     }
                 })
-                this.data.items = items
+
+                this.user = response[3]
+
+                this.selectTypesServices = response[4]
+
+                console.log(this.selectTypesServices)
 
                 this.$q.loading.hide()
+
             }).catch((err) => {
                 this.$q.notify({
                         message: 'Losiento, ocurrio un error en el servidor. Intente de nuevo.',
@@ -583,6 +569,9 @@
             })
         },
         watch: {
+            'formSearch.plaque': function(val) {
+                this.notFound = false
+            },
             is_vehicle_gas: function(val) {
                 if(!val) {
                     this.data.gas_certificate = null
@@ -591,6 +580,9 @@
             },
         },
         filters: {
+            uppercase: function (value) {
+                return value.toUpperCase()
+            },
             validity: function (value) {
                 return value? 'VIGENTE' : 'NO VIGENTE'
             },
@@ -709,7 +701,7 @@
                         delete jsonData['signature_received_report'];
                     resources.setInspections(jsonData)
                     .then(response => {
-                        this.$q.notify({type:'positive', message: 'Creado exitosamente!',  position: 'top-right', closeBtn: true})
+
                         this.$router.push({ name: 'home' })
                     }).catch(error => {
                         this.$q.loading.hide()
@@ -736,16 +728,14 @@
                 else{
                     let board = this.formSearch.plaque.replace(/ /g, "")
                     this.data.board = board
-                    resources.vehicle(board)
+                    resources.vehicle(board,this.data.user_id)
                     .then(response => {
                         this.data.attributes = []
                         this.data.vehicles_id = response.data.id
                         this.data.type_vehicle = response.data.typeVehicle
-                        if(response.data.brand) {
-                            this.data.attributes = response.data
-                            if(this.data.type_vehicle == null)
-                                this.data.type_vehicle = this.data.attributes.type_vehicle
-                        } else
+                        this.data.attributes = response.data
+                        this.data.type_vehicle = this.data.attributes.type_vehicle != null ? this.data.attributes.type_vehicle : 2
+                        if(response.created)
                             this.notFound = true
                         this.showData = true;
                     }).catch(error => {
@@ -767,7 +757,6 @@
                     alert(JSON.stringify(mediaFiles));
                 }; 
 
-                console.log(navigator.camera)
                 navigator.camera.getPicture(cameraSuccess, cameraError,
                     data => { // on success
                         console.log(`data:image/jpeg;base64,${data}`)

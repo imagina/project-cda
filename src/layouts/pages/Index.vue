@@ -48,7 +48,7 @@
             </q-field>
 
             <q-field :error="$v.form.last_name.$error" error-label="" class="q-my-md">
-                <q-input v-model="form.last_name" type="text" placeholder="Apelldio" class="bg-white mx-auto"/>
+                <q-input v-model="form.last_name" type="text" placeholder="Apellido" class="bg-white mx-auto"/>
                 <q-tooltip v-show="$v.form.last_name.$error">
                     <p v-show="!$v.form.last_name.required" class="mb-0">
                         <i class="material-icons color-danger"> error_outline </i> El campo es obligatorio.
@@ -123,16 +123,20 @@ export default {
             },
             selectOptions: [
                 {
-                  label: 'Cédula de ciudadanía',
-                  value: 'cc'
+                    label: 'Cédula de ciudadanía',
+                    value: 'cc'
                 },
                 {
-                  label: 'Cédula de extranjería',
-                  value: 'ce'
+                    label: 'Cédula de extranjería',
+                    value: 'ce'
                 },
                 {
-                  label: 'Pasaporte',
-                  value: 'p'
+                    label: 'Pasaporte',
+                    value: 'p'
+                },
+                {
+                    label: 'NIT',
+                    value: 'nit'
                 }
             ],
         }

@@ -9,7 +9,7 @@ axios.interceptors.response.use(function (response) {
     	let status = error.response.status
 	    switch (status) {
 	      case 401:
-	        // store.dispatch("auth/AUTH_CLEAR")
+	        store.dispatch("auth/AUTH_CLEAR")
 	        // alert.error("auth/AUTH_CLEAR")
 	        return Promise.reject(error);
 	        break

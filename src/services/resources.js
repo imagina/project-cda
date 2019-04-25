@@ -16,6 +16,7 @@ export default {
       });
     });
   },
+
   createVehicle(data) {
     let route = config('api.api_icda') + '/vehicles'
     return new Promise((resolve, reject) => {
@@ -29,9 +30,9 @@ export default {
     });
   },
   
-  typesVehicles() {
+  deleteVehicle(id) {
     return new Promise((resolve, reject) => {
-      return http.get(config('api.api_icda') + '/typesVehicles').then(response => {
+      return http.delete(config('api.api_icda') + '/vehicles/'+id).then(response => {
         resolve(response.data.data);
       })
       .catch(error => {
@@ -62,13 +63,25 @@ export default {
         resolve(response.data);
       })
       .catch(error => {
-        console.log('error');
-        // reject(error);
+        reject(error);
       });
     });
   },
 
-  vehicle(placa)  {
+  vehicle(placa,user_id)  {
+    let key = JSON.stringify(placa);
+    return new Promise((resolve, reject) => {
+      return http.get(config('api.api_icda') + '/vehicles/'+placa+'?user_id='+user_id+'&filter={"field":"board"}').then(response => {
+        resolve(response.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+    });
+  },
+
+
+  searchVehicle(placa)  {
     let key = JSON.stringify(placa);
     return new Promise((resolve, reject) => {
       return http.get(config('api.api_icda') + '/vehicles/'+placa+'?filter={"field":"board"}').then(response => {
@@ -242,6 +255,85 @@ export default {
       })
       .then(response => {
         resolve(response);
+      })
+      .catch(error => {
+        reject(error);
+      });
+    });
+  },
+
+  getTypesServices() {
+    return new Promise((resolve, reject) => { 
+      return http.get(config('api.api_icda') + '/typesServices')
+        .then(response => {
+          resolve(response.data.data);
+        })
+      .catch(error => {
+        reject(error);
+      });
+    });
+  },
+
+  getTypesFuels() {
+    return new Promise((resolve, reject) => { 
+      return http.get(config('api.api_icda') + '/typesFuels')
+        .then(response => {
+          resolve(response.data.data);
+        })
+      .catch(error => {
+        reject(error);
+      });
+    });
+  },
+
+  typesVehicles() {
+    return new Promise((resolve, reject) => {
+      return http.get(config('api.api_icda') + '/typesVehicles').then(response => {
+        resolve(response.data.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+    });
+  },
+
+  typesBrands() {
+    return new Promise((resolve, reject) => {
+      return http.get(config('api.api_icda') + '/brands').then(response => {
+        resolve(response.data.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+    });
+  },
+
+  typesColors() {
+    return new Promise((resolve, reject) => {
+      return http.get(config('api.api_icda') + '/colors').then(response => {
+        resolve(response.data.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+    });
+  },
+
+  typesLines() {
+    return new Promise((resolve, reject) => {
+      return http.get(config('api.api_icda') + '/lines').then(response => {
+        resolve(response.data.data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+    });
+  },  
+
+  users(id) {
+    return new Promise((resolve, reject) => {
+      return http.get(config('api.api_url') + '/profile/users/' + id).then(response => {
+        resolve(response.data.data);
       })
       .catch(error => {
         reject(error);

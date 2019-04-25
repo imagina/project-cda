@@ -31,9 +31,9 @@
 					    			<img :src="item.gallery | img" width="100%">
 					    		</div>
 					    		<div class="col px-2">
-					    			Matricula: <b>{{ item.vehicle.board }}</b> <br>
-					    			Tipo de Servicio: <b>{{ item.vehicle.service_type }}</b> <br>
-					    			Tipo de Vehiculo: <b>{{ item.vehicle.type_vehicle }}</b> <br>
+					    			Matricula: <b>{{ item.vehicle.board.toUpperCase() }}</b> <br>
+					    			Tipo de Servicio: <b>{{ item.vehicle.service_type_text.toUpperCase() }}</b> <br>
+					    			Tipo de Vehiculo: <b>{{ item.vehicle.type_vehicle.toUpperCase() }}</b> <br>
 					    			Cliente: <b>{{ item.vehicle.user.fullname }}</b> <br>
 					    			Status: <b>{{ item.inspection_status }}</b> <br>
 					    		</div>
@@ -72,6 +72,9 @@ export default {
     created() {
     	this.$q.loading.hide()
     },
+  	beforeDestroy() {
+    	this.$store.commit('inspections/RESET_INSPECTIONS_LIST')
+  	},
     watch: {
     	'inspection_statues.status': {
 	  		handler(newValue, oldValue) {
@@ -98,7 +101,7 @@ export default {
 	        	this.$resources.getInspections(this.$store.getters['inspections/GET_PAGE'],this.inspection_statues.status)
 
 	        	.then(response => {
-	        		
+
     				response.data.data.forEach((val)=>{
     					this.$store.commit('inspections/ADD_INSPECTION_LIST',val)
     				});
@@ -110,7 +113,6 @@ export default {
         			let busy = page.lastPage == page.currentPage ? true : false
 
     				this.$store.commit('inspections/SET_PAGE_BUSY',busy)
-
 	        	}).catch(error => {
 					this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
 					console.log(error);
@@ -120,5 +122,6 @@ export default {
         	}
 		},
 	}
+
 }
 </script>

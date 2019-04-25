@@ -73,11 +73,6 @@
       }
     },
     created() {
-      // if (!navigator.camera) {
-        /////////////////////////////////////////////////
-        // console.error('cordova.camera not found !') //
-        /////////////////////////////////////////////////
-      // }
       this.$q.loading.show()
       Promise.all([
         this.$resources.getInspectionStatues(),
@@ -99,18 +94,50 @@
       if (this.$auth.hasAccess('icda.inspections.create')) {
         var channel = this.$pusher.subscribe('inspections-list');
         channel.bind('Modules\\Icda\\Events\\RecordListInspections', (data) =>  {
-          this.$q.notify({message: data.message,  position: 'bottom-left', closeBtn: true, type: 'positive'})
+          this.$store.commit('inspections/ADD_INSPECTION_LIST',data.inspection)
+          this.$q.notify({
+            message: data.message,
+            position: 'bottom-left',
+            closeBtn: true,
+            type: 'positive',
+            color: 'blue',
+            timeout: 80000,
+            actions: [
+              {
+                label: 'VER',
+                noDismiss: true,
+                handler: () => {
+                  this.$router.push({ name: 'update.inspection', params:{inspection: data.inspection_id} })
+                }
+              }
+            ]
+          })
         });
       }
 
       if (this.$auth.hasAccess('icda.vehicles.create')) {
         var channel = this.$pusher.subscribe('vehicles-list');
         channel.bind('Modules\\Icda\\Events\\RecordListVehicles', (data) =>  {
-          // this.$store.commit('vehicle/ADD_VEHICLE_LIST',data.vehicle)
-          this.$q.notify({message: data.message,  position: 'bottom-right', closeBtn: true, type: 'positive'})
+          this.$store.commit('vehicle/ADD_VEHICLE_LIST',data.vehicle)
+          this.$q.notify({
+            message: data.message,
+            position: 'bottom-right',
+            closeBtn: true,
+            type: 'positive',
+            color: 'blue',
+            timeout: 80000,
+            actions: [
+              {
+                label: 'VER',
+                noDismiss: true, // optional, v0.15.11+
+                handler: () => {
+                  this.$router.push({ name: 'vehicles.update', params:{board: data.vehicle.board.toUpperCase()} })
+                }
+              }
+            ]
+          })
         });
       }
-
     },
     methods: {
       PadLeft(value, length) {

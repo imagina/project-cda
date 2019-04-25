@@ -1,28 +1,15 @@
 <template>
     <div id="printed">
-        <q-page v-show="!showsignature && showData">
+        <q-page v-show="showData">
         	<div class="col-12 q-border col-search print-none">
 	            <div class="row">
 	                <div class="col-12 col-sm-10 col-md-6 mx-auto q-px-md">
 	                    <span class="w-50 d-inline-block font-weight-bold">
 	                        TIPO DE INSPECCIÓN:
 	                    </span>
-                        {{ data.inspections_types_id }}
-	                    <div class="w-50 d-inline-block">
+                        <div class="w-50 d-inline-block">
 	                        <q-select v-model="data.inspections_types_id" :options="selectInspection" class="bg-white q-py-sm q-my-md"/>
 	                    </div>
-	                </div>
-	            </div>
-	            <div class="row">
-	                <div class="col-12 col-sm-10 col-md-6 mx-auto q-px-md">
-	                    <span class="w-50 d-inline-block font-weight-bold">
-	                        Estatus:
-	                    </span>
-	                    <div class="w-50 d-inline-block">
-	                    	<q-select v-model="inspection_statues.status" 
-	                    		  :options="inspection_statues.options"
-	                    		  placeholder="Status" class="bg-white q-py-sm q-my-md"/>
-	                   	</div>
 	                </div>
 	            </div>
         	</div>
@@ -30,6 +17,13 @@
                 <div v-if="data.attributes != null" class="q-pb-lg">
                     <!-- SOAP -->
                     <div class="container-fluid bg-gray-10">
+                        <div class="row q-py-sm" style="background-color: #fed80a">
+                            <div class="col q-px-md text-center">
+                                Datos del cliente: <span class="badge badge-light font-weight-bold">{{ data.user.first_name + ' ' + data.user.last_name }}</span> | 
+                                Email: <span class="badge badge-light font-weight-bold">{{  data.user.email ? data.user.email : 'N/D' }}</span> |
+                                Teléfono: <span class="badge badge-light font-weight-bold">{{ data.user.phone ? data.user.phone : 'N/D' }}</span>
+                            </div>
+                        </div>
                         <div class="row print-row align-items-center">
                             <div class="col-12 col-md-3 px-2 py-3 bg-primary text-right print-none">
                                 <span class="h2 font-weight-bold my-3 d-block">SOAT</span>
@@ -58,68 +52,100 @@
                         <!-- Atributos -->
                         <div class="row mt-3 q-border">
                             <div class="col-12 col-md-6 q-px-md print-col-6">
+                                <div class="col-12 col-md-6 q-px-md">
+                                    <q-field :error="$v.data.attributes.service_type.$error">
+                                        <span class="font-weight-bold d-inline-block"
+                                            :class="{'color-danger': $v.data.attributes.service_type.$error}">Tipo de Servicio:</span>
+                                        <q-select :disable='!isUpdate' v-model="data.attributes.service_type" class="q-mb-lg uppercase" placeholder="Tipo de Servicio" :options="selectTypesServices"/>
+                                    </q-field>
 
-                                <q-input-validation :isDisable="isUpdate"
-                                    :model="$v.data.attributes.service_type" 
-                                    class="d-block"
-                                    label="Tipo de Servicio:"/>
+                                    <q-field :error="$v.data.attributes.type_vehicle.$error">
+                                        <span class="font-weight-bold d-inline-block"
+                                            :class="{'color-danger': $v.data.attributes.type_vehicle.$error}">Clase de Vehículo</span>
+                                            <q-select :disable='!isUpdate' v-model="data.attributes.type_vehicle" class="q-mb-lg uppercase" placeholder="Clase de Vehículo" :options="selectTypesVehicles"/>
+                                    </q-field>
 
-                                <q-input-validation :isDisable="isUpdate"
-                                    :model="$v.data.attributes.type_vehicle" 
-                                    class="d-block"
-                                    label="Clase de Vehículo:"/>
+                                    <q-field :error="$v.data.attributes.brand_id.$error">
+                                        <span class="font-weight-bold d-inline-block"
+                                            :class="{'color-danger': $v.data.attributes.brand_id.$error}">Marca:</span>
+                                        <q-select :disable='!isUpdate' v-model="data.attributes.brand_id" class="q-mb-lg uppercase" placeholder="Marca" :options="selectBrands"/>
+                                    </q-field>
 
-                                <q-input-validation :isDisable="isUpdate"
-                                    :model="$v.data.attributes.brand" 
-                                    class="d-block"
-                                    label="Marca:"/>
+                                    <q-field :error="$v.data.attributes.line_id.$error">
+                                        <span class="font-weight-bold d-inline-block"
+                                            :class="{'color-danger': $v.data.attributes.line_id.$error}">Línea:</span>
+                                        <q-select :disable='!isUpdate' v-model="data.attributes.line_id" class="q-mb-lg uppercase" placeholder="Line" :options="selectLines"/>
+                                    </q-field>
 
-                                <q-input-validation :isDisable="isUpdate"
-                                    :model="$v.data.attributes.line" 
-                                    class="d-block"
-                                    label="Línea:"/>
+                                    <q-field :error="$v.data.attributes.model.$error">
+                                        <span class="font-weight-bold d-inline-block"
+                                            :class="{'color-danger': $v.data.attributes.model.$error}">Modelo:</span>
+                                        <q-select :disable='!isUpdate' v-model="data.attributes.model" class="q-mb-lg uppercase" placeholder="Modelo" :options="years"/>
+                                    </q-field>
 
-                                <q-input-validation :isDisable="isUpdate"
-                                    :model="$v.data.attributes.transit_license" 
-                                    class="d-block"
-                                    label="N° Licencia de Tránsito:"/>
+                                    <q-field :error="$v.data.attributes.transit_license.$error">
+                                        <span class="font-weight-bold d-inline-block"
+                                            :class="{'color-danger': $v.data.attributes.transit_license.$error}">N° Licencia de Tránsito:</span>
+                                        <q-input :disable='!isUpdate' v-model="data.attributes.transit_license" type="text" placeholder="N° Licencia de Tránsito" class="q-mb-lg"/>
+                                    </q-field>
 
-                                <q-input-validation :isDisable="isUpdate"
-                                    :model="$v.data.attributes.enrollment_date" 
-                                    class="d-block"
-                                    label="Fecha de Matrícula:"/>
+                                    <q-field :error="$v.data.attributes.enrollment_date.$error">
+                                        <span class="font-weight-bold d-inline-block"
+                                            :class="{'color-danger': $v.data.attributes.enrollment_date.$error}">Fecha de Matrícula:</span>
+                                            <q-datetime :disable='!isUpdate' v-model.trim="data.attributes.enrollment_date"
+                                                type="date"
+                                                class="q-mb-lg"
+                                                placeholder="Fecha de Vencimiento"
+                                                format="YYYY-MM-DD"/>
+                                            </q-field>
+                                    </q-field>
+                                </div>
                             </div>
 
                             <div class="col-12 col-md-6 q-px-md print-col-6">
-                                <q-input-validation :isDisable="isUpdate"
-                                    :model="$v.data.attributes.color" 
-                                    class="d-block"
-                                    label="Color:"/>
+                                <q-field :error="$v.data.attributes.color_id.$error">
+                                    <span class="font-weight-bold d-inline-block"
+                                        :class="{'color-danger': $v.data.attributes.color_id.$error}">Color:</span>
+                                    <q-select :disable='!isUpdate' v-model="data.attributes.color_id" class="q-mb-lg uppercase" placeholder="Color" :options="selectColors"/>
+                                </q-field>
 
-                                <q-input-validation :isDisable="isUpdate"
-                                    :model="$v.data.attributes.type_fuel" 
-                                    class="d-block"
-                                    label="Tipo de combustible:"/>
+                                <q-field :error="$v.data.attributes.type_fuel.$error">
+                                    <span class="font-weight-bold d-inline-block"
+                                        :class="{'color-danger': $v.data.attributes.type_fuel.$error}">Tipo de combustible:</span>
+                                    <q-select :disable='!isUpdate' v-model="data.attributes.type_fuel" class="q-mb-lg uppercase" placeholder="Tipo de combustible" 
+                                            :options="selectTypesFuels"/>
+                                </q-field>
 
-                                <q-input-validation :isDisable="isUpdate"
-                                    :model="$v.data.attributes.chasis_number" 
-                                    class="d-block"
-                                    label="N°Vin:"/>
+                                <q-field :error="$v.data.attributes.vin_number.$error">
+                                    <span class="font-weight-bold d-inline-block"
+                                        :class="{'color-danger': $v.data.attributes.vin_number.$error}">N°Vin:</span>
+                                    <q-input :disable='!isUpdate' v-model="data.attributes.vin_number" type="text" placeholder="N°Vin:" class="q-mb-lg"/>
+                                </q-field>
 
-                                <q-input-validation :isDisable="isUpdate"
-                                    :model="$v.data.attributes.chasis_number" 
-                                    class="d-block"
-                                    label="N° de Chasis:"/>
+                                <q-field :error="$v.data.attributes.chasis_number.$error">
+                                    <span class="font-weight-bold d-inline-block"
+                                        :class="{'color-danger': $v.data.attributes.chasis_number.$error}">N° de Chasis:</span>
+                                    <q-input :disable='!isUpdate' v-model="data.attributes.chasis_number" type="text" placeholder="N° de Chasis" class="q-mb-lg"/>
+                                </q-field>
 
-                                <q-input-validation :isDisable="isUpdate"
-                                    :model="$v.data.attributes.engine_number" 
-                                    class="d-block"
-                                    label="N° de Motor:"/>
+                                <q-field :error="$v.data.attributes.engine_number.$error">
+                                    <span class="font-weight-bold d-inline-block"
+                                        :class="{'color-danger': $v.data.attributes.engine_number.$error}">N° de Motor:</span>
+                                    <q-input :disable='!isUpdate' v-model="data.attributes.engine_number" type="text" placeholder="N° de Motor" class="q-mb-lg"/>
+                                </q-field>
 
-                                <q-input-validation :isDisable="isUpdate"
-                                    :model="$v.data.attributes.displacement" 
-                                    class="d-block"
-                                    label="Cilindraje:"/>
+                                <q-field :error="$v.data.attributes.displacement.$error">
+                                    <span class="font-weight-bold d-inline-block"
+                                        :class="{'color-danger': $v.data.attributes.displacement.$error}">Cilindraje:</span>
+                                    <q-input :disable='!isUpdate' v-model="data.attributes.displacement" type="text" placeholder="Cilindraje" class="q-mb-lg"/>
+                                </q-field>
+
+                                <q-field :error="$v.data.attributes.axes_number.$error">
+                                    <span class="font-weight-bold d-inline-block"
+                                        :class="{'color-danger': $v.data.attributes.axes_number.$error}">Numero de ejes:</span>
+                                    <q-input :disable='!isUpdate' v-model="data.attributes.axes_number" type="text" placeholder="Numero de ejes" class="q-mb-lg"/>
+                                </q-field>
+    
                             </div>
                         </div>
 
@@ -329,107 +355,74 @@
                             </div>
 
                             <!-- opbservaciones -->
-                            <div class="col-12 q-my-md" v-if="data.observations">
+                            <div class="col-12 print-col-12 q-my-md" v-if="data.observations">
                                 <q-input v-model="data.observations" 
                                 	:disabled='true'
                                 	type="textarea"
                                 	float-label="Observaciones:"
                                 	:max-height="10"
                                 	rows="4"
-                                	class="bg-white"/>
+                                	class="bg-white print-col-12"/>
                             </div>
 
-                            <div class="col-12 text-right print-none q-mt-sm">
+                            <div class="col-12 q-py-md print-none">
+                                <div class="row print-row">
+                                    <div class="col-12 print-col-12">
+                                        <p class="font-weight-bold d-inline-block q-mr-md">
+                                            Visto bueno director técnico: 
+                                            <span class="d-none">
+                                                {{ data.seen_technical_director ? 'SI' : 'NO' }}
+                                            </span>
+                                        </p>
+                                        <div class="d-inline-block print-none">
+                                          <q-radio v-model="data.seen_technical_director" :val="true" label="Si" class="q-mr-lg"/>
+                                          <q-radio v-model="data.seen_technical_director" :val="false" label="No" class="q-mr-lg"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 print-col-12 q-mb-lg">
+                                        <VueSignaturePad 
+                                            v-if="showsignature && is_signature_received_report"
+                                            width="100%"
+                                            height="200px"
+                                            ref="signatureRecibido"
+                                            class="border-bottom signatured"
+                                            :options="{ onEnd }"
+                                            :class="{'border-danger':$v.data.signature_received_report.$error}"/>
+
+                                        <img v-else :src="data.signature_received_report|asset"
+                                            style="border: 2px solid #0c0c0c;border-radius: 8px;"
+                                            width="100%" 
+                                            class="print-col-12"
+                                            height="200px">
+
+                                        <p class="font-weight-bold" :class="{'color-danger':$v.data.signature_received_report.$error}">
+                                            <i class="material-icons color-danger q-mr-xs" v-show="$v.data.signature_received_report.$error"> error_outline </i>
+                                            Acepto y estoy conforme con el inventario realizado a mí Motocicleta y he leído, entiendo y acepto todas las bservaciones hechas, politicas de inspección, tratamiento de información y conﬁdencialidad.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 print-col-12 text-right print-none q-mt-sm">
                                 <q-btn color="red" size="md" label="Print" class="q-px-lg q-mr-sm btn-app" @click="print"/>
-                                <q-btn color="black" size="md" label="Guardar" class="q-px-lg btn-app" @click="submitData"/>
+                                <q-select v-model="inspection_statues.status" 
+                                          v-if="inspection_statues.initial == 3"
+                                          :options="inspection_statues.options"
+                                          placeholder="Status" class="bg-white pull-left" style="width: 110px"/>
+                                <q-btn color="black" size="md" v-on:click="set_inspection_statues()" class="q-px-lg q-mr-sm btn-app" v-if="inspection_statues.initial <= 2">
+                                    <span v-if="inspection_statues.status != null">
+                                        {{ inspection_statues.options[inspection_statues.status].label }}
+                                    </span>
+                                </q-btn>
+                                <q-btn color="black" size="md" label="Atras" class="q-px-lg q-mr-sm btn-app" @click="back" v-show="inspection_statues.initial >= 4"/>
+                                <q-btn color="black" size="md" label="Guardar" class="q-px-lg q-mr-sm btn-app" @click="submitSave" v-show="inspection_statues.initial < 4"/>
                             </div>
                         </div>
                     </div>
                 </div>
             </q-page>
-        </q-page>
-        <q-page v-show="showsignature">
-            <div class="layout-padding q-py-lg">
-                <div class="row print-row q-my-lg">
-                    <hr class="col-12 q-my-lg">
-                    <div class="col-12 col-md-6">
-                      <div class="row">
-                        <div class="col-6">
-                          <p class="font-weight-bold">
-                            <i class="material-icons color-danger q-mr-xs" v-show="$v.data.vehicle_prepared.$error"> error_outline </i>
-                            <span :class="{'color-danger': $v.data.vehicle_prepared.$error}">Vehículo preparado para la inspección:</span>
-                          </p>
-                        </div>
-                        <div class="col-6">
-                            <div class="d-inline-block">
-                              <q-radio v-model="data.vehicle_prepared" :val="true" label="Si" class="q-mr-lg"/>
-                              <q-radio v-model="data.vehicle_prepared" :val="false" label="No" class="q-mr-lg"/>
-                            </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                      <div class="row">
-                        <div class="col-6">
-                          <p class="font-weight-bold">Visto bueno director <br>técnico</p>
-                        </div>
-                        <div class="col-6">
-                            <div class="d-inline-block">
-                              <q-radio v-model="data.seen_technical_director" :val="true" label="Si" class="q-mr-lg"/>
-                              <q-radio v-model="data.seen_technical_director" :val="false" label="No" class="q-mr-lg"/>
-                            </div>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 q-mb-lg">
-                        <VueSignaturePad
-                            v-if="showsignature && is_vehicle_delivery_signature"
-                            width="100%"
-                            height="200px"
-                            ref="signatureEntrega"
-                            class="border-bottom signatured"
-                            :disable="!is_vehicle_delivery_signature"
-                            :options="{ onEnd }"
-                            :class="{'border-danger':$v.data.vehicle_delivery_signature.$error}"/>
-                        <img v-else :src="data.vehicle_delivery_signature|asset" 
-                            style="border: 2px solid #0c0c0c;border-radius: 8px;"
-                            width="100%" 
-                            height="200px">
-
-                        <p class="font-weight-bold" :class="{'color-danger':$v.data.vehicle_delivery_signature.$error}">
-                            <i class="material-icons color-danger q-mr-xs" v-show="$v.data.vehicle_delivery_signature.$error"> error_outline </i>
-                            Acepto y estoy conforme con el inventario realizado a mí Motocicleta y he leído, entiendo y acepto todas las bservaciones hechas, politicas de inspección, tratamiento de información y conﬁdencialidad.
-                        </p>
-                    </div>
-                    <div class="col-12 q-mb-lg">
-                        <VueSignaturePad 
-                            v-if="showsignature && is_signature_received_report"
-                            width="100%"
-                            height="200px"
-                            ref="signatureRecibido"
-                            class="border-bottom signatured"
-                            :options="{ onEnd }"
-                            :class="{'border-danger':$v.data.signature_received_report.$error}"/>
-
-                        <img v-else :src="data.signature_received_report|asset"
-                            style="border: 2px solid #0c0c0c;border-radius: 8px;"
-                            width="100%" 
-                            height="200px">
-
-                        <p class="font-weight-bold" :class="{'color-danger':$v.data.signature_received_report.$error}">
-                            <i class="material-icons color-danger q-mr-xs" v-show="$v.data.signature_received_report.$error"> error_outline </i>
-                            Acepto y estoy conforme con el inventario realizado a mí Motocicleta y he leído, entiendo y acepto todas las bservaciones hechas, politicas de inspección, tratamiento de información y conﬁdencialidad.
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 text-right q-my-md">
-                        <q-btn color="black" size="md" label="Guardar" class="q-px-lg btn-app" @click="submitSave"/>
-                    </div>
-                </div>
-            </div>
         </q-page>
     </div>
 </template>
@@ -452,7 +445,7 @@
                 show: false,
                 showData: false,
                 aceptContract: false,
-                showsignature: false,
+                showsignature: true,
                 is_vehicle_delivery_signature: true,
                 is_signature_received_report: true,
                 is_vehicle_gas: false,
@@ -483,13 +476,23 @@
                     vehicle_delivery_signature: null,
                     signature_received_report: null,
                     type_vehicle: null,
-                    user_id: null
+                    user_id: null,
+                    axes_number: null
                 },
                 selectInspection: [],
+                selectTypesVehicles: [],
+                selectTypesServices: [],
+                selectTypesFuels: [],
+                selectColors: [],
+                selectBrands: [],
+                selectLines: [],
+                selectModel: [],
+
                 inspection_statues: {
-                	status: null,
-                	options: [],
-                	change: false
+                	initial: null,
+                    status: null,
+                	change: false,
+                    options: []
                 },
                 changeAtributtes: false,
                 changeInspection: false,
@@ -500,11 +503,12 @@
                 .q-icon,
                 button,
                 .print-none,
+                .print-d-inline-block
                 .q-if-label-spacer,
                 .q-input-target.q-input-area,
                 .q-if-baseline {  display: none }
-                textarea,
                 img { width: 25%; display: inline-block; }
+                textarea,
                 .print-row { width: 100%; display: block; padding-top: 5px; padding-bottom: 5px}
                 .q-input-validation { padding-bottom: 5px; padding-top: 5px}
                 .q-input-validation > .d-inline-block { float: left; width: 100% }
@@ -524,11 +528,72 @@
             }
         },
         created() {
-            this.selectInspection = this.$store.getters['data/GET_TYPES_INSPECTIONS']
-            this.inspection_statues.options = this.$store.getters['data/GET_TYPES_INSPECTIONS_STATUES']
-            this.getInspection()
+            this.$q.loading.show()
+            this.$q.loading.show()
+            Promise.all([
+                this.$resources.getTypesServices(),
+                this.$resources.getTypesFuels(),
+                this.$resources.typesVehicles(),
+                this.$resources.typesBrands(),
+                this.$resources.typesColors(),
+                this.$resources.typesLines(),
+                this.$resources.inspectionsTypes(),
+                this.$resources.getInspectionStatues()
+            ]).then((response) => {
+                this.selectTypesServices = response[0].map((e,index) => {
+                    return {
+                        label: e,
+                        value: index
+                    }
+                })
+                this.selectTypesFuels = response[1].map((e,index) => {
+                    return {
+                        label: e,
+                        value: index
+                    }
+                })
+                this.selectTypesVehicles = response[2].map((e,index) => {
+                    return {
+                        label: e,
+                        value: index
+                    }
+                })
+                this.selectBrands = response[3].map((e,index) => {
+                    return {
+                        label: e.name,
+                        value: e.id
+                    }
+                })
+                this.selectColors = response[4].map((e,index) => {
+                    return {
+                        label: e.name,
+                        value: e.id
+                    }
+                })
+                this.selectLines = response[5].map((e,index) => {
+                    return {
+                        label: e.name,
+                        value: e.id
+                    }
+                })
+                this.selectInspection = response[6]
+                this.inspection_statues.options = response[7]
+                this.getInspection()
+            }).catch((err) => {
+                this.$q.notify({
+                        message: 'Ups! Ocurrio un error en el servidor...',
+                        position: 'top-right'
+                    })
+                console.log('There is an error', err);
+                this.$q.loading.hide()
+            })
         },
-        mounted() {},
+        computed : {
+            years () {
+              const year = new Date().getFullYear()
+              return Array.from({length: year - 1900}, (value, index) => ({label: parseInt(year - index).toString(), value: year - index}))
+            }
+        },
         watch: {
         	'inspection_statues.status': {
      			handler(newValue, oldValue) {
@@ -595,18 +660,21 @@
                     return this.showsignature
                 })},
                 attributes: {
-                    service_type 	: { required, minLength: minLength(3) },
+                    service_type 	: { required },
                     type_vehicle 	: { required },
-                    brand        	: { required },
-                    line         	: { required },
+                    brand_id       	: { required },
+                    line_id        	: { required },
                     model        	: { required },
-                    color           : { required },
+                    color_id        : { required },
                     type_fuel       : { required },
+                    vin_number      : { required },
                     transit_license : { required },
                     enrollment_date : { required },
                     chasis_number   : { required },
                     engine_number   : { required },
                     displacement    : { required },
+                    vin_number      : { required },
+                    axes_number     : { required },
                 }
             },
         },
@@ -665,7 +733,8 @@
                     this.data.id                            = this.$route.params.inspection
 					for (var item in this.inspection_statues.options) {
 	    				if ( this.inspection_statues.options[item].label == data.inspection_status ) {
-							this.inspection_statues.status = this.inspection_statues.options[item].value
+							this.inspection_statues.status  = this.inspection_statues.options[item].value
+                            this.inspection_statues.initial = this.inspection_statues.options[item].value
 	    				}
 					}
                     this.data.pre_inspections               = data.pre_inspections
@@ -684,6 +753,15 @@
                     this.data.armored_vehicle               = data.armored_vehicle   == '1' ? true : false
                     this.data.modified_engine               = data.modified_engine   == '1' ? true : false
                     this.data.attributes                    = data.vehicle
+
+                    this.data.attributes.brand_id = parseInt(data.vehicle.brand_id)
+                    this.data.attributes.color_id = parseInt(data.vehicle.color_id)
+                    this.data.attributes.line_id = parseInt(data.vehicle.line_id)
+                    this.data.attributes.type_fuel = parseInt(data.vehicle.type_fuel)
+                    this.data.attributes.type_vehicle = parseInt(data.vehicle.type_vehicle)
+                    this.data.attributes.service_type = parseInt(data.vehicle.service_type)
+                    this.data.attributes.model = parseInt(data.vehicle.model)
+
                     this.data.gas_certificate               = data.gas_certificate
                     this.data.gas_certifier                 = data.gas_certifier
                     this.data.gas_certificate_expiration    = data.gas_certificate_expiration
@@ -699,6 +777,7 @@
                     this.data.type_vehicle                  = data.type_vehicle
 					this.inspection_statues.change 			= false
      				this.changeAtributtes					= false
+                    this.data.user                       = data.vehicle.user
                     this.data.user_id                       = data.vehicle.user.id
                     this.$q.loading.hide()
                     this.showData = true
@@ -752,6 +831,18 @@
             		return resources.updateVehicle(this.data.attributes)
             	}else
             		return false
+            },
+            set_inspection_statues() {
+                if(this.inspection_statues.status < 4) {
+                    if( this.inspection_statues.status == this.inspection_statues.initial) 
+                        this.inspection_statues.status = this.inspection_statues.status + 1
+                    else
+                        this.inspection_statues.status = this.inspection_statues.status - 1
+                }
+            },
+            back() {
+                this.$q.loading.show()
+                this.$router.push({ name: 'inspections' })
             }
         }
     }

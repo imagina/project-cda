@@ -4,8 +4,7 @@ export const SET_VEHICLES = (state, data) => {
 };
 
 export const ADD_VEHICLE_LIST = (state, data) => {
-	state.empty = true
-	state.vehicles.push(data)
+	state.vehicles.unshift(data)
 };
 
 export const RESET_VEHICLE_LIST = (state) => {

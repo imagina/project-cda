@@ -13,15 +13,12 @@
 				    				<router-link :to="{ name: 'vehicles.create'}" class="text-decoration-none q-btn inline relative-position q-btn-item non-selectable q-btn-rectangle q-focusable q-hoverable bg-red text-white">
 				    					<q-icon name="add"/>
 				    				</router-link>
-<!-- 				    				<q-btn class="q-mx-sm" color="primary">
-				    					<q-icon name="search" color="black"/>
-				    				</q-btn> -->
 						  		</div>
 					  		</div>
 					  		<div class="row q-my-md q-mb-lg">
 	                            <q-field :error="$v.search.text.$error" class="col-12">
 							  		<q-input v-model="search.text"
-							  				 class="w-100"
+							  				 class="w-100 uppercase"
 							  				 placeholder="BUSCAR POR PLACA"
 							  				 v-on:keyup.enter="searchPlaque"
 		                                     :after="[{
@@ -34,21 +31,17 @@
 					  		</div>
 					  	</q-timeline-entry>
 
-			    		<router-link  v-for="(item, index) in $store.getters['vehicle/GET_VEHICLES']"
-			    					:key="index"
-			    					v-show="!search.show"
-			    					class="q-timeline-link"
-			    					:to="{ name: 'vehicles.update', params: { board: uppercase(item.board) } }">
-							<q-timeline-entry
-							  	:heading="false"
-							    :title="item | title"
-							    :subtitle="item.created_at_date + ' ' + item.created_at_time"
-							    side="right">
-						  		<p class="mb-0"><b>Tipo de Servicio:</b>{{ item.service_type ? item.service_type : 'N/D' }}</p>
-						  		<p class="mb-0"><b>Tipo de Vehículo:</b> {{ item.type_vehicle ? item.type_vehicle : 'N/D' }}</p>
-						  	</q-timeline-entry>
-						</router-link>
-
+				    		<router-link v-for="(item, index) in $store.getters['vehicle/GET_VEHICLES']" :key="index" class="q-timeline-link" v-show="!search.show" :to="{ name:'vehicles.update',params:{board: uppercase(item.board)}}">
+								<q-timeline-entry
+								  	:heading="false"
+								    :title="item | title"
+								    :subtitle="item.created_at_date+' '+item.created_at_time"
+								    side="right">
+							  		<p class="mb-0"><b>Marca: </b>{{ item.brand ? item.brand : 'N/D' }}</p>
+							  		<p class="mb-0"><b>Tipo de Servicio: </b>{{ item.service_type_text ? item.service_type_text : 'N/D' }}</p>
+							  		<p class="mb-0"><b>Tipo de Vehículo: </b> {{ item.type_vehicle_text ? item.type_vehicle_text : 'N/D' }}</p>
+							  	</q-timeline-entry>
+							</router-link>
 					</q-timeline>
 				</div>
 				<div class="col-12 d-block q-py-md">
@@ -73,13 +66,16 @@
 				}
 			}
 		},
-	    created() {
+	    created() {           
         	if(this.$store.getters['vehicle/IF_EMPYT_VEHICLES']) {
         		this.$store.commit('vehicle/RESET_VEHICLE_LIST')
 	    		this.loadMore()
+        	}else {
+        		this.$q.loading.hide()
         	}
 	    },
   		beforeDestroy() {
+  			this.$store.commit('vehicle/RESET_VEHICLE_LIST')
   			this.clearSearch()
   		},
 		filters: {
@@ -118,7 +114,6 @@
         				response.data.forEach((val)=>{
         					this.$store.commit('vehicle/ADD_VEHICLE_LIST',val)
         				});
-
         				this.$store.commit('vehicle/INCREMENT_PAGE')
 
 	        			let page = response.meta.page;
@@ -138,18 +133,20 @@
             searchPlaque () {
                 this.$v.search.$touch()
                 this.$q.loading.show()
-                if (this.$v.search.$error){
+                if (this.$v.search.$error)
                     this.$q.loading.hide()
-                }
                 else{
                     let board = this.search.text.replace(/ /g, "")
-                    this.$resources.vehicle(board).then(response => {
-                    	console.log(response)
+                    this.$resources.searchVehicle(board).then(response => {
+                    	if(response.data != '')
+                    		this.$router.push({ name: 'vehicles.update', params:{board: board.toUpperCase()} })
+                    	else {
+                        	this.$q.loading.hide()
+                        	this.$q.notify({message: 'Matricula no registrada.',  position: 'top-right', closeBtn: true})
+                    	}
                     }).catch(error => {
                         this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
                         console.error('Error ', error)
-                    }).then(() => {
-                    	this.search.show = true
                         this.$q.loading.hide()
                     })
                 }

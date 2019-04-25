@@ -1,11 +1,10 @@
 export const SET_VINSPECTIONS = (state, data) => {
-	state.empty = true
+	state.empty = false
 	state.inspections = data
 };
 
 export const ADD_INSPECTION_LIST = (state, data) => {
-	state.empty = true
-	state.inspections.push(data)
+	state.inspections.unshift(data)
 };
 
 export const RESET_INSPECTIONS_LIST = (state) => {
