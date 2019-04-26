@@ -90,7 +90,6 @@
       });
     },
     mounted() {
-
       if (this.$auth.hasAccess('icda.inspections.create')) {
         var channel = this.$pusher.subscribe('inspections-list');
         channel.bind('Modules\\Icda\\Events\\RecordListInspections', (data) =>  {
@@ -138,6 +137,7 @@
           })
         });
       }
+            // this.$q.loading.show()
     },
     methods: {
       PadLeft(value, length) {

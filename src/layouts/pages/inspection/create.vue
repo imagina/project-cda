@@ -55,7 +55,7 @@
                     <div class="container-fluid bg-gray-10">
                         <div class="row q-py-sm" style="background-color: #fed80a">
                             <div class="col q-px-md text-center">
-                                Datos del cliente: <span class="badge badge-light font-weight-bold">{{ user.first_name + ' ' + user.last_name }}</span> | 
+                                Cliente: <span class="badge badge-light font-weight-bold">{{ user.first_name + ' ' + user.last_name }}</span> | 
                                 Email: <span class="badge badge-light font-weight-bold">{{  user.email ? user.email : 'N/D'}}</span> |
                                 Teléfono: <span class="badge badge-light font-weight-bold">{{ user.phone ? user.phone : 'N/D'}}</span>
                             </div>
@@ -151,17 +151,26 @@
                                     </div>
                                     <div class="col-8 col-md-9 col-lg-10">
                                         <q-btn-group class="bg-white">
+
                                             <q-btn label="PESADO"
-                                                @click="data.type_vehicle = 'PESADO'" 
-                                                :class="{'bg-primary ' : data.type_vehicle == 'HEAVY'}"/>
+                                                @click="data.type_vehicle = 0" 
+                                                :class="{'bg-primary ' : data.type_vehicle == 0}"/>
 
                                             <q-btn label="LIVIANO" 
-                                                @click="data.type_vehicle = 'LIVIANO'" 
-                                                :class="{'bg-primary ' : data.type_vehicle == 'LIVIANO'}"/>
+                                                @click="data.type_vehicle = 1" 
+                                                :class="{'bg-primary ' : data.type_vehicle == 1}"/>
 
                                             <q-btn label="MOTOCICLETA"
-                                                @click="data.type_vehicle = 'MOTOCICLETA'" 
-                                                :class="{'bg-primary ' : data.type_vehicle == 'MOTOCICLETA'}"/>
+                                                @click="data.type_vehicle = 2" 
+                                                :class="{'bg-primary ' : data.type_vehicle == 2}"/>
+
+                                            <q-btn label="LIVIANO" 
+                                                @click="data.type_vehicle = 3" 
+                                                :class="{'bg-primary ' : data.type_vehicle == 3}"/>
+
+                                            <q-btn label="MOTOCICLETA"
+                                                @click="data.type_vehicle = 4" 
+                                                :class="{'bg-primary ' : data.type_vehicle == 4}"/>
 
                                         </q-btn-group>
                                     </div>
@@ -747,7 +756,7 @@
                 }
             },
             isMotocicleta() {
-                return this.data.attributes.type_vehicle == 'MOTOCICLETA';
+                return this.data.attributes.type_vehicle == 2;
             },
             captureImage () {
                 var cameraError = function(error) { 

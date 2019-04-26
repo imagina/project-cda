@@ -192,14 +192,19 @@ export default {
     });
   },
 
-  updateInspections(data) {
+  updateInspections(data,id) {
     return new Promise((resolve, reject) => {
-      return http.put(config('api.api_icda') + '/inspections/'+data.id,data)
-        .then(response => {
+      return http.post(config('api.api_icda') + '/inspections/'+id,
+          data,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+        ).then(response => {
           resolve(response);
         })
         .catch(error => {
-          console.log(error)
           reject(error);
         });
     });

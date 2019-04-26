@@ -165,7 +165,7 @@
 
 				        <q-field :error="$v.attributes.insurance_expedition.$error" class="col-6 col-sm-4 q-px-md">
 				        	<span class="font-weight-bold d-inline-block"
-				        			:class="{'color-danger': $v.attributes.insurance_expedition.$error}">Fecha Fin De Vigencia:</span>
+				        			:class="{'color-danger': $v.attributes.tecnomecanica_expiration.$error}">Fecha Fin De Vigencia:</span>
 	                        <q-datetime v-model.trim="attributes.insurance_expedition"
 	                        	placeholder="Fecha Fin De Vigencia"
 	                        	type="date"
@@ -176,7 +176,7 @@
 
 				        <q-field :error="$v.attributes.insurance_expiration.$error" class="col-6 col-sm-4 q-px-md">
 				        	<span class="font-weight-bold d-inline-block"
-				        			:class="{'color-danger': $v.attributes.insurance_expiration.$error}">Fecha de Expedición:</span>
+				        			:class="{'color-danger': $v.attributes.tecnomecanica_expedition.$error}">Fecha de Expedición:</span>
 	                        <q-datetime v-model.trim="attributes.insurance_expiration"
 	                        	placeholder="Fecha de Expedición"
 	                        	type="date"
@@ -222,6 +222,8 @@
 					axes_number: null,
 					insurance_expedition: null,
 					insurance_expiration: null,
+					tecnomecanica_expiration: null,
+					tecnomecanica_expedition: null,
 					user_id: null,
 					vin_number: null,
 	    		},
@@ -334,6 +336,8 @@
                 axes_number    	: { required },
                 insurance_expedition : { required },
                 insurance_expiration : { required },
+                tecnomecanica_expiration : { required },
+                tecnomecanica_expedition : { required },
                 vin_number : { required },
             },
         	search: {
@@ -410,7 +414,7 @@
 		                this.$q.loading.hide()
 		            });
 		        }
-	        }
+	        },
         }
 	}
 </script>
