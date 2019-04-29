@@ -587,10 +587,12 @@
                 items: {
                     $each: {
                         evaluation: { required : requiredIf((model) => {
-                            return model.quantity != null 
+                            // return model.quantity != null 
+                            return true
                         })},
                         quantity: { required : requiredIf((model) => {
-                            return model.evaluation != null 
+                            // return model.evaluation != null 
+                            return true
                         })}
                     }
                 },

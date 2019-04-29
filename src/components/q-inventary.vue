@@ -12,6 +12,7 @@
                 <div class="col q-py-md border-l font-weight-bold col-checkout">B</div>
                 <div class="col q-py-md border-l font-weight-bold col-checkout">R</div>
                 <div class="col q-py-md border-l font-weight-bold col-checkout">M</div>
+                <div class="col q-py-md border-l font-weight-bold col-checkout">NA</div>
                 <div class="col q-py-md border-l font-weight-bold col-count"><span class="d-none d-sm-block">Cantidad</span></div>
             </div>
             <div class="row border border-t-0" v-for="(item,index) in inventory.$model">
@@ -33,6 +34,11 @@
                 <div class="col q-py-sm border-l col-checkout">
                     <div class="q-mt-sm">
                         <q-radio v-model="item.evaluation" val="M" class="q-mr-lg mx-auto"/>
+                    </div>
+                </div>
+                <div class="col q-py-sm border-l col-checkout">
+                    <div class="q-mt-sm">
+                        <q-radio v-model="item.evaluation" val="NA" class="q-mr-lg mx-auto"/>
                     </div>
                 </div>
                 <div class="col q-py-sm border-l col-count q-px-md">
