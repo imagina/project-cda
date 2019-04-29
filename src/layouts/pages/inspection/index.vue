@@ -1,5 +1,5 @@
 <template>
-	<q-page>
+	<q-page v-show="!$store.state.data.load_inner">
 	    <div class="layout-padding q-py-lg">
 			<div class="row">
 				<div class="col-12">
@@ -7,7 +7,7 @@
 					  <q-timeline-entry heading>
 					    <span>Lista de Ordenes </span>
 	                    <div class="d-inline-block">
-	                        <q-select v-model="inspection_statues.status" :options="$store.getters['data/GET_TYPES_INSPECTIONS_STATUES']" class="bg-white q-py-sm q-my-md"/>
+	                        <q-select v-model="inspection_statues.status" :options="$store.state.data.types_inspections_statues" class="bg-white q-py-sm q-my-md"/>
 	                    </div>
 	                   	<hr class="mt-0 q-my-sm">
 					  </q-timeline-entry>
@@ -31,9 +31,9 @@
 					    			<img :src="item.gallery | img" width="100%">
 					    		</div>
 					    		<div class="col px-2">
-					    			Matricula: <b>{{ item.vehicle.board.toUpperCase() }}</b> <br>
-					    			Tipo de Servicio: <b>{{ item.vehicle.service_type_text.toUpperCase() }}</b> <br>
-					    			Tipo de Vehiculo: <b>{{ item.vehicle.type_vehicle.toUpperCase() }}</b> <br>
+					    			Matricula: <b>{{ item.vehicle.board | uppercase }}</b> <br>
+					    			Tipo de Servicio: <b>{{ item.vehicle.service_type_text | uppercase }}</b> <br>
+					    			Tipo de Vehiculo: <b>{{ item.vehicle.type_vehicle | uppercase }}</b> <br>
 					    			Cliente: <b>{{ item.vehicle.user.fullname }}</b> <br>
 					    			Status: <b>{{ item.inspection_status }}</b> <br>
 					    		</div>
@@ -70,7 +70,7 @@ export default {
     	}
     },
     created() {
-    	this.$q.loading.hide()
+    	this.$store.commit('data/LOAD_TRUE')
     },
   	beforeDestroy() {
     	this.$store.commit('inspections/RESET_INSPECTIONS_LIST')
@@ -94,31 +94,30 @@ export default {
 		loadMore () {
         	if(!this.$store.getters['inspections/GET_PAGE_BUSY']) {
 
-        		this.$q.loading.show()
+        		this.$store.commit('data/LOAD_TRUE')
 
     			this.$store.commit('inspections/SET_PAGE_BUSY',true)
 
-	        	this.$resources.getInspections(this.$store.getters['inspections/GET_PAGE'],this.inspection_statues.status)
+	        	this.$resourcesInspections.getInspections(this.$store.getters['inspections/GET_PAGE'],this.inspection_statues.status)
+		        	.then(response => {
 
-	        	.then(response => {
+	    				response.data.forEach((val)=>{
+	    					this.$store.commit('inspections/ADD_INSPECTION_LIST',val)
+	    				});
 
-    				response.data.data.forEach((val)=>{
-    					this.$store.commit('inspections/ADD_INSPECTION_LIST',val)
-    				});
+	        			this.$store.commit('inspections/INCREMENT_PAGE')
 
-        			this.$store.commit('inspections/INCREMENT_PAGE')
+	        			let page = response.meta.page;
 
-        			let page = response.data.meta.page;
+	        			let busy = page.lastPage == page.currentPage ? true : false
 
-        			let busy = page.lastPage == page.currentPage ? true : false
-
-    				this.$store.commit('inspections/SET_PAGE_BUSY',busy)
-	        	}).catch(error => {
-					this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
-					console.log(error);
-	        	}).then(() => {
-        			this.$q.loading.hide()
-	        	});
+	    				this.$store.commit('inspections/SET_PAGE_BUSY',busy)
+		        	}).catch(error => {
+						this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
+						console.log(error);
+		        	}).then(() => {
+		        		this.$store.commit('data/LOAD_FALSE')
+		        	});
         	}
 		},
 	}

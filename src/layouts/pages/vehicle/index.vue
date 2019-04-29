@@ -1,5 +1,5 @@
 <template>
-	<q-page>
+	<q-page v-show="!$store.state.data.load_inner">
 	    <div class="layout-padding q-py-lg">
 			<div class="row">
 				<div class="col-12">
@@ -71,7 +71,7 @@
         		this.$store.commit('vehicle/RESET_VEHICLE_LIST')
 	    		this.loadMore()
         	}else {
-        		this.$q.loading.hide()
+        		this.$store.commit('data/LOAD_FALSE')
         	}
 	    },
   		beforeDestroy() {
@@ -105,15 +105,16 @@
 	        		
     				this.$store.commit('vehicle/SET_PAGE_BUSY',true)
 
-	        		this.$q.loading.show()
+	        		this.$store.commit('data/LOAD_TRUE')
 
-		        	this.$resources.getVehicles(this.$store.getters['vehicle/GET_PAGE'])
+		        	this.$resourcesVehicles.getVehicles(this.$store.getters['vehicle/GET_PAGE'])
 
 		        	.then(response => {
 
         				response.data.forEach((val)=>{
         					this.$store.commit('vehicle/ADD_VEHICLE_LIST',val)
         				});
+
         				this.$store.commit('vehicle/INCREMENT_PAGE')
 
 	        			let page = response.meta.page;
@@ -126,28 +127,27 @@
 						this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
 						console.log(error);
 		        	}).then(() => {
-	        			this.$q.loading.hide()
+	        			this.$store.commit('data/LOAD_FALSE')
 		        	});
 	        	}
 			},
             searchPlaque () {
                 this.$v.search.$touch()
-                this.$q.loading.show()
+                this.$store.commit('data/LOAD_TRUE')
                 if (this.$v.search.$error)
-                    this.$q.loading.hide()
+                    this.$store.commit('data/LOAD_FALSE')
                 else{
                     let board = this.search.text.replace(/ /g, "")
-                    this.$resources.searchVehicle(board).then(response => {
+                    this.$resourcesVehicles.searchVehicle(board).then(response => {
                     	if(response.data != '')
                     		this.$router.push({ name: 'vehicles.update', params:{board: board.toUpperCase()} })
                     	else {
-                        	this.$q.loading.hide()
+                        	this.$store.commit('data/LOAD_FALSE')
                         	this.$q.notify({message: 'Matricula no registrada.',  position: 'top-right', closeBtn: true})
                     	}
                     }).catch(error => {
                         this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
-                        console.error('Error ', error)
-                        this.$q.loading.hide()
+                        this.$store.commit('data/LOAD_FALSE')
                     })
                 }
             },

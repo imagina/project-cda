@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-show="!$store.state.data.load_inner">
         <q-page v-show="!showContract && !showsignature">
             <div class="row q-border">
                 <div class="col-12 col-sm-10 col-md-6 mx-auto q-px-md">
@@ -7,7 +7,7 @@
                         TIPO DE INSPECCIÓN:
                     </span>
                     <div class="w-50 d-inline-block">
-                        <q-select v-model="data.inspections_types_id" :options="selectInspection" class="bg-white q-py-sm q-my-md"/>
+                        <q-select v-model="data.inspections_types_id" :options="$store.state.data.types_inspections" class="bg-white q-py-sm q-my-md"/>
                     </div>
                 </div>
             </div>
@@ -21,13 +21,7 @@
                             <q-field :error="$v.formSearch.plaque.$error">
                                 <q-input v-model="formSearch.plaque" type="text" placeholder="Placa" class="bg-white q-mt-sm uppercase"
                                     v-on:keyup.enter="searchPlaque"
-                                    :after="[
-                                    {
-                                        icon: 'search',
-                                        handler() {
-                                            searchPlaque()
-                                        }
-                                    }]"/>
+                                    :after="[ { icon: 'search', handler() { searchPlaque() } }]"/>
                                 <q-tooltip :error="$v.formSearch.plaque.$error">
                                     <p class="error-message mb-0" v-if="!$v.formSearch.plaque.required">
                                         <i class="material-icons">error_outline</i> El campo es obligatorio.
@@ -151,26 +145,21 @@
                                     </div>
                                     <div class="col-8 col-md-9 col-lg-10">
                                         <q-btn-group class="bg-white">
-
                                             <q-btn label="PESADO"
-                                                @click="data.type_vehicle = 0" 
-                                                :class="{'bg-primary ' : data.type_vehicle == 0}"/>
+                                                @click="data.type_vehicle = 'Heavy'"
+                                                :class="{'bg-primary ' : data.type_vehicle == 'Heavy'}"/>
 
                                             <q-btn label="LIVIANO" 
-                                                @click="data.type_vehicle = 1" 
-                                                :class="{'bg-primary ' : data.type_vehicle == 1}"/>
+                                                @click="data.type_vehicle = 'Light'" 
+                                                :class="{'bg-primary ' : data.type_vehicle == 'Light'}"/>
 
                                             <q-btn label="MOTOCICLETA"
-                                                @click="data.type_vehicle = 2" 
-                                                :class="{'bg-primary ' : data.type_vehicle == 2}"/>
+                                                @click="data.type_vehicle = 'Motorcycle'" 
+                                                :class="{'bg-primary ' : data.type_vehicle == 'Motorcycle'}"/>
 
                                             <q-btn label="LIVIANO" 
-                                                @click="data.type_vehicle = 3" 
-                                                :class="{'bg-primary ' : data.type_vehicle == 3}"/>
-
-                                            <q-btn label="MOTOCICLETA"
-                                                @click="data.type_vehicle = 4" 
-                                                :class="{'bg-primary ' : data.type_vehicle == 4}"/>
+                                                @click="data.type_vehicle = 'Car'" 
+                                                :class="{'bg-primary ' : data.type_vehicle == 'Car'}"/>
 
                                         </q-btn-group>
                                     </div>
@@ -198,7 +187,7 @@
                             </div>
 
                             <!-- Gobernador & Taximetro -->
-                            <div class="col-12 q-px-md q-border" v-if="!isMotocicleta() && data.type_vehicle != 'MOTOCICLETA'">
+                            <div class="col-12 q-px-md q-border" v-if="!isMotocicleta() && data.type_vehicle != 'Motorcycle'">
                                 <q-checkbox v-model="data.governor" label="Gobernador"
                                         :left-label="true"
                                         class="q-mr-lg"/>
@@ -207,7 +196,7 @@
                                         class="q-mr-lg"/>
                             </div>
 
-                            <div class="col-12 q-border" v-if="!isMotocicleta() && data.type_vehicle != 'MOTOCICLETA'">
+                            <div class="col-12 q-border" v-if="!isMotocicleta() && data.type_vehicle != 'Motorcycle'">
                                 <div class="row">
                                     <div class="col-12 q-px-md">
                                         <span class="d-inline-block q-mr-lg font-weight-bold">Vehículo a Gas:</span> 
@@ -237,7 +226,7 @@
                             </div>
                             
                             <!-- kilometraje & diametro -->
-                            <div class="col-12 q-border" v-if="!isMotocicleta() && data.type_vehicle != 'MOTOCICLETA'">
+                            <div class="col-12 q-border" v-if="!isMotocicleta() && data.type_vehicle != 'Motorcycle'">
                                 <div class="row">
                                     <div class="col-12 col-sm-6">
                                         <div class="row">
@@ -342,7 +331,7 @@
                             <!-- /Pre-Inspección -->
 
                             <!-- Llantas -->
-                            <q-axes :axes="$v.data.axes" :type="data.type_vehicle == 'MOTOCICLETA'" class="col-12 q-px-md q-border"/>
+                            <q-axes :axes="$v.data.axes" :type="data.type_vehicle == 'Motorcycle'" class="col-12 q-px-md q-border"/>
                             <!-- /Llantas -->
 
                             <!-- Inventario -->
@@ -354,7 +343,7 @@
                                 <carousel :perPage="3" :paginationEnabled="false" :autoplay="true" :navigationEnabled="true" :navigationNextLabel="nextLabel" :navigationPrevLabel="prevLabel" >
                                   <slide v-for="(img, index) in data.gallery" :key="index">
                                     <div class="q-px-md text-center">
-                                      <img :src="img|base_url" style="max-width: 100%;">
+                                      <img :src="img|asset" style="max-width: 100%;">
                                     </div>
                                   </slide>
                                 </carousel>
@@ -449,7 +438,6 @@
     import qInventary from '../../../components/q-inventary';
     import qGallery from '../../../components/q-gallery';
     import qContract from '../../../components/q-contract';
-    import resources from 'src/services/resources';
     import VueSignaturePad from 'vue-signature-pad';
     import config from 'src/config/index'
     import { Carousel, Slide } from 'vue-carousel'
@@ -459,9 +447,6 @@
         components: { qInputValidation, qGallery, qInventary, qAxes, qContract, VueSignaturePad, Carousel, Slide },
         data () {
             return {
-                imageSrc: '',
-                IMEI: window.device === void 0  ? 'Run this on a mobile/tablet device'  : window.device,
-                show: false,
                 showData: false,
                 showContract: false,
                 aceptContract: false,
@@ -473,7 +458,7 @@
                 data: {
                     pre_inspections: [],
                     vehicles_id: null,
-                    inspections_types_id: null,
+                    inspections_types_id: 1,
                     teaching_vehicle: null,
                     mileage: null,
                     exhosto_diameter: null,
@@ -503,33 +488,20 @@
                 },
                 created: false,
                 formSearch : { plaque: null },
-                selectInspection: [],
                 selectItems: [],
                 nextLabel: "<i class='fa fa-chevron-right' aria-hidden='true'></i>",
-                prevLabel: "<i class='fa fa-chevron-left' aria-hidden='true'></i>",
-                selectTypesServices: []
+                prevLabel: "<i class='fa fa-chevron-left' aria-hidden='true'></i>"
             }
         },
         created() {
-            this.$q.loading.show()
+            this.$store.commit('data/LOAD_TRUE')
             Promise.all([
-                resources.inspectionsTypes(),
-                resources.preInspections(),
-                resources.inventory(),
-                resources.users(this.data.user_id),
-                resources.typesVehicles()
+                this.$resourcesInspections.preInspections(),
+                this.$resourcesInspections.inventory(),
+                this.$resourcesUsers.users(this.data.user_id),
             ]).then((response) => {
 
-                this.selectInspection = response[0].map((e,index) => {
-                    if (index === 0)
-                        this.data.inspections_types_id = e.value;
-                    return {
-                        label: e.label,
-                        value: e.value
-                    }
-                })
-
-                this.data.pre_inspections = response[1].map(e => {
+                this.data.pre_inspections = response[0].map(e => {
                     let options = null
                     if (e.values) {
                         options = e.values.map(e => {
@@ -549,7 +521,7 @@
                     }
                 })
 
-                this.data.items = response[2].data.map(e => {
+                this.data.items = response[1].data.map(e => {
                     return {
                         name: e.name,
                         inventory_id: e.id,
@@ -558,23 +530,16 @@
                     }
                 })
 
-                this.user = response[3]
+                this.user = response[2]
 
-                this.selectTypesServices = response[4]
-
-                console.log(this.selectTypesServices)
-
-                this.$q.loading.hide()
-
+                this.$store.commit('data/LOAD_FALSE')
             }).catch((err) => {
+                this.$store.commit('data/LOAD_FALSE')
                 this.$q.notify({
                         message: 'Losiento, ocurrio un error en el servidor. Intente de nuevo.',
                         position: 'top-right'
                     })
                 console.log('There is an error', err);
-                this.$q.loading.hide()
-            }).then(() => {
-                this.$q.loading.hide()
             })
         },
         watch: {
@@ -589,14 +554,8 @@
             },
         },
         filters: {
-            uppercase: function (value) {
-                return value.toUpperCase()
-            },
             validity: function (value) {
                 return value? 'VIGENTE' : 'NO VIGENTE'
-            },
-            base_url: function(img_url) {
-              return config('api.base_url') + '/' +img_url
             }
         },
         validations: {
@@ -658,9 +617,9 @@
         methods: {
             submitData () {
                 this.$v.data.$touch()
-                this.$q.loading.show()
+                this.$store.commit('data/LOAD_TRUE')
                 if (this.$v.data.$error) {
-                    this.$q.loading.hide()
+                    this.$store.commit('data/LOAD_FALSE')
                     this.$q.notify({message: 'Por favor revise los campos de nuevo.',  position: 'top-right', closeBtn: true})
                     return
                 } else {
@@ -669,7 +628,7 @@
                         this.showsignature = true
                     else
                         this.showContract = true;
-                    this.$q.loading.hide()
+                    this.$store.commit('data/LOAD_FALSE')
                 }
             },
             submitContract() {
@@ -683,9 +642,9 @@
             },
             submitSave() {
                 this.$v.data.$touch()
-                this.$q.loading.show()
+                this.$store.commit('data/LOAD_TRUE')
                 if (this.$v.data.$error) {
-                    this.$q.loading.hide()
+                    this.$store.commit('data/LOAD_FALSE')
                     this.$q.notify({message: 'Por favor revise los campos de nuevo.',  position: 'top-right', closeBtn: true})
                     return
                 } else {
@@ -708,12 +667,11 @@
                         delete jsonData['vehicle_delivery_signature'];
                     if ( !this.is_signature_received_report)
                         delete jsonData['signature_received_report'];
-                    resources.setInspections(jsonData)
+                    this.$resourcesInspections.createInspections(jsonData)
                     .then(response => {
-
                         this.$router.push({ name: 'home' })
                     }).catch(error => {
-                        this.$q.loading.hide()
+                        this.$store.commit('data/LOAD_FALSE')
                         this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
                     })
                 }
@@ -729,21 +687,20 @@
             },
             searchPlaque () {
                 this.$v.formSearch.$touch()
-                this.$q.loading.show()
+                this.$store.commit('data/LOAD_TRUE')
                 this.notFound = false
                 if (this.$v.formSearch.$error){
-                    this.$q.loading.hide()
+                    this.$store.commit('data/LOAD_FALSE')
                 }
                 else{
                     let board = this.formSearch.plaque.replace(/ /g, "")
                     this.data.board = board
-                    resources.vehicle(board,this.data.user_id)
+                    this.$resourcesVehicles.vehicle(board,this.data.user_id)
                     .then(response => {
                         this.data.attributes = []
                         this.data.vehicles_id = response.data.id
-                        this.data.type_vehicle = response.data.typeVehicle
                         this.data.attributes = response.data
-                        this.data.type_vehicle = this.data.attributes.type_vehicle != null ? this.data.attributes.type_vehicle : 2
+                        this.data.type_vehicle = this.typeVehicle(response.data.typeVehicle)
                         if(response.created)
                             this.notFound = true
                         this.showData = true;
@@ -751,12 +708,23 @@
                         this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
                         console.error('Error ', error)
                     }).then(() => {
-                        this.$q.loading.hide()
+                        this.$store.commit('data/LOAD_FALSE')
                     })
                 }
             },
+            typeVehicle(value) {
+                if(value == 1)
+                    return 'Heavy'
+                if(value == 2)
+                    return 'Light'
+                if(value == 3)
+                    return 'Motorcycle'
+                if(value == 4)
+                    return 'Car'
+                return 'Motorcycle'
+            },
             isMotocicleta() {
-                return this.data.attributes.type_vehicle == 2;
+                return this.data.attributes.type_vehicle == 'Motorcycle';
             },
             captureImage () {
                 var cameraError = function(error) { 

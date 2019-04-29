@@ -1,5 +1,5 @@
 <template>
-	<q-page class="create-vehicle">
+	<q-page class="create-vehicle" v-show="!$store.state.data.load_inner">
 	    <div class="layout-padding">
             <div class="row">
             	<div class="col-12 q-px-md">
@@ -9,31 +9,31 @@
 			        <q-field :error="$v.attributes.service_type.$error">
 			        	<span class="font-weight-bold d-inline-block"
 			        		:class="{'color-danger': $v.attributes.service_type.$error}">Tipo de Servicio:</span>
-			        	<q-select v-model="attributes.service_type" class="q-mb-lg uppercase" placeholder="Tipo de Servicio" :options="selectTypesServices"/>
+			        	<q-select v-model="attributes.service_type" class="q-mb-lg uppercase" placeholder="Tipo de Servicio" :options="$store.state.data.types_services"/>
 			        </q-field>
 
 			        <q-field :error="$v.attributes.type_vehicle.$error">
 			        	<span class="font-weight-bold d-inline-block"
 			        		:class="{'color-danger': $v.attributes.type_vehicle.$error}">Clase de Vehículo</span>
-			        		<q-select v-model="attributes.type_vehicle" class="q-mb-lg uppercase" placeholder="Clase de Vehículo" :options="selectTypesVehicles"/>
+			        		<q-select v-model="attributes.type_vehicle" class="q-mb-lg uppercase" placeholder="Clase de Vehículo" :options="$store.state.data.types_vehicles"/>
 			        </q-field>
 
 			        <q-field :error="$v.attributes.brand_id.$error">
 			        	<span class="font-weight-bold d-inline-block"
 			        		:class="{'color-danger': $v.attributes.brand_id.$error}">Marca:</span>
-			        	<q-select v-model="attributes.brand_id" class="q-mb-lg uppercase" placeholder="Marca" :options="selectBrands"/>
+			        	<q-select v-model="attributes.brand_id" class="q-mb-lg uppercase" placeholder="Marca" :options="$store.state.data.types_brands"/>
 			        </q-field>
 
 			        <q-field :error="$v.attributes.line_id.$error">
 			        	<span class="font-weight-bold d-inline-block"
 			        		:class="{'color-danger': $v.attributes.line_id.$error}">Línea:</span>
-			        	<q-select v-model="attributes.line_id" class="q-mb-lg uppercase" placeholder="Line" :options="selectLines"/>
+			        	<q-select v-model="attributes.line_id" class="q-mb-lg uppercase" placeholder="Line" :options="$store.state.data.types_lines"/>
 			        </q-field>
 
 			        <q-field :error="$v.attributes.model.$error">
 			        	<span class="font-weight-bold d-inline-block"
 			        		:class="{'color-danger': $v.attributes.model.$error}">Modelo:</span>
-			        	<q-select v-model="attributes.model" class="q-mb-lg uppercase" placeholder="Modelo" :options="years"/>
+			        	<q-select v-model="attributes.model" class="q-mb-lg uppercase" placeholder="Modelo" :options="$store.state.data.types_models"/>
 			        </q-field>
 
 			        <q-field :error="$v.attributes.transit_license.$error">
@@ -58,14 +58,14 @@
 			        <q-field :error="$v.attributes.color_id.$error">
 			        	<span class="font-weight-bold d-inline-block"
 			        		:class="{'color-danger': $v.attributes.color_id.$error}">Color:</span>
-			        	<q-select v-model="attributes.color_id" class="q-mb-lg uppercase" placeholder="Color" :options="selectColors"/>
+			        	<q-select v-model="attributes.color_id" class="q-mb-lg uppercase" placeholder="Color" :options="$store.state.data.types_colors"/>
 			        </q-field>
 
 			        <q-field :error="$v.attributes.type_fuel.$error">
 			        	<span class="font-weight-bold d-inline-block"
 			        		:class="{'color-danger': $v.attributes.type_fuel.$error}">Tipo de combustible:</span>
 			        	<q-select v-model="attributes.type_fuel" class="q-mb-lg uppercase" placeholder="Tipo de combustible" 
-			        			:options="selectTypesFuels"/>
+			        			:options="$store.state.data.types_fuels"/>
 			        </q-field>
 
 			        <q-field :error="$v.attributes.vin_number.$error">
@@ -97,8 +97,8 @@
 			        		:class="{'color-danger': $v.attributes.axes_number.$error}">Numero de ejes:</span>
 			        	<q-input v-model="attributes.axes_number" type="text" placeholder="Numero de ejes" class="q-mb-lg"/>
 			        </q-field>
-
                 </div>
+
 				<div class="col-12">
 					<div class="row">
 						<div class="col-12 q-px-md">
@@ -129,6 +129,7 @@
 					</div>
 				</div>
             	<div class="col-12 text-right q-py-lg">
+            	    <q-btn color="red" size="md" label="Atras" class="q-px-lg q-mr-sm btn-app" @click="back"/>
             	    <q-btn color="black" size="md" label="Guardar" class="q-px-lg btn-app" @click="submitData"/>
             	</div>
             </div>
@@ -164,87 +165,32 @@
 					insurance_expiration: null,
 					user_id: null,
 					vin_number: null,
-	    		},
-	            selectTypesVehicles: [],
-	            selectTypesServices: [],
-	            selectTypesFuels: [],
-	            selectColors: [],
-	            selectBrands: [],
-	            selectLines: [],
-	            selectModel: []
+	    		}
 	    	}
 	    },
-  		computed : {
-    		years () {
-    			const year = new Date().getFullYear()
-    			return Array.from({length: year - 1900}, (value, index) => ({label: parseInt(year - index).toString(), value: year - index}))
-    		}
-  		},
 	    created() {
-	    	this.$q.loading.show()
-            Promise.all([
-                this.$resources.getTypesServices(),
-                this.$resources.getTypesFuels(),
-                this.$resources.typesVehicles(),
-				this.$resources.typesBrands(),
-				this.$resources.typesColors(),
-				this.$resources.typesLines(),
-				this.$resources.searchVehicle(this.$route.params.board)
-            ]).then((response) => {
-                this.selectTypesServices = response[0].map((e,index) => {
-                    return {
-                        label: e,
-                        value: index
-                    }
-                })
-                this.selectTypesFuels = response[1].map((e,index) => {
-                    return {
-                        label: e,
-                        value: index
-                    }
-                })
-                this.selectTypesVehicles = response[2].map((e,index) => {
-                    return {
-                        label: e,
-                        value: index
-                    }
-                })
-                this.selectBrands = response[3].map((e,index) => {
-                    return {
-                        label: e.name,
-                        value: e.id
-                    }
-                })
-                this.selectColors = response[4].map((e,index) => {
-                    return {
-                        label: e.name,
-                        value: e.id
-                    }
-                })
-                this.selectLines = response[5].map((e,index) => {
-                    return {
-                        label: e.name,
-                        value: e.id
-                    }
-                })
-            	this.attributes = response[6].data
-            	this.attributes.brand_id 	 = response[6].data.brand_id ? parseInt(response[6].data.brand_id) : null
-            	this.attributes.color_id 	 = response[6].data.color_id ? parseInt(response[6].data.color_id) : null
-            	this.attributes.line_id 	 = response[6].data.line_id ? parseInt(response[6].data.line_id) : null
-            	this.attributes.type_fuel 	 = response[6].data.type_fuel ? parseInt(response[6].data.type_fuel) : null
-            	this.attributes.type_vehicle = response[6].data.type_vehicle ? parseInt(response[6].data.type_vehicle) : null
-            	this.attributes.service_type = response[6].data.service_type ? parseInt(response[6].data.service_type) : null
-            	this.attributes.model        = response[6].data.model ? parseInt(response[6].data.model) : null
-            	this.attributes.user_id = response[6].data.user.id
-                this.$q.loading.hide()
+	    	this.$store.commit('data/LOAD_TRUE')
+			this.$resourcesVehicles.searchVehicle(this.$route.params.board)
+			.then((response) => {
+            	this.attributes = response.data
+            	this.attributes.brand_id 	 = response.data.brand_id ? parseInt(response.data.brand_id) : null
+            	this.attributes.color_id 	 = response.data.color_id ? parseInt(response.data.color_id) : null
+            	this.attributes.line_id 	 = response.data.line_id ? parseInt(response.data.line_id) : null
+            	this.attributes.type_fuel 	 = response.data.type_fuel ? parseInt(response.data.type_fuel) : null
+            	this.attributes.type_vehicle = response.data.type_vehicle ? parseInt(response.data.type_vehicle) : null
+            	this.attributes.service_type = response.data.service_type ? parseInt(response.data.service_type) : null
+            	this.attributes.model        = response.data.model ? parseInt(response.data.model) : null
+            	this.attributes.user_id = response.data.user.id
             }).catch((err) => {
                 this.$q.notify({
                         message: 'Ups! Ocurrio un error en el servidor...',
                         position: 'top-right'
                     })
                 console.log('There is an error', err);
-                this.$q.loading.hide()
             })
+			.then(() => {
+                this.$store.commit('data/LOAD_FALSE')
+            });
 	    },
         validations: {
             attributes: {
@@ -269,10 +215,10 @@
         },
         methods: {
             submitData () {
-                this.$q.loading.show()
+                this.$store.commit('data/LOAD_TRUE')
                 this.$v.attributes.$touch()
                 if (this.$v.attributes.$error) {
-                    this.$q.loading.hide()
+                    this.$store.commit('data/LOAD_FALSE')
                     this.$q.notify({message: 'Por favor revise los campos de nuevo.',  position: 'top-right', closeBtn: true})
                     return
                 } else {
@@ -283,15 +229,18 @@
                     	}
                     });
                     
-                    this.$resources.updateVehicle(attributes)
+                    this.$resourcesVehicles.updateVehicle(attributes)
                     .then(response => {
                         this.$q.notify({type:'positive', message: 'Vehiculo actualizado exitosamente!',  position: 'top-right', closeBtn: true})
                         this.$router.push({ name: 'vehicles.index' })
                     }).catch(error => {
-                        this.$q.loading.hide()
+                        this.$store.commit('data/LOAD_FALSE')
                         this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
                     })
                 }
+            },
+            back () {
+                this.$router.push({ name: 'vehicles.index' })
             }
         }
 	}

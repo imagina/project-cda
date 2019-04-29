@@ -12,6 +12,7 @@ module.exports = function (ctx) {
       'vuelidate',
       'axios',
       'access',
+      'filters',
       'resources',
       'pusher'
     ],

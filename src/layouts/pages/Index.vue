@@ -1,5 +1,5 @@
 <template>
-  <q-page class="container-section q-py-lg">
+  <q-page class="container-section q-py-lg" v-show="!$store.state.data.load_inner">
     <div class="row">
         <div class="col-12 col-sm-8 col-md-6 col-lg-5 mx-auto">
             <div class="row q-pt-sm">
@@ -18,13 +18,7 @@
             <q-field :error="$v.form.number_document.$error" class="q-my-md">
                 <q-input v-model="form.number_document" type="text" placeholder="N° Cédula" class="bg-white mx-auto"
                     v-on:keyup.enter="searchUser"
-                    :after="[
-                    {
-                        icon: 'search',
-                        handler() {
-                            searchUser()
-                        }
-                    }]"/>
+                    :after="[{icon: 'search',handler() { searchUser()} }]"/>
                 <q-tooltip v-show="$v.form.number_document.$error">
                     <p class="error-message mb-0" v-if="!$v.form.number_document.required">
                         <i class="material-icons">error_outline</i> El campo es obligatorio.
@@ -100,9 +94,6 @@
 
 <script>
 import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
-import resources from 'src/services/resources';
-
-const isPhone = (value) => /^1(3|4|5|7|8)\d{9}$/.test(value);  //phone valid
 
 export default {
     name: 'PageIndex',
@@ -149,7 +140,9 @@ export default {
            dateEntry: new Date().toJSON().slice(0,10).replace(/-/g,'-'),
            id:  null
         })
-        this.$q.loading.hide()
+    },
+    mounted() {
+        this.$store.commit('data/LOAD_FALSE')
     },
     validations: {
         form: {
@@ -162,36 +155,32 @@ export default {
             checked: { required, sameAs: sameAs( () => true ) }
         },
     },
-    watch: {
-
-    },
     methods: {
         submit () {
-            this.$q.loading.show()
+            this.$store.commit('data/LOAD_TRUE')
             this.$v.form.$touch()
             if (this.$v.form.$error) {
-                this.$q.loading.hide()
+                this.$store.commit('data/LOAD_FALSE')
                 this.$q.notify({icon:'error', message: 'Por favor revise los campos de nuevo',  position: 'top-right', closeBtn: true})
                 return
             }else {
-                resources.createUser(this.form)
+                this.$resourcesUsers.createUser(this.form)
                 .then(response => {
                     let user_id = response.data.succes.detail.id
                     this.$router.push({ name: 'create.inspection', params: { user_id: user_id, update: false } })
                 }).catch((error) => {
-                    let errors = JSON.parse(error.response.data.errors)
-                    let message;
-                    for (var clave in errors){
+                    let message, errors = JSON.parse(error.response.data.errors)
+                    for (var clave in errors) {
                         message = errors[clave]
                     }
-                    this.$q.loading.hide()
+                    this.$store.commit('data/LOAD_FALSE')
                     this.$q.notify({icon:'error', message: message,  position: 'top-right', closeBtn: true})
                 })
             }
         },
         searchUser () {
-            this.$q.loading.show()
-            resources.searchUser(this.form.type_document,this.form.number_document)
+            this.$store.commit('data/LOAD_TRUE')
+            this.$resourcesUsers.searchUser(this.form.type_document,this.form.number_document)
             .then(response => {
                 if(response.data.data.length) {
                     let user = response.data.data[0]
@@ -201,28 +190,26 @@ export default {
                     this.form.first_name         =   user.first_name
                     this.form.last_name          =   user.last_name
                     this.form.number_document    =   user.number_document
-                    // this.changeSearch = true
                     this.$router.push({ name: 'create.inspection', params: { user_id: this.form.user_id, update: false } })
-                    this.$q.loading.hide()
                 }
                 else {
                     this.$q.notify({icon:'error', message: 'Usuario no encontrado, debe registrarse',  position: 'top-right', closeBtn: true})
-                    this.$q.loading.hide()
+                    this.$store.commit('data/LOAD_FALSE')
                 }
             }).catch(error => {
-                this.$q.notify({icon:'error', message: 'Ocurrio un error inesperado',  position: 'top-right', closeBtn: true})
-                this.$q.loading.hide()
+                this.$store.commit('data/LOAD_FALSE')
+                this.$q.notify({icon:'error',message: 'Ocurrio un error inesperado',position:'top-right',closeBtn: true})
             })
         },
         next () {
-            this.$q.loading.show()
+            this.$store.commit('data/LOAD_TRUE')
             this.$v.form.$touch()
             if (this.$v.form.$error) {
-                this.$q.loading.hide()
+                this.$store.commit('data/LOAD_FALSE')
                 this.$q.notify({icon:'error', message: 'Por favor revise los campos de nuevo',  position: 'top-right', closeBtn: true})
                 return
             }else {
-                this.$q.loading.hide()
+                this.$store.commit('data/LOAD_FALSE')
                 this.$router.push({ name: 'create.inspection', params: { user_id: this.form.user_id, update: false } })
             }
         }

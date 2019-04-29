@@ -1,5 +1,5 @@
 <template>
-	<q-page class="create-vehicle">
+	<q-page class="create-vehicle" v-show="!$store.state.data.load_inner">
 	    <div class="layout-padding">
 	    	<div class="row mt-3">
             	<div class="col-12 q-px-md">
@@ -63,7 +63,7 @@
 			        <q-field :error="$v.attributes.model.$error">
 			        	<span class="font-weight-bold d-inline-block"
 			        		:class="{'color-danger': $v.attributes.model.$error}">Modelo:</span>
-			        	<q-select v-model="attributes.model" class="q-mb-lg uppercase" placeholder="Modelo" :options="years"/>
+			        	<q-select v-model="attributes.model" class="q-mb-lg uppercase" placeholder="Modelo" :options="selectModel"/>
 			        </q-field>
 
 			        <q-field :error="$v.attributes.transit_license.$error">
@@ -197,7 +197,6 @@
 <script>
     import { required, email, minLength, sameAs, requiredIf, requiredUnless} from 'vuelidate/lib/validators';
     import qInputValidation from '../../../components/q-input-validation';
-	import resources from 'src/services/resources';
 	import config from 'src/config/index'
 
 	export default {
@@ -254,68 +253,15 @@
 	            selectModel: []
 	    	}
 	    },
-  		computed : {
-    		years () {
-    		  const year = new Date().getFullYear()
-    		  return Array.from({length: year - 1900}, (value, index) => ({label: parseInt(year - index).toString(), value: year - index}))
-    		}
-  		},
 	    created() {
-			// this.selectTypesVehicles = this.$store.getters['data/GET_TYPES_VEHICLES']
-            this.$q.loading.show()
-            Promise.all([
-                this.$resources.getTypesServices(),
-                this.$resources.getTypesFuels(),
-                this.$resources.typesVehicles(),
-				this.$resources.typesBrands(),
-				this.$resources.typesColors(),
-				this.$resources.typesLines()
-            ]).then((response) => {
-                this.selectTypesServices = response[0].map((e,index) => {
-                    return {
-                        label: e,
-                        value: index
-                    }
-                })
-                this.selectTypesFuels = response[1].map((e,index) => {
-                    return {
-                        label: e,
-                        value: index
-                    }
-                })
-                this.selectTypesVehicles = response[2].map((e,index) => {
-                    return {
-                        label: e,
-                        value: index
-                    }
-                })
-                this.selectBrands = response[3].map((e,index) => {
-                    return {
-                        label: e.name,
-                        value: e.id
-                    }
-                })
-                this.selectColors = response[4].map((e,index) => {
-                    return {
-                        label: e.name,
-                        value: e.id
-                    }
-                })
-                this.selectLines = response[5].map((e,index) => {
-                    return {
-                        label: e.name,
-                        value: e.id
-                    }
-                })
-                this.$q.loading.hide()
-            }).catch((err) => {
-                this.$q.notify({
-                        message: 'Ups! Ocurrio un error en el servidor...',
-                        position: 'top-right'
-                    })
-                console.log('There is an error', err);
-                this.$q.loading.hide()
-            })
+			this.selectTypesServices = this.$store.getters['data/GET_TYPES_SERVICES']
+			this.selectTypesFuels = this.$store.getters['data/GET_TYPES_FUELS']
+			this.selectTypesVehicles = this.$store.getters['data/GET_TYPES_VEHICLES']
+			this.selectBrands = this.$store.getters['data/GET_TYPES_BRANDS']
+			this.selectColors = this.$store.getters['data/GET_TYPES_COLORS']
+			this.selectLines = this.$store.getters['data/GET_TYPES_LINES']
+			this.selectModel = this.$store.getters['data/GET_TYPES_MODELS']
+            this.$store.commit('data/LOAD_FALSE')
 	    },
         validations: {
             attributes: {
@@ -347,10 +293,10 @@
         },
         methods: {
             submitData () {
-                this.$q.loading.show()
+                this.$store.commit('data/LOAD_TRUE')
                 this.$v.attributes.$touch()
                 if (this.$v.attributes.$error) {
-                    this.$q.loading.hide()
+                    this.$store.commit('data/LOAD_FALSE')
                     this.$q.notify({message: 'Por favor revise los campos de nuevo.',  position: 'top-right', closeBtn: true})
                     return
                 } else {
@@ -375,27 +321,27 @@
 		                        this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
 		                    })
 		                    .then(() => {
-		                    	this.$q.loading.hide()
+		                    	this.$store.commit('data/LOAD_FALSE')
 		                    })
 	                	}else {
 		                    this.$q.notify({message: 'La placa ya se encuentra registrada',  position: 'top-right', closeBtn: true})
-                    		this.$q.loading.hide()
+                    		this.$store.commit('data/LOAD_FALSE')
 	                	}
                     }).catch(error => {
-                    	this.$q.loading.hide()
+                    	this.$store.commit('data/LOAD_FALSE')
                         this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
                     })
                 }
             },
 	        searchUser () {
-	            this.$q.loading.show()
+	            this.$store.commit('data/LOAD_TRUE')
                 this.$v.search.$touch()
                 if (this.$v.search.$error) {
-                    this.$q.loading.hide()
+                    this.$store.commit('data/LOAD_FALSE')
                     this.$q.notify({message: 'Por favor revise los campos de nuevo.',  position: 'top-right', closeBtn: true})
                     return
                 } else {
-		            resources.searchUser(this.search.type_document,this.search.number_document)
+		            this.$resourcesUsers.searchUser(this.search.type_document,this.search.number_document)
 		            .then(response => {
 		                if(response.data.data.length) {
 		                    this.attributes.user_id = response.data.data[0].id
@@ -411,7 +357,7 @@
 		            }).catch(error => {
 		                this.$q.notify({icon:'error', message: 'Ocurrio un error inesperado',  position: 'top-right', closeBtn: true})
 		            }).then(() => {
-		                this.$q.loading.hide()
+		                this.$store.commit('data/LOAD_FALSE')
 		            });
 		        }
 	        },

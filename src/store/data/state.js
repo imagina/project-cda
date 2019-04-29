@@ -1,8 +1,13 @@
 export default {
-	types_document: [],
+	load_inner: true,
+	types_documents: [],
 	types_vehicles: [],
-	types_modelos: [],
 	types_inspections: [],
-	types_fuel: [],
-	types_inspections_statues: []
+	types_inspections_statues: [],
+	types_services: [],
+	types_fuels: [],
+	types_brands: [],
+	types_colors: [],
+	types_lines: [],
+	types_models: []
 }

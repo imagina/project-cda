@@ -24,7 +24,9 @@
           </div>
         </div>
       </div>
+      <q-progress indeterminate color="warning" v-show="load"/>
     </q-layout-header>
+
     <!-- === MENU === -->
     <q-layout-drawer id="menu_master" v-model="leftDrawerOpen" :content-class="'bg-grey-2'" >
       <q-list no-border link inset-delimiter>
@@ -45,6 +47,9 @@
       <router-view/>
     </q-page-container>
 
+    <q-inner-loading :visible="$store.state.data.load_inner">
+      <q-spinner-gears size="50px" color="primary"></q-spinner-gears>
+    </q-inner-loading>
   </q-layout>
 </template>
 
@@ -68,76 +73,40 @@
       return {
         leftDrawerOpen: false,
         drawerState: true,
-        inspection: null,
-        Echo: null
+        load: true,
       }
     },
     created() {
       this.$q.loading.show()
       Promise.all([
-        this.$resources.getInspectionStatues(),
-        this.$resources.typesVehicles(),
-        this.$resources.inspectionsTypes(),
+        this.$resources.getTypesVehicles(),
+        this.$resources.getTypesInspections(),
+        this.$resources.getTypesInspectionStatues(),
+        this.$resources.getTypesServices(),
+        this.$resources.getTypesFuels(),
+        this.$resources.getTypesBrands(),
+        this.$resources.getTypesColors(),
+        this.$resources.getTypesLines(),
+        this.$resources.getTypesModels()
       ]).then((response) => {
-        this.$store.commit('data/SET_TYPES_INSPECTIONS_STATUES',response[0])
-        this.$store.commit('data/SET_TYPES_VEHICLES',response[1])
-        this.$store.commit('data/SET_TYPES_INSPECTIONS',response[2])
+        this.$store.commit('data/SET_TYPES_VEHICLES',response[0])
+        this.$store.commit('data/SET_TYPES_INSPECTIONS',response[1])
+        this.$store.commit('data/SET_TYPES_INSPECTIONS_STATUES',response[2])
+        this.$store.commit('data/SET_TYPES_SERVICES',response[3])
+        this.$store.commit('data/SET_TYPES_FUELS',response[4])
+        this.$store.commit('data/SET_TYPES_BRANDS',response[5])
+        this.$store.commit('data/SET_TYPES_COLORS',response[6])
+        this.$store.commit('data/SET_TYPES_LINES',response[7])
+        this.$store.commit('data/SET_TYPES_MODELS',response[8])
+        this.$q.loading.hide()
       }).catch((err) => {
         this.$q.notify({ message: 'Ups! Ocurrio un error de conexion. Intente de nuevo.', position: 'top-right'})
         console.log('There is an error', err);
-      }).then((response) => {
+      }).then(() => {
+        this.load = false
+        this.$store.commit('data/LOAD_FALSE')
         this.$q.loading.hide()
       });
-    },
-    mounted() {
-      if (this.$auth.hasAccess('icda.inspections.create')) {
-        var channel = this.$pusher.subscribe('inspections-list');
-        channel.bind('Modules\\Icda\\Events\\RecordListInspections', (data) =>  {
-          this.$store.commit('inspections/ADD_INSPECTION_LIST',data.inspection)
-          this.$q.notify({
-            message: data.message,
-            position: 'bottom-left',
-            closeBtn: true,
-            type: 'positive',
-            color: 'blue',
-            timeout: 80000,
-            actions: [
-              {
-                label: 'VER',
-                noDismiss: true,
-                handler: () => {
-                  this.$router.push({ name: 'update.inspection', params:{inspection: data.inspection_id} })
-                }
-              }
-            ]
-          })
-        });
-      }
-
-      if (this.$auth.hasAccess('icda.vehicles.create')) {
-        var channel = this.$pusher.subscribe('vehicles-list');
-        channel.bind('Modules\\Icda\\Events\\RecordListVehicles', (data) =>  {
-          this.$store.commit('vehicle/ADD_VEHICLE_LIST',data.vehicle)
-          this.$q.notify({
-            message: data.message,
-            position: 'bottom-right',
-            closeBtn: true,
-            type: 'positive',
-            color: 'blue',
-            timeout: 80000,
-            actions: [
-              {
-                label: 'VER',
-                noDismiss: true, // optional, v0.15.11+
-                handler: () => {
-                  this.$router.push({ name: 'vehicles.update', params:{board: data.vehicle.board.toUpperCase()} })
-                }
-              }
-            ]
-          })
-        });
-      }
-            // this.$q.loading.show()
     },
     methods: {
       PadLeft(value, length) {

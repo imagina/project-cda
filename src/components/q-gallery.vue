@@ -35,15 +35,10 @@
         visible: false
       }
     },
-    filters: {
-      base_url: function(img_url) {
-        return config('api.base_url') + '/' +img_url
-      }
-    },
     methods: {
       uploadFile (file, updateProgress) {
         this.visible = true
-        resources.addImagenGallery(file, this.code)
+        this.$resourcesInspections.addImagenGallery(file, this.code)
         .then(response => {
           this.gallery.push(response.data.data.url)
           this.$refs.uploader.reset();
