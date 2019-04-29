@@ -398,7 +398,14 @@
                 </div>
                 <div class="row">
                     <div class="col-12 q-mb-lg">
-                        <p class="font-weight-bold mb-0">Firma y Cédula Entrega de Vehículo</p>
+                        <div class="row q-mb-sm">
+                            <div class="col">
+                                <p class="font-weight-bold mb-0">Firma y Cédula Entrega de Vehículo</p>
+                            </div>
+                            <div class="col text-right">
+                                <q-btn color="black" size="sm" label="Limpiar" class="q-px-lg btn-app" v-if="data.vehicle_delivery_signature" @click="undo"/>
+                            </div>
+                        </div>
                         <VueSignaturePad
                             v-if="showsignature && is_vehicle_delivery_signature"
                             width="100%"
@@ -678,13 +685,17 @@
                     })
                 }
             },
+            undo() {
+                this.$refs.signatureEntrega.undoSignature();
+            },
             onEnd() {
                 if ( this.is_vehicle_delivery_signature) {
 
                     var { isEmpty, data } = this.$refs.signatureEntrega.saveSignature();
                     if(!isEmpty) {
                         this.data.vehicle_delivery_signature = data
-                    }
+                    } else
+                        this.data.vehicle_delivery_signature = null
                 }
             },
             searchPlaque () {

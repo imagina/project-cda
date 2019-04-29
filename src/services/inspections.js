@@ -120,7 +120,7 @@ export default {
   	 * Obtiene los items del inventario
   	 */
   	inventory() {
-  		let url = config('api.api_icda') + '/inventory'
+  		let url = config('api.api_icda') + '/inventory?filter = {"status":1}'
     	return new Promise((resolve, reject) => {
     	  	return http.get(url).then(response => {
     	    	resolve(response.data);

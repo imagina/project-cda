@@ -7,6 +7,7 @@ export default {
     title: 'Inicio',
     icon: 'fas fa-home',
     to: 'home',
+    can: 'icda.inspections.create'
   },
   /*Ordens*/
   ordens: {

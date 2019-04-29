@@ -381,6 +381,13 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-12 print-col-12">
+                                        <div class="row q-mb-sm">
+                                            <div class="col">
+                                            </div>
+                                            <div class="col text-right">
+                                                <q-btn color="black" size="sm" label="Limpiar" class="q-px-lg btn-app" v-if="is_signature_received_report" @click="undo"/>
+                                            </div>
+                                        </div>
                                         <VueSignaturePad 
                                             v-if="is_signature_received_report"
                                             width="100%"
@@ -789,6 +796,9 @@
                     this.ifUpdateInspections = true
                     this.data.signature_received_report = data
                 }
+            },
+            undo() {
+                this.$refs.signatureRecibido.undoSignature();
             },
             updateInspections() {
                 const formData = new FormData();
