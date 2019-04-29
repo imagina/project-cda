@@ -374,8 +374,8 @@
                                             </span>
                                         </p>
                                         <div class="d-inline-block print-none">
-                                          <q-radio v-model="data.seen_technical_director" :val="true" label="Si" class="q-mr-lg"/>
-                                          <q-radio v-model="data.seen_technical_director" :val="false" label="No" class="q-mr-lg"/>
+                                          <q-radio v-model="data.seen_technical_director" :disable="data.seen_technical_director != null" :val="1" label="Si" class="q-mr-lg"/>
+                                          <q-radio v-model="data.seen_technical_director" :disable="data.seen_technical_director != null" :val="0" label="No" class="q-mr-lg"/>
                                         </div>
                                     </div>
                                 </div>
@@ -411,7 +411,6 @@
                                             <div class="col-12 q-px-md">
                                                 <h5 class="border-bottom q-my-sm">TECNOMECANICA</h5>
                                             </div>
-
                                             <q-field :error="$v.data.attributes.tecnomecanica_expedition.$error" class="col-6 col-sm-4 q-px-md">
                                                 <span class="font-weight-bold d-inline-block"
                                                         :class="{'color-danger': $v.data.attributes.tecnomecanica_expedition.$error }">Fecha Fin De Vigencia:</span>
@@ -454,7 +453,7 @@
                                     <div class="col text-right">
                                         <q-select v-model="inspection_statues.status" 
                                                   v-if="inspection_statues.initial == 2"
-                                                  :options="$store.state.data.types_inspections_statues"
+                                                  :options="optionsTypesInspectionsStatues"
                                                   placeholder="Status" class="bg-white pull-left q-mx-sm q-select-app" style="width: 110px"/>
 
                                         <q-btn color="black"
@@ -575,8 +574,13 @@
             this.$store.commit('data/LOAD_TRUE')
         },
         mounted() {
-            console.log(1)
             this.getInspection()
+        },
+        computed: {
+            optionsTypesInspectionsStatues () {
+                let types_inspections_statues = Object.assign({}, this.$store.state.data.types_inspections_statues)
+                return this.$store.state.data.types_inspections_statues
+            }
         },
         watch: {
         	'inspection_statues.status': {
@@ -729,10 +733,7 @@
                     this.data.armored_vehicle               = data.armored_vehicle   == '1' ? true : false
                     this.data.modified_engine               = data.modified_engine   == '1' ? true : false
                     this.data.attributes                    = data.vehicle
-                    // this.$delete(this.data.attributes, 'insurance_expedition')
-                    // this.$delete(this.data.attributes, 'tecnomecanica_expedition')
-                    // this.$delete(this.data.attributes, 'tecnomecanica_expiration')
-                    // this.$delete(this.data.attributes, 'insurance_expiration')
+
                     this.data.attributes.tecnomecanica_expedition  = data.vehicle.tecnomecanica_expedition
                     this.data.attributes.tecnomecanica_expiration  = data.vehicle.tecnomecanica_expiration
                     this.data.attributes.tecnomecanica_code  = data.vehicle.tecnomecanica_code
@@ -752,7 +753,11 @@
                     this.data.spare_tires                   = data.spare_tires
                     this.data.observations                  = data.observations
                     this.data.vehicle_prepared              = data.vehicle_prepared == '1' ?  true : false
-                    this.data.seen_technical_director       = data.seen_technical_director == '1' ?  true : false
+                    if (data.seen_technical_director != null)
+                        this.data.seen_technical_director       = data.seen_technical_director == '1' ?  1 : 0
+                    else
+                        this.data.seen_technical_director       = null
+
                     this.data.vehicle_delivery_signature    = data.vehicle_delivery_signature
                     	this.is_vehicle_delivery_signature      = this.data.vehicle_delivery_signature ? false : true
                     this.data.signature_received_report     = data.signature_received_report
@@ -796,11 +801,11 @@
                     }
                     if( this.data.tecnomecanica_file ) {
                         formData.append('tecnomecanica_file',this.data.tecnomecanica_file);
-                        formData.append('tecnomecanica_expedition', this.data.tecnomecanica_expedition);
-                        formData.append('tecnomecanica_expiration', this.data.tecnomecanica_expiration);
+                        formData.append('tecnomecanica_expedition', this.data.attributes.tecnomecanica_expedition);
+                        formData.append('tecnomecanica_expiration', this.data.attributes.tecnomecanica_expiration);
                         formData.append('tecnomecanica_code',Math.round(Math.random()*1000000));
-                        formData.append('_method','PUT');
                     }
+                    formData.append('_method','PUT');
                     return this.$resourcesInspections.updateInspections(formData,this.data.id)
                 } else 
                     return false

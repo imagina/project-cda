@@ -587,11 +587,11 @@
                 items: {
                     $each: {
                         evaluation: { required : requiredIf((model) => {
-                            return model.quantity != null
+                            return model.quantity != null 
                         })},
                         quantity: { required : requiredIf((model) => {
-                            return model.evaluation != null
-                        })},
+                            return model.evaluation != null 
+                        })}
                     }
                 },
                 gas_certificate: { required : requiredIf(function(model) {

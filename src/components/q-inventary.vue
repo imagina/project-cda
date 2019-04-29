@@ -88,7 +88,7 @@
         showAddInventary: false,
         elementInventary: {
             name: null,
-            inventory_id: null,
+            // inventory_id: null,
             evaluation: null,
             quantity: null
         },
@@ -106,16 +106,21 @@
               this.$q.notify({message: 'Por favor revise los campos de nuevo.',  position: 'top-right', closeBtn: true})
               return
           }else { 
-            this.$resourcesInspections.addInventory(this.addInventory.name)
-            .then(response => {
-              this.elementInventary.name = response.data.name;
-              this.elementInventary.id = response.data.id
-              this.addInventory.name = null;
+              this.elementInventary.name = this.addInventory.name
               this.inventory.$model.push(Object.assign({}, this.elementInventary))
-            })
-            .then(() => {
+              this.addInventory.name = null;
               this.$store.commit('data/LOAD_FALSE')
-            })
+              this.showAddInventary = false
+            // this.$resourcesInspections.addInventory(this.addInventory.name)
+            // .then(response => {
+            //   this.elementInventary.name = response.data.name;
+            //   this.elementInventary.id = response.data.id
+            //   this.addInventory.name = null;
+            //   this.inventory.$model.push(Object.assign({}, this.elementInventary))
+            // })
+            // .then(() => {
+            //   this.$store.commit('data/LOAD_FALSE')
+            // })
           }
       },
     },
