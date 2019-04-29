@@ -807,7 +807,7 @@
             },
             inspectionHistory() {
                 this.$store.commit('inspections/RESET_INSPECTIONS_LIST')
-                return true
+                // return true
                 if (this.inspection_statues.change)
                     return this.$resourcesInspections.inspectionHistory(this.data.id, this.inspection_statues.status)
 				return this.$resourcesInspections.inspectionHistory(this.data.id, this.inspection_statues.status+1)
