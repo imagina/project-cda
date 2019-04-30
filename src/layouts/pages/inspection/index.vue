@@ -33,7 +33,7 @@
 					    		<div class="col px-2">
 					    			Matricula: <b>{{ item.vehicle.board | uppercase }}</b> <br>
 					    			Tipo de Servicio: <b>{{ item.vehicle.service_type_text | uppercase }}</b> <br>
-					    			Tipo de Vehiculo: <b>{{ item.vehicle.type_vehicle | uppercase }}</b> <br>
+					    			Tipo de Vehiculo: <b>{{ item.vehicle.type_vehicle_text | uppercase }}</b> <br>
 					    			Cliente: <b>{{ item.vehicle.user.fullname }}</b> <br>
 					    			Status: <b>{{ item.inspection_status }}</b> <br>
 					    		</div>

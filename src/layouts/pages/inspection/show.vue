@@ -363,19 +363,18 @@
                                     rows="4"
                                     class="bg-white print-col-12"/>
                             </div>
-
-                            <div class="col-12 q-py-md print-none">
+                            <div class="col-12 q-py-md print-none" v-if="inspection_statues.initial >= 2">
                                 <div class="row print-row">
                                     <div class="col-12 print-col-12">
-                                        <p class="font-weight-bold d-inline-block q-mr-md">
+                                        <p class="font-weight-bold d-inline-block q-mr-md" :class="{'border-danger':$v.data.seen_technical_director.$error}">
                                             Visto bueno director técnico: 
                                             <span class="d-none">
                                                 {{ data.seen_technical_director ? 'SI' : 'NO' }}
                                             </span>
                                         </p>
                                         <div class="d-inline-block print-none">
-                                          <q-radio v-model="data.seen_technical_director" :disable="data.seen_technical_director != null" :val="1" label="Si" class="q-mr-lg"/>
-                                          <q-radio v-model="data.seen_technical_director" :disable="data.seen_technical_director != null" :val="0" label="No" class="q-mr-lg"/>
+                                          <q-radio v-model="data.seen_technical_director" :disable="!is_signature_received_report && data.seen_technical_director != null" :val="1" label="Si" class="q-mr-lg"/>
+                                          <q-radio v-model="data.seen_technical_director" :disable="!is_signature_received_report && data.seen_technical_director != null" :val="0" label="No" class="q-mr-lg"/>
                                         </div>
                                     </div>
                                 </div>
@@ -640,11 +639,14 @@
                 plaque: { required, minLength: minLength(6)  }
             },
             data: {
+                seen_technical_director: { required : requiredIf(function(model) {
+                    return this.inspection_statues.initial >= 2
+                })},
                 signature_received_report: { required : requiredIf(function(model) {
-                    return true
+                    return this.inspection_statues.initial >= 2
                 })},
                 vehicle_delivery_signature: { required : requiredIf(function(model) {
-                    return true
+                    return this.inspection_statues.initial >= 2
                 })},
                 vehicle_prepared : { required : requiredIf(function (model) {
                     return this.showsignature

@@ -16,7 +16,7 @@
             </q-field>
             
             <q-field :error="$v.form.number_document.$error" class="q-my-md">
-                <q-input v-model="form.number_document" type="text" placeholder="N° Cédula" class="bg-white mx-auto"
+                <q-input v-model="form.number_document" type="text" placeholder="N° Documento" class="bg-white mx-auto"
                     v-on:keyup.enter="searchUser"
                     :after="[{icon: 'search',handler() { searchUser()} }]"/>
                 <q-tooltip v-show="$v.form.number_document.$error">
@@ -24,6 +24,18 @@
                         <i class="material-icons">error_outline</i> El campo es obligatorio.
                     </p>
                     <p class="error-message mb-0" v-if="!$v.form.number_document.minLength">
+                        <i class="material-icons">error_outline</i> Debe contener al menos 8 caracteres.
+                    </p>
+                </q-tooltip>
+            </q-field>
+
+            <q-field :error="$v.form.business.$error" class="q-my-md" >
+                <q-input v-model="form.business" type="text" placeholder="Empresa" class="bg-white mx-auto"/>
+                <q-tooltip v-show="$v.form.business.$error">
+                    <p class="error-message mb-0" v-if="!$v.form.business.required">
+                        <i class="material-icons">error_outline</i> El campo es obligatorio.
+                    </p>
+                    <p class="error-message mb-0" v-if="!$v.form.business.minLength">
                         <i class="material-icons">error_outline</i> Debe contener al menos 8 caracteres.
                     </p>
                 </q-tooltip>
@@ -93,7 +105,7 @@
 </template>
 
 <script>
-import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
+import { required, email, minLength, requiredIf, sameAs } from 'vuelidate/lib/validators'
 
 export default {
     name: 'PageIndex',
@@ -110,6 +122,7 @@ export default {
                 checked: true,
                 roles: ['User'],
                 status: true,
+                business: null,
                 type_document: 'cc',
             },
             selectOptions: [
@@ -150,6 +163,9 @@ export default {
             first_name:  { required, minLength: minLength(3) },
             last_name:  { required, minLength: minLength(3) },
             phone: { required, minLength: minLength(10) },
+            business: { required : requiredIf(function(model) {
+                return this.form.type_document == 'nit'
+            })},
             email: { email },
             type_document: { required },
             checked: { required, sameAs: sameAs( () => true ) }

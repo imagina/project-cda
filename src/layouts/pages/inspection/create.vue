@@ -60,11 +60,11 @@
                             </div>
                             <div class="col-4 col-md-2 mx-auto py-3 text-center">
                                 <p class="font-weight-bold font-famili"><b>Fecha de Expedición</b></p>
-                                <p class="mb-0">{{ data.attributes.insurance_expiration ? data.attributes.insurance_expiration : 'N/D' }}</p>
+                                <p class="mb-0">{{ data.attributes.insurance_expedition ? data.attributes.insurance_expedition : 'N/D' }}</p>
                             </div>
                             <div class="col-4 col-md-3 mx-auto py-3 text-center">
                                 <p class="font-weight-bold font-famili"><b>Fecha Inicio De Vigencia</b></p>
-                                <p class="mb-0">{{ data.attributes.insurance_expedition ? data.attributes.insurance_expedition : 'N/D' }}</p>
+                                <p class="mb-0">{{ data.attributes.insurance_expedition ? expedition(data.attributes.insurance_expedition) : 'N/D' }}</p>
                             </div>
                             <div class="col-4 col-md-2 mx-auto py-3 text-center">
                                 <p class="font-weight-bold font-famili"><b>Fecha Fin De Vigencia</b></p>
@@ -73,7 +73,7 @@
                             <div class="col-4 col-md-2 mx-auto py-3 text-center">
                                 <p class="font-weight-bold font-famili"><b>Estado</b></p>
                                 <p class="mb-0 text-uppercase" :class="{'text-green': data.attributes.gas_certificate, 'text-red': !data.attributes.gas_certificate}">
-                                    <b>{{ data.attributes.gas_certificate|validity }}</b>
+                                    <b>{{ data.attributes.insurance_expiration|validity }}</b>
                                 </p>
                             </div>
                         </div>
@@ -137,7 +137,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-12 q-px-md q-border" v-if="!isMotocicleta()">
+                            <div class="col-12 q-px-md q-border" v-if="!isMotocicleta() && false">
                                 <div class="row">
                                     <div class="col-4 col-md-3 col-lg-2 q-mb-lg q-mt-sm">
                                         <i class="material-icons color-danger q-mr-xs" v-show="$v.data.type_vehicle.$error"> error_outline </i>
@@ -562,6 +562,7 @@
         },
         filters: {
             validity: function (value) {
+
                 return value? 'VIGENTE' : 'NO VIGENTE'
             }
         },
@@ -624,6 +625,14 @@
             },
         },
         methods: {
+            expedition (value) {
+                var fecha = new Date(value)
+                console.log(fecha)
+                var dias = parseInt(fecha)
+                console.log(dias)
+                // fecha = fecha.setDate(fecha.getDate() + 1)
+                // return fecha.getDate() 
+            },
             submitData () {
                 this.$v.data.$touch()
                 this.$store.commit('data/LOAD_TRUE')
