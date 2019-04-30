@@ -445,7 +445,7 @@
                                     <div class="col-12 q-px-md" v-show="inspection_statues.status == 3 || inspection_statues.status == 4">
                                         <span class="font-weight-bold d-inline-block"
                                                         :class="{'color-danger': $v.data.tecnomecanica_file.$error }"> ARCHIVO </span>
-                                        <q-uploader :auto-expand="true" :multiple="false" class="q-my-lg" ref="uploader" :upload-factory="uploadFile" url="" extensions=".pdf"/>
+                                        <q-uploader :auto-expand="true" :multiple="false" class="q-my-lg" ref="uploader" :upload-factory="uploadFile" url=""/>
                                     </div>
                                 </div>
                             </div>

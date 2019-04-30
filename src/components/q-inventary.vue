@@ -93,11 +93,11 @@
       return {
         showAddInventary: false,
         elementInventary: {
-            name: null,
-            inventory_id: null,
-            evaluation: null,
-            quantity: null,
-            required: false
+          name: null,
+          inventory_id: null,
+          evaluation: null,
+          quantity: null,
+          required: false
         },
         addInventory : {
           name: null
@@ -106,26 +106,26 @@
     },
     methods: {
       addInventary () {
-          this.$v.addInventory.$touch()
-          this.$store.commit('data/LOAD_TRUE')
-          if (this.$v.addInventory.$error) {
-              this.$store.commit('data/LOAD_FALSE')
-              this.$q.notify({message: 'Por favor revise los campos de nuevo.',  position: 'top-right', closeBtn: true})
-              return
-          }else {
-            this.$resourcesInspections.addInventory(this.addInventory.name)
-            .then(response => {
-              this.elementInventary.name = response.data.name;
-              this.elementInventary.inventory_id = response.data.id
-              this.elementInventary.id = response.data.id
-              this.addInventory.name = null;
-              this.inventory.$model.push(Object.assign({}, this.elementInventary))
-              this.showAddInventary = false
-            })
-            .then(() => {
-              this.$store.commit('data/LOAD_FALSE')
-            })
-          }
+        this.$v.addInventory.$touch()
+        this.$store.commit('data/LOAD_TRUE')
+        if (this.$v.addInventory.$error) {
+            this.$store.commit('data/LOAD_FALSE')
+            this.$q.notify({message: 'Por favor revise los campos de nuevo.',  position: 'top-right', closeBtn: true})
+            return
+        }else {
+          this.$resourcesInspections.addInventory(this.addInventory.name)
+          .then(response => {
+            this.elementInventary.name = response.data.name;
+            this.elementInventary.inventory_id = response.data.id
+            this.elementInventary.id = response.data.id
+            this.addInventory.name = null;
+            this.inventory.$model.push(Object.assign({}, this.elementInventary))
+            this.showAddInventary = false
+          })
+          .then(() => {
+            this.$store.commit('data/LOAD_FALSE')
+          })
+        }
       },
     },
     validations: {

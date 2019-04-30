@@ -197,13 +197,6 @@
 	    	}
 	    },
 	    created() {
-         let date = new Date();
-         let date2 = new Date('2019-05-01');
-         let res = date.toISOString();
-         console.log(res)
-         let res2 = date2.toISOString();
-         console.log(res < res2)
-         console.log(res2)
 	    	this.$store.commit('data/LOAD_TRUE')
 			this.$resourcesVehicles.searchVehicle(this.$route.params.board)
 			.then((response) => {

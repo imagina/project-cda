@@ -371,6 +371,7 @@
                   <q-checkbox v-model="aceptContract" label="Autorizo al centro de diagnostico para que utilice mis datos personales con ﬁnes comerciales"/>
                 </div>
                 <div class="col-12 text-right q-my-md">
+                  <!-- <q-btn color="red" size="md" label="Atras" class="q-px-lg q-mx-sm btn-app" @click="back(1)"/> -->
                   <q-btn color="black" size="md" label="Acepto" class="q-px-lg btn-app" @click="submitContract"/>
                 </div>
             </div>
@@ -429,13 +430,13 @@
                 </div>
                 <div class="row">
                     <div class="col-12 text-right q-my-md">
+                        <!-- <q-btn color="red" size="md" label="Atras" class="q-px-lg q-mx-sm btn-app" @click="back(2)"/> -->
                         <q-btn color="black" size="md" label="Guardar" class="q-px-lg btn-app" @click="submitSave"/>
                     </div>
                 </div>
             </div>
         </q-page>
     </div>
-
 </template>
 
 <script>
@@ -639,9 +640,7 @@
             },
             expedition (value) {
                 var fecha = new Date(value)
-                console.log(fecha)
                 var dias = parseInt(fecha)
-                console.log(dias)
                 return value
             },
             submitData () {
@@ -776,6 +775,18 @@
                       // camera options
                     }
                 )
+            },
+            back(step) {
+                if(step == 1) {
+                    console.log(step)
+                    this.showData = true
+                    this.showContract = false
+                    this.showsignature = false
+                } else {
+                    console.log(step)
+                    this.showContract = true
+                    this.showsignature = false
+                }
             }
         }
     }

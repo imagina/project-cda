@@ -113,30 +113,30 @@
         this.axes.$model.pop();
       },
       initial() {
-          this.axes.$model = []
-          if(!this.type) {
-            this.axes.$model.push([{
-              pressure_init: null,
-              adjustment: null,
-              type: "L"
-            },
-            {
-              pressure_init: null,
-              adjustment: null,
-              type: "R"
-            }])
-          }else {
-            this.axes.$model.push([{
-              pressure_init: null,
-              adjustment: null,
-              type: "L"
-            }],
-            [{
-              pressure_init: null,
-              adjustment: null,
-              type: "R"
-            }])
-          }
+        this.axes.$model = []
+        if(!this.type) {
+          this.axes.$model.push([{
+            pressure_init: null,
+            adjustment: null,
+            type: "L"
+          },
+          {
+            pressure_init: null,
+            adjustment: null,
+            type: "R"
+          }])
+        }else {
+          this.axes.$model.push([{
+            pressure_init: null,
+            adjustment: null,
+            type: "L"
+          }],
+          [{
+            pressure_init: null,
+            adjustment: null,
+            type: "R"
+          }])
+        }
       }
     }
   }

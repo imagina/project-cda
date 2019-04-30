@@ -6,7 +6,7 @@
     <q-modal v-model="openedUploader" :content-css="{minWidth: '80vw', padding: '25px'}">
       <h4 class="mx-auto">Añadir imagen</h4>
       <div style="position: relative;">
-        <q-uploader :url="url" :auto-expand="true" @remove:cancel="removeUploader" :multiple="true" :filter="filterFiles" class="q-my-lg" extensions=".jpg,.jpeg,.png" ref="uploader" :upload-factory="uploadFile"/>
+        <q-uploader :url="url" :auto-expand="true" @remove:cancel="removeUploader" :multiple="true" class="q-my-lg" extensions=".jpg,.jpeg,.png" ref="uploader" :upload-factory="uploadFile"/>
         <q-inner-loading :visible="visible"/>
       </div>
       <q-btn color="dark" @click="openedUploader = false" label="Cerrar" class="mt-2 q-mr-sm"/>
