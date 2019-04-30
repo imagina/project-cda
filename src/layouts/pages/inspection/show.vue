@@ -40,10 +40,10 @@
                                 <p class="font-weight-bold font-family"><b>Fecha Fin De Vigencia</b></p>
                                 <p class="mb-0">{{ data.attributes.insurance_expiration ? data.attributes.insurance_expiration : 'N/D' }}</p>
                             </div>
-                            <div class="col-4 col-md-2 mx-auto py-3 text-center print-col-3 print-center">
-                                <p class="font-weight-bold font-family"><b>Estado</b></p>
-                                <p class="mb-0 text-uppercase" :class="{'text-green': data.attributes.gas_certificate, 'text-red': !data.attributes.gas_certificate}">
-                                    <b>{{ data.attributes.gas_certificate|validity }}</b>
+                            <div class="col-4 col-md-2 mx-auto py-3 text-center">
+                                <p class="font-weight-bold font-famili"><b>Estado</b></p>
+                                <p class="mb-0 text-uppercase" :class="{'text-green': validity(data.attributes.insurance_expiration), 'text-red': !validity(data.attributes.insurance_expiration)}">
+                                    <b>{{ data.attributes.insurance_expiration|validity }}</b>
                                 </p>
                             </div>
                         </div>
@@ -625,7 +625,9 @@
         	  return axe == 'R' ? 'D' : 'I'
         	},
             validity: function (value) {
-                return value? 'VIGENTE' : 'NO VIGENTE'
+                let toDay= new Date();
+                let day = new Date(value);
+                return toDay < day ? 'VIGENTE' : 'NO VIGENTE'
             },
             preInspection: function(value) {
                 if (typeof value === 'boolean')
@@ -680,6 +682,11 @@
             },
         },
         methods: {
+            validity(value) {
+                let toDay= new Date();
+                let day = new Date(value);
+                return toDay < day
+            },
     		print() {
         		const d = new Printd()
     			const { contentWindow } = d.getIFrame()

@@ -72,7 +72,7 @@
                             </div>
                             <div class="col-4 col-md-2 mx-auto py-3 text-center">
                                 <p class="font-weight-bold font-famili"><b>Estado</b></p>
-                                <p class="mb-0 text-uppercase" :class="{'text-green': data.attributes.gas_certificate, 'text-red': !data.attributes.gas_certificate}">
+                                <p class="mb-0 text-uppercase" :class="{'text-green': validity(data.attributes.insurance_expiration), 'text-red': !validity(data.attributes.insurance_expiration)}">
                                     <b>{{ data.attributes.insurance_expiration|validity }}</b>
                                 </p>
                             </div>
@@ -562,8 +562,9 @@
         },
         filters: {
             validity: function (value) {
-
-                return value? 'VIGENTE' : 'NO VIGENTE'
+                let toDay= new Date();
+                let day = new Date(value);
+                return toDay < day ? 'VIGENTE' : 'NO VIGENTE'
             }
         },
         validations: {
@@ -631,13 +632,17 @@
             },
         },
         methods: {
+            validity(value) {
+                let toDay= new Date();
+                let day = new Date(value);
+                return toDay < day
+            },
             expedition (value) {
                 var fecha = new Date(value)
                 console.log(fecha)
                 var dias = parseInt(fecha)
                 console.log(dias)
-                // fecha = fecha.setDate(fecha.getDate() + 1)
-                // return fecha.getDate() 
+                return value
             },
             submitData () {
                 this.$v.data.$touch()
