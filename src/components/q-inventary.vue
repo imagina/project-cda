@@ -94,9 +94,10 @@
         showAddInventary: false,
         elementInventary: {
             name: null,
-            // inventory_id: null,
+            inventory_id: null,
             evaluation: null,
-            quantity: null
+            quantity: null,
+            required: false
         },
         addInventory : {
           name: null
@@ -111,14 +112,11 @@
               this.$store.commit('data/LOAD_FALSE')
               this.$q.notify({message: 'Por favor revise los campos de nuevo.',  position: 'top-right', closeBtn: true})
               return
-          }else { 
-              // this.elementInventary.name = this.addInventory.name
-              // this.inventory.$model.push(Object.assign({}, this.elementInventary))
-              // this.addInventory.name = null;
-              // this.$store.commit('data/LOAD_FALSE')
+          }else {
             this.$resourcesInspections.addInventory(this.addInventory.name)
             .then(response => {
               this.elementInventary.name = response.data.name;
+              this.elementInventary.inventory_id = response.data.id
               this.elementInventary.id = response.data.id
               this.addInventory.name = null;
               this.inventory.$model.push(Object.assign({}, this.elementInventary))
@@ -132,7 +130,7 @@
     },
     validations: {
       addInventory: {
-        name: { required, minLength: minLength(3) }
+        name: { required, minLength: minLength(2) }
       }
     },
   }

@@ -107,7 +107,7 @@
 
 				        <q-field :error="$v.attributes.insurance_expedition.$error" class="col-6 col-sm-4 q-px-md">
 				        	<span class="font-weight-bold d-inline-block"
-				        			:class="{'color-danger': $v.attributes.insurance_expedition.$error}">Fecha Fin De Vigencia:</span>
+				        			:class="{'color-danger': $v.attributes.insurance_expedition.$error}">Fecha de Expedición:</span>
 	                        <q-datetime v-model.trim="attributes.insurance_expedition"
 	                        	placeholder="Fecha Fin De Vigencia"
 	                        	type="date"
@@ -118,9 +118,37 @@
 
 				        <q-field :error="$v.attributes.insurance_expiration.$error" class="col-6 col-sm-4 q-px-md">
 				        	<span class="font-weight-bold d-inline-block"
-				        			:class="{'color-danger': $v.attributes.insurance_expiration.$error}">Fecha de Expedición:</span>
+				        			:class="{'color-danger': $v.attributes.insurance_expiration.$error}">Fecha Fin De Vigencia:</span>
 	                        <q-datetime v-model.trim="attributes.insurance_expiration"
 	                        	placeholder="Fecha de Expedición"
+	                        	type="date"
+	                        	class="q-mb-lg"
+	                        	format="YYYY-MM-DD"/>
+	                        </q-field>
+				        </q-field>
+					</div>
+				</div>
+
+				<div class="col-12">
+					<div class="row">
+						<div class="col-12 q-px-md">
+							<h5 class="border-bottom q-my-sm">TENOMECÁNICA</h5>
+						</div>
+
+				        <q-field class="col-6 col-sm-4 q-px-md">
+				        	<span class="font-weight-bold d-inline-block">Fecha de Expedición:</span>
+	                        <q-datetime v-model.trim="attributes.tecnomecanica_expedition"
+	                        	placeholder="Fecha de Expedición"
+	                        	type="date"
+	                        	class="q-mb-lg"
+	                        	format="YYYY-MM-DD"/>
+	                        </q-field>
+				        </q-field>
+
+				        <q-field class="col-6 col-sm-4 q-px-md">
+				        	<span class="font-weight-bold d-inline-block">Fecha Fin De Vigencia:</span>
+	                        <q-datetime v-model.trim="attributes.tecnomecanica_expiration"
+	                        	placeholder="Fecha Fin De Vigencia"
 	                        	type="date"
 	                        	class="q-mb-lg"
 	                        	format="YYYY-MM-DD"/>

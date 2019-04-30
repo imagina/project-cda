@@ -595,12 +595,18 @@
                 items: {
                     $each: {
                         evaluation: { required : requiredIf((model) => {
-                            // return model.quantity != null 
-                            return true
+                            if(typeof model.required === "undefined") {
+                                return true
+                            }
+                            else
+                                return model.quantity != null 
                         })},
                         quantity: { required : requiredIf((model) => {
-                            // return model.evaluation != null 
-                            return true
+                            if(typeof model.required === "undefined") {
+                                return true
+                            }
+                            else
+                                return model.evaluation != null
                         })}
                     }
                 },
