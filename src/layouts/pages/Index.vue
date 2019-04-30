@@ -29,7 +29,7 @@
                 </q-tooltip>
             </q-field>
 
-            <q-field :error="$v.form.business.$error" class="q-my-md" >
+            <q-field :error="$v.form.business.$error" class="q-my-md" v-if="form.number_document == 'nit'">
                 <q-input v-model="form.business" type="text" placeholder="Empresa" class="bg-white mx-auto"/>
                 <q-tooltip v-show="$v.form.business.$error">
                     <p class="error-message mb-0" v-if="!$v.form.business.required">
