@@ -162,7 +162,7 @@
 				<div class="col-12">
 					<div class="row">
 						<div class="col-12 q-px-md">
-							<h5 class="border-bottom q-my-sm">TENOMECÁNICA</h5>
+							<h5 class="border-bottom q-my-sm">TECNICOMECÁNICA</h5>
 						</div>
 
 				        <q-field class="col-6 col-sm-4 q-px-md">

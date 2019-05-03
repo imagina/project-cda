@@ -358,11 +358,12 @@
                                 <q-input v-model="data.observations" 
                                     :disabled='true'
                                     type="textarea"
-                                    float-label="Observaciones:"
+                                    float-label="OBSERVACIONES:"
                                     :max-height="10"
                                     rows="4"
                                     class="bg-white print-col-12"/>
                             </div>
+                            
                             <div class="col-12 q-py-md print-none" v-if="inspection_statues.initial >= 2">
                                 <div class="row print-row">
                                     <div class="col-12 print-col-12">
@@ -406,6 +407,25 @@
                                             <i class="material-icons color-danger q-mr-xs" v-show="$v.data.signature_received_report.$error"> error_outline </i>
                                             Acepto y estoy conforme con el inventario realizado a mí Motocicleta y he leído, entiendo y acepto todas las bservaciones hechas, politicas de inspección, tratamiento de información y conﬁdencialidad.
                                         </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 q-py-md" v-show="inspection_statues.status == 2">
+                                <div class="row">
+                                    <div class="col-12 col-md-6 q-px-md print-col-6">
+                                        <q-field :error="$v.data.pin.$error">
+                                            <span class="font-weight-bold d-inline-block"
+                                                :class="{'color-danger': $v.data.pin.$error}">Pin:</span>
+                                            <q-input :disable='!isUpdate' v-model="data.pin" type="text" placeholder="Pin" class="q-mb-lg"/>
+                                        </q-field>
+                                    </div>
+                                    <div class="col-12 col-md-6 q-px-md print-col-6">
+                                        <q-field :error="$v.data.factura.$error">
+                                            <span class="font-weight-bold d-inline-block"
+                                                :class="{'color-danger': $v.data.factura.$error}">Factura:</span>
+                                            <q-input :disable='!isUpdate' v-model="data.factura" type="text" placeholder="Factura" class="q-mb-lg"/>
+                                        </q-field>
                                     </div>
                                 </div>
                             </div>
@@ -533,7 +553,11 @@
                     axes_number: null,
                     tecnomecanica_file: null,
                     tecnomecanica_expedition: null,
-                    tecnomecanica_expiration: null
+                    tecnomecanica_expiration: null,
+
+                    pin: null,
+                    factura: null,
+
                 },
                 file: null,
                 inspection_statues: {
@@ -641,6 +665,12 @@
                 plaque: { required, minLength: minLength(6)  }
             },
             data: {
+                pin: { required : requiredIf(function(model) {
+                    return this.inspection_statues.initial >= 2
+                })},
+                factura: { required : requiredIf(function(model) {
+                    return this.inspection_statues.initial >= 2
+                })},
                 seen_technical_director: { required : requiredIf(function(model) {
                     return this.inspection_statues.initial >= 2
                 })},

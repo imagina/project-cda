@@ -136,7 +136,34 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row q-border">
+                            <div class="col-12 col-sm-6">
+                                <div class="row">
+                                    <div class="col-12 q-my-sm q-px-md">
+                                        <span class="font-weight-bold q-mb-sm d-block">Numero FUR:</span>
+                                        <q-field>
+                                            <q-input v-model="data.mumero_fur" type="number" min="0" placeholder="Numero FUR" class="bg-white q-my-sm"/>
+                                        </q-field>
+                                    </div>
+                                </div>                                        
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="row">
+                                    <div class="col-12 q-my-sm q-px-md">
+                                        <span class="font-weight-bold q-mb-sm d-block">
+                                            <span>Certificado:</span>
+                                        </span>
+                                        <div>
+                                            <q-field class="q-my-xs">
+                                                <q-input v-model="data.Certificado" type="number" min="0" placeholder="Certificado" class="bg-white q-my-sm" />
+                                            </q-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">    
                             <div class="col-12 q-px-md q-border" v-if="!isMotocicleta() && false">
                                 <div class="row">
                                     <div class="col-4 col-md-3 col-lg-2 q-mb-lg q-mt-sm">
@@ -353,7 +380,19 @@
 
                             <!-- opbservaciones -->
                             <div class="col-12 q-my-md">
-                                <q-input v-model="data.observations" type="textarea" float-label="Observaciones:" :max-height="10" rows="4" class="bg-white"/>
+                                <q-field :error="$v.data.observations.$error">
+                                        <span class="font-weight-bold q-mb-md d-block":class="{'color-danger':$v.data.observations.$error}">
+                                            <i class="material-icons color-danger q-mr-xs" v-show="$v.data.observations.$error">
+                                                error_outline
+                                            </i>
+                                            OBSERVACIONES:
+                                        </span>
+                                <q-input v-model="data.observations" 
+                                            type="textarea"
+                                            :max-height="10"
+                                            rows="4"
+                                            class="bg-white"/>
+                                </q-field>
                             </div>
 
                             <div class="col-12 text-right">
@@ -492,7 +531,9 @@
                     type_vehicle: null,
                     code: Math.round(Math.random()*1000000),
                     user_id: this.$route.params.user_id,
-                    board: null
+                    board: null,
+                    numero_ruf: null,
+                    certificado: null
                 },
                 created: false,
                 formSearch : { plaque: null },
@@ -612,6 +653,15 @@
                         })}
                     }
                 },
+                observations: { required : requiredIf(function(model) {
+                    let required = false;
+                    this.data.items.forEach(function(element) {
+                        if(element.evaluation == 'R' || element.evaluation == 'M') {
+                            required = true
+                        }
+                    });
+                    return required
+                })},
                 gas_certificate: { required : requiredIf(function(model) {
                     return this.is_vehicle_gas
                 })},
