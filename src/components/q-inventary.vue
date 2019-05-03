@@ -46,6 +46,14 @@
                     <q-input v-model="item.quantity" type="number" class="bg-white q-py-sm q-my-md" min="0"/>
                   </q-field>
                 </div>
+                <div class="col-12 q-py-sm q-px-sm" v-show="item.evaluation == 'M' || item.evaluation == 'R'">
+                  <q-input v-model="item.observations" 
+                              type="textarea"
+                              :max-height="10"
+                              rows="2"
+                              class="bg-white"/>
+                  </q-field>
+                </div>
             </div>
             <div class="row">
                 <div class="col q-mt-md text-left">
