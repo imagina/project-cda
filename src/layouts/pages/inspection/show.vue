@@ -428,6 +428,33 @@
                                         </q-field>
                                     </div>
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-12 col-sm-6">
+                                        <div class="row">
+                                            <div class="col-12 q-my-sm q-px-md">
+                                                <span class="font-weight-bold q-mb-sm d-block">Numero FUR:</span>
+                                                <q-field>
+                                                    <q-input v-model="data.mumero_fur" type="number" min="0" placeholder="Numero FUR" class="bg-white q-my-sm"/>
+                                                </q-field>
+                                            </div>
+                                        </div>                                        
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        <div class="row">
+                                            <div class="col-12 q-my-sm q-px-md">
+                                                <span class="font-weight-bold q-mb-sm d-block">
+                                                    <span>Certificado:</span>
+                                                </span>
+                                                <div>
+                                                    <q-field class="q-my-xs">
+                                                        <q-input v-model="data.Certificado" type="number" min="0" placeholder="Certificado" class="bg-white q-my-sm" />
+                                                    </q-field>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-12 q-py-md">

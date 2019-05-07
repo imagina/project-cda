@@ -43,18 +43,24 @@
                     />
                 </div>
             </div>
-            <q-page v-if="showData">
+            <q-page v-show="showData">
                 <div class="q-my-lg q-pt-lg">
                     <!-- SOAP -->
-                    <div class="container-fluid bg-gray-10">
+                    <div class="container-fluid bg-gray-10" v-if="user">
                         <div class="row q-py-sm" style="background-color: #fed80a">
                             <div class="col q-px-md text-center">
-                                Cliente: <span class="badge badge-light font-weight-bold">{{ user.first_name + ' ' + user.last_name }}</span> | 
-                                Email: <span class="badge badge-light font-weight-bold">{{  user.email ? user.email : 'N/D'}}</span> |
-                                Teléfono: <span class="badge badge-light font-weight-bold">{{ user.phone ? user.phone : 'N/D'}}</span>
+                                <div class="q-py-sm q-px-sm">
+                                    Cliente: <span class="badge badge-light font-weight-bold">{{ user.first_name + ' ' + user.last_name }}</span>
+                                </div>
+                                <div class="q-py-sm q-px-sm">
+                                    Email: <span class="badge badge-light font-weight-bold">{{  user.email ? user.email : 'N/D'}}</span>
+                                </div>
+                                <div class="q-py-sm q-px-sm">
+                                    Teléfono: <span class="badge badge-light font-weight-bold">{{ user.phone ? user.phone : 'N/D'}}</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="row align-items-center">
+                        <div class="row align-items-center" v-if="data.attributes">
                             <div class="col-12 col-md-3 px-2 py-3 bg-primary text-right">
                                 <span class="h2 font-weight-bold my-3 d-block">SOAT</span>
                             </div>
@@ -78,13 +84,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="layout-padding q-py-lg">
+                    <div class="layout-padding q-py-lg" v-if="data.attributes">
                         <!-- Atributos -->
                         <div class="row mt-3 q-border">
                             <div class="col-12 col-md-6 q-px-md">
                                 <div class="d-block q-mb-lg q-mt-sm">
+
                                     <span class="font-weight-bold">Tipo de Servicio:</span>
-                                        {{ data.attributes.service_type ? data.attributes.service_type : 'N/D' }}
+                                        {{ data.attributes.service_type_text ? data.attributes.service_type_text : 'N/D' }}
                                 </div>
                                 <div class="d-block q-mb-lg q-mt-sm">
                                     <span class="font-weight-bold">Clase de Vehículo:</span>
@@ -115,7 +122,7 @@
                                 </div>
                                 <div class="d-block q-mb-lg q-mt-sm">
                                     <span class="font-weight-bold">Tipo de combistible:</span>
-                                        {{ data.attributes.type_fuel ? data.attributes.type_fuel : 'N/D' }}
+                                        {{ data.attributes.type_fuel_text ? data.attributes.type_fuel_text : 'N/D' }}
                                 </div>
                                 <div class="d-block q-mb-lg q-mt-sm">
                                     <span class="font-weight-bold">N°Vin:</span>
@@ -135,34 +142,7 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row q-border">
-                            <div class="col-12 col-sm-6">
-                                <div class="row">
-                                    <div class="col-12 q-my-sm q-px-md">
-                                        <span class="font-weight-bold q-mb-sm d-block">Numero FUR:</span>
-                                        <q-field>
-                                            <q-input v-model="data.mumero_fur" type="number" min="0" placeholder="Numero FUR" class="bg-white q-my-sm"/>
-                                        </q-field>
-                                    </div>
-                                </div>                                        
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <div class="row">
-                                    <div class="col-12 q-my-sm q-px-md">
-                                        <span class="font-weight-bold q-mb-sm d-block">
-                                            <span>Certificado:</span>
-                                        </span>
-                                        <div>
-                                            <q-field class="q-my-xs">
-                                                <q-input v-model="data.Certificado" type="number" min="0" placeholder="Certificado" class="bg-white q-my-sm" />
-                                            </q-field>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                        
                         <div class="row">    
                             <div class="col-12 q-px-md q-border" v-if="!isMotocicleta() && false">
                                 <div class="row">
@@ -381,13 +361,13 @@
                             <!-- opbservaciones -->
                             <div class="col-12 q-my-md">
                                 <q-field :error="$v.data.observations.$error">
-                                        <span class="font-weight-bold q-mb-md d-block":class="{'color-danger':$v.data.observations.$error}">
+                                        <span class="font-weight-bold d-block":class="{'color-danger':$v.data.observations.$error}">
                                             <i class="material-icons color-danger q-mr-xs" v-show="$v.data.observations.$error">
                                                 error_outline
                                             </i>
                                             OBSERVACIONES:
                                         </span>
-                                <q-input v-model="data.observations" 
+                                        <q-input v-model="data.observations" 
                                             type="textarea"
                                             :max-height="10"
                                             rows="4"
@@ -410,7 +390,7 @@
                   <q-checkbox v-model="aceptContract" label="Autorizo al centro de diagnostico para que utilice mis datos personales con ﬁnes comerciales"/>
                 </div>
                 <div class="col-12 text-right q-my-md">
-                  <!-- <q-btn color="red" size="md" label="Atras" class="q-px-lg q-mx-sm btn-app" @click="back(1)"/> -->
+                  <q-btn color="red" size="md" label="Atras" class="q-px-lg q-mx-sm btn-app" @click="back(1)"/>
                   <q-btn color="black" size="md" label="Acepto" class="q-px-lg btn-app" @click="submitContract"/>
                 </div>
             </div>
@@ -469,7 +449,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12 text-right q-my-md">
-                        <!-- <q-btn color="red" size="md" label="Atras" class="q-px-lg q-mx-sm btn-app" @click="back(2)"/> -->
+                        <q-btn color="red" size="md" label="Atras" class="q-px-lg q-mx-sm btn-app" @click="back(2)"/>
                         <q-btn color="black" size="md" label="Guardar" class="q-px-lg btn-app" @click="submitSave"/>
                     </div>
                 </div>
@@ -655,11 +635,11 @@
                 },
                 observations: { required : requiredIf(function(model) {
                     let required = false;
-                    this.data.items.forEach(function(element) {
-                        if(element.evaluation == 'R' || element.evaluation == 'M') {
-                            required = true
-                        }
-                    });
+                    // this.data.items.forEach(function(element) {
+                    //     if(element.evaluation == 'R' || element.evaluation == 'M') {
+                    //         required = true
+                    //     }
+                    // });
                     return required
                 })},
                 gas_certificate: { required : requiredIf(function(model) {
@@ -828,12 +808,10 @@
             },
             back(step) {
                 if(step == 1) {
-                    console.log(step)
                     this.showData = true
                     this.showContract = false
                     this.showsignature = false
                 } else {
-                    console.log(step)
                     this.showContract = true
                     this.showsignature = false
                 }

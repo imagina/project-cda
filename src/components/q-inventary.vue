@@ -6,7 +6,7 @@
         <small v-show="itemsRequired">Complete al menos un item del inventario</small>
       </p>
       <div class="row">
-        <div class="col col-md-8 mx-auto">
+        <div class="col col-lg-8 mx-auto">
             <div class="row border">
                 <div class="col-12 col-sm-4 col-md-5 col-lg-4"></div>
                 <div class="col q-py-md border-l font-weight-bold col-checkout">B</div>
@@ -21,38 +21,41 @@
                     {{ item.name }}
                   </span>
                 </div>
-                <div class="col q-py-sm border-l col-checkout text-center">
+                <div class="col q-py-sm border-l col-checkout col-inventory text-center">
                     <div class="q-mt-sm">
                         <q-radio v-model="item.evaluation" val="B" class="q-mr-lg mx-auto"/>
                     </div>
                 </div>
-                <div class="col q-py-sm border-l col-checkout">
+                <div class="col q-py-sm border-l col-checkout col-inventory">
                     <div class="q-mt-sm">
                         <q-radio v-model="item.evaluation" val="R" class="q-mr-lg mx-auto"/>
                     </div>
                 </div>
-                <div class="col q-py-sm border-l col-checkout">
+                <div class="col q-py-sm border-l col-checkout col-inventory">
                     <div class="q-mt-sm">
                         <q-radio v-model="item.evaluation" val="M" class="q-mr-lg mx-auto"/>
                     </div>
                 </div>
-                <div class="col q-py-sm border-l col-checkout">
+                <div class="col q-py-sm border-l col-checkout col-inventory">
                     <div class="q-mt-sm">
                         <q-radio v-model="item.evaluation" val="NA" class="q-mr-lg mx-auto"/>
                     </div>
                 </div>
                 <div class="col q-py-sm border-l col-count q-px-md">
-                  <q-field :error="inventory.$each[index].quantity.$error">
-                    <q-input v-model="item.quantity" type="number" class="bg-white q-py-sm q-my-md" min="0"/>
-                  </q-field>
-                </div>
-                <div class="col-12 q-py-sm q-px-sm" v-show="item.evaluation == 'M' || item.evaluation == 'R'">
-                  <q-input v-model="item.observations" 
-                              type="textarea"
-                              :max-height="10"
-                              rows="2"
-                              class="bg-white"/>
-                  </q-field>
+                  <div class="row">
+                    <div class="col q-pt-xs">
+                      <q-field :error="inventory.$each[index].quantity.$error">
+                        <q-input v-model="item.quantity" type="number" class="bg-white q-py-sm q-my-md" min="0"/>
+                      </q-field>
+                    </div>
+                    <div class="col" style="max-width: 50px" v-show="item.evaluation == 'M' || item.evaluation == 'R'">
+                      <q-field :error="inventory.$each[index].quantity.$error" class="pt-0 mt-0">
+                        <q-btn v-on:click="setObservations(inventory.$each[index].$model)" class="q-px-sm bg-yellow">
+                          <q-icon name="info"/>
+                        </q-btn>
+                      </q-field>
+                    </div>
+                  </div>
                 </div>
             </div>
             <div class="row">
@@ -83,6 +86,20 @@
           <q-btn color="dark" @click="showAddInventary = false" label="Cerrar" class="mt-2 q-mr-md"/>
           <q-btn color="primary" @click="addInventary" label="Aceptar" class="mt-2"/>
       </q-modal>
+
+      <q-modal v-model="observation.showModal" :content-css="{minWidth: '30vw',padding: '25px', maxWidth: '100%'}">
+          <h6 class="mx-auto">Observaciones de {{ observation.name }}</h6>
+            <div class="font-weight-bold">
+                <q-field class="q-mt-lg">
+                  <q-input v-model="observation.text" 
+                             type="textarea"
+                             :max-height="10"
+                             rows="3"
+                             class="bg-white"/>
+                 </q-field>
+            </div>
+          <q-btn color="primary" @click="observation.showModal = false" label="Aceptar" class="mt-2"/>
+      </q-modal>
     </div>
 </template>
 <script>
@@ -100,16 +117,22 @@
     data() {
       return {
         showAddInventary: false,
+        observation : {
+          showModal: false,
+          text: false,
+          name: null
+        },
         elementInventary: {
           name: null,
           inventory_id: null,
           evaluation: null,
           quantity: null,
-          required: false
+          required: false,
+          observation: null
         },
         addInventory : {
           name: null
-        },
+        }
       }
     },
     methods: {
@@ -135,6 +158,11 @@
           })
         }
       },
+      setObservations (item) {
+        this.observation.text = item.observation
+        this.observation.name = item.name
+        this.observation.showModal = true
+      }
     },
     validations: {
       addInventory: {

@@ -121,9 +121,20 @@ select,
 	
 .col-checkout
 	max-width: 80px !important
+	@media screen and (max-width: 767px)
+		max-width: 57px !important;
+	@media screen and (max-width: 991px)
+		max-width: 45px !important;
+.col-checkout:not(:first-child)
+	@media screen and (max-width: 1000px)
+		max-width: 44px !important;
+
+.badge.badge-light
+	background: #ffffffde !important
+	
 .col-count
-	& > *
-		max-width: 200px !important
+	// & > *
+		// max-width: 200px !important
 	.q-input
 		margin: 0px
 	
