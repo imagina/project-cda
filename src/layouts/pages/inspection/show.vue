@@ -508,10 +508,16 @@
                                         <q-btn color="red" size="md" label="Print" class="q-px-lg q-mr-sm btn-app" @click="print"/>
                                     </div>
                                     <div class="col text-right">
+
+                                        <q-btn label="Aprobar" @click="inspection_statues.status = 3"/>
+                                        <q-btn label="Rechazar" @click="inspection_statues.status = 4"/>
+
                                         <q-select v-model="inspection_statues.status" 
                                                   v-if="inspection_statues.initial == 2"
+                                                  :readonly="inspection_statues.initial == 2"
                                                   :options="optionsTypesInspectionsStatues"
                                                   placeholder="Status" class="bg-white pull-left q-mx-sm q-select-app" style="width: 110px"/>
+
 
                                         <q-btn color="black"
                                                 size="md"
@@ -520,6 +526,8 @@
                                                 class="q-px-lg q-mr-sm btn-app">
                                                 {{ $store.state.data.types_inspections_statues[inspection_statues.status+1].label }}
                                         </q-btn>
+
+                                        
 
                                         <q-btn color="black" size="md" label="Guardar" class="q-px-lg q-mr-sm btn-app pull-left" @click="submitSave" v-else/>
                                     </div>
