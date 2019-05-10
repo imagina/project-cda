@@ -13,7 +13,7 @@
                 <div class="col q-py-md border-l font-weight-bold col-checkout">R</div>
                 <div class="col q-py-md border-l font-weight-bold col-checkout">M</div>
                 <div class="col q-py-md border-l font-weight-bold col-checkout">NA</div>
-                <div class="col q-py-md border-l font-weight-bold col-count"><span class="d-none d-sm-block">Cantidad</span></div>
+                <div class="col q-py-md border-l font-weight-bold col-count">Cant</div>
             </div>
             <div class="row border border-t-0" v-for="(item,index) in inventory.$model">
                 <div class="col-12 col-sm-4 col-md-5 col-lg-4 col-inventory-name font-weight-bold boder-botton">
@@ -91,83 +91,92 @@
           <h6 class="mx-auto">Observaciones de {{ observation.name }}</h6>
             <div class="font-weight-bold">
                 <q-field class="q-mt-lg">
-                  <q-input v-model="observation.text" 
+                  <q-input v-model="observation.text"
                              type="textarea"
                              :max-height="10"
                              rows="3"
                              class="bg-white"/>
                  </q-field>
             </div>
-          <q-btn color="primary" @click="observation.showModal = false" label="Aceptar" class="mt-2"/>
+          <q-btn color="primary" @click="handlesimpleObservation()" label="Aceptar" class="mt-2"/>
       </q-modal>
     </div>
 </template>
 <script>
-  import { required, email, minLength } from 'vuelidate/lib/validators';
-  import qInputValidation from './q-input-validation';
-  import resources from 'src/services/resources';
+import { required, email, minLength } from 'vuelidate/lib/validators'
+import qInputValidation from './q-input-validation'
+import resources from 'src/services/resources'
 
-  export default {
-    name: 'q-inventary',
-    components: { qInputValidation },
-    props: {
-      'inventory'      : { required: true },
-      'itemsRequired'  : { required: true }
-    },
-    data() {
-      return {
-        showAddInventary: false,
-        observation : {
-          showModal: false,
-          text: false,
-          name: null
-        },
-        elementInventary: {
-          name: null,
-          inventory_id: null,
-          evaluation: null,
-          quantity: null,
-          required: false,
-          observation: null
-        },
-        addInventory : {
-          name: null
-        }
+export default {
+  name: 'q-inventary',
+  components: { qInputValidation },
+  props: {
+    'inventory': { required: true },
+    'itemsRequired': { required: true }
+  },
+  data () {
+    return {
+      showAddInventary: false,
+      observation: {
+        showModal: false,
+        text: false,
+        name: null,
+        evaluation:null
+      },
+      elementInventary: {
+        name: null,
+        inventory_id: null,
+        evaluation: null,
+        quantity: null,
+        required: false,
+        observation: null
+      },
+      addInventory: {
+        name: null
       }
-    },
-    methods: {
-      addInventary () {
-        this.$v.addInventory.$touch()
-        this.$store.commit('data/LOAD_TRUE')
-        if (this.$v.addInventory.$error) {
-            this.$store.commit('data/LOAD_FALSE')
-            this.$q.notify({message: 'Por favor revise los campos de nuevo.',  position: 'top-right', closeBtn: true})
-            return
-        }else {
-          this.$resourcesInspections.addInventory(this.addInventory.name)
+    }
+  },
+  methods: {
+    addInventary () {
+      this.$v.addInventory.$touch()
+      this.$store.commit('data/LOAD_TRUE')
+      if (this.$v.addInventory.$error) {
+        this.$store.commit('data/LOAD_FALSE')
+        this.$q.notify({ message: 'Por favor revise los campos de nuevo.', position: 'top-right', closeBtn: true })
+      } else {
+        this.$resourcesInspections.addInventory(this.addInventory.name)
           .then(response => {
-            this.elementInventary.name = response.data.name;
+            this.elementInventary.name = response.data.name
             this.elementInventary.inventory_id = response.data.id
             this.elementInventary.id = response.data.id
-            this.addInventory.name = null;
+            this.addInventory.name = null
             this.inventory.$model.push(Object.assign({}, this.elementInventary))
             this.showAddInventary = false
           })
           .then(() => {
             this.$store.commit('data/LOAD_FALSE')
           })
-        }
-      },
-      setObservations (item) {
-        this.observation.text = item.observation
-        this.observation.name = item.name
-        this.observation.showModal = true
       }
     },
-    validations: {
-      addInventory: {
-        name: { required, minLength: minLength(2) }
-      }
+    setObservations (item) {
+      this.observation.text = item.observation
+      this.observation.evaluation = item.evaluation
+      this.observation.name = item.name
+      this.observation.showModal = true
     },
+    handlesimpleObservation(){
+      this.observation.showModal  = false
+      let data = {
+        name:this.observation.name,
+        observation:this.observation.text
+      }
+      this.$root.$emit('event_observation', data)
+    }
+  },
+  validations: {
+    addInventory: {
+      name: { required, minLength: minLength(2) }
+    }
   }
+}
 </script>

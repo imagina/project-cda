@@ -142,8 +142,8 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="row">    
+
+                        <div class="row">
                             <div class="col-12 q-px-md q-border" v-if="!isMotocicleta() && false">
                                 <div class="row">
                                     <div class="col-4 col-md-3 col-lg-2 q-mb-lg q-mt-sm">
@@ -156,16 +156,16 @@
                                                 @click="data.type_vehicle = 'Heavy'"
                                                 :class="{'bg-primary ' : data.type_vehicle == 'Heavy'}"/>
 
-                                            <q-btn label="LIVIANO" 
-                                                @click="data.type_vehicle = 'Light'" 
+                                            <q-btn label="LIVIANO"
+                                                @click="data.type_vehicle = 'Light'"
                                                 :class="{'bg-primary ' : data.type_vehicle == 'Light'}"/>
 
                                             <q-btn label="MOTOCICLETA"
-                                                @click="data.type_vehicle = 'Motorcycle'" 
+                                                @click="data.type_vehicle = 'Motorcycle'"
                                                 :class="{'bg-primary ' : data.type_vehicle == 'Motorcycle'}"/>
 
-                                            <q-btn label="LIVIANO" 
-                                                @click="data.type_vehicle = 'Car'" 
+                                            <q-btn label="LIVIANO"
+                                                @click="data.type_vehicle = 'Car'"
                                                 :class="{'bg-primary ' : data.type_vehicle == 'Car'}"/>
 
                                         </q-btn-group>
@@ -179,7 +179,7 @@
                                         <span class="q-mr-lg font-weight-bold">
                                             <i class="material-icons color-danger q-mr-xs" v-show="$v.data.teaching_vehicle.$error"> error_outline </i>
                                             <span :class="{'color-danger': $v.data.teaching_vehicle.$error}">Vehículo de Enseñanza:</span>
-                                        </span> 
+                                        </span>
                                     </div>
                                     <div class="d-inline-block">
                                         <q-radio v-model="data.teaching_vehicle" :val="true" label="Si" class="q-mr-lg"/>
@@ -206,7 +206,7 @@
                             <div class="col-12 q-border" v-if="!isMotocicleta() && data.type_vehicle != 'Motorcycle'">
                                 <div class="row">
                                     <div class="col-12 q-px-md">
-                                        <span class="d-inline-block q-mr-lg font-weight-bold">Vehículo a Gas:</span> 
+                                        <span class="d-inline-block q-mr-lg font-weight-bold">Vehículo a Gas:</span>
                                         <div class="d-inline-block">
                                             <q-radio v-model="is_vehicle_gas" :val="true" label="Si" class="q-mr-lg"/>
                                             <q-radio v-model="is_vehicle_gas" :val="false" label="No" class="q-mr-lg"/>
@@ -231,7 +231,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- kilometraje & diametro -->
                             <div class="col-12 q-border" v-if="!isMotocicleta() && data.type_vehicle != 'Motorcycle'">
                                 <div class="row">
@@ -257,10 +257,10 @@
                                                     </q-tooltip>
                                                 </div>
                                             </div>
-                                        </div>                                        
+                                        </div>
                                     </div>
                                     <div class="col-12 col-sm-6">
-                                        <div class="row">                                        
+                                        <div class="row">
                                             <div class="col-12 q-my-sm q-px-md">
                                                 <q-field>
                                                     <q-checkbox v-model="data.polarized_glasses"
@@ -309,16 +309,15 @@
                                             <q-input v-model="data.mileage" type="number" min="0" placeholder="Kilometraje" class="bg-white"/>
                                         </q-field>
                                     </div>
-                                    <div class="col-12 col-md-6 q-px-md">
-                                        <q-field>
-                                            <label class="font-weight-bold q-mb-md d-block">Diametro Exhosto:</label>
-                                            <q-input v-model="data.exhosto_diameter" type="number" min="0" placeholder="Diametro Exhosto" class="bg-white"/>
-                                        </q-field>
-                                    </div>
+                                  <!--   <div class="col-12 col-md-6 q-px-md">
+                                         <q-field>
+                                             <label class="font-weight-bold q-mb-md d-block">Diametro Exhosto:</label>
+                                             <q-input v-model="data.exhosto_diameter" type="number" min="0" placeholder="Diametro Exhosto" class="bg-white"/>
+                                         </q-field>
+                                     </div>-->
                                 </div>
                             </div>
                             <!-- /kilometraje & diametro-->
-
                             <!-- Pre-Inspección -->
                             <div class="col-12 row q-border">
                                 <div class="col-12 q-px-md q-mb-md text-center">
@@ -367,7 +366,7 @@
                                             </i>
                                             OBSERVACIONES:
                                         </span>
-                                        <q-input v-model="data.observations" 
+                                        <q-input v-model="data.observations"
                                             type="textarea"
                                             :max-height="10"
                                             rows="4"
@@ -436,9 +435,9 @@
                             :options="{ onEnd }"
                             :class="{'border-danger':$v.data.vehicle_delivery_signature.$error}"/>
 
-                        <img v-else :src="data.vehicle_delivery_signature" 
+                        <img v-else :src="data.vehicle_delivery_signature"
                             style="border: 2px solid #0c0c0c;border-radius: 8px;"
-                            width="100%" 
+                            width="100%"
                             height="200px">
 
                         <p class="font-weight-bold" :class="{'color-danger':$v.data.vehicle_delivery_signature.$error}">
@@ -503,7 +502,7 @@
                     armored_vehicle: false,
                     modified_engine: false,
                     spare_tires: null,
-                    observations: null,
+                    observations: '',
                     vehicle_prepared: null,
                     seen_technical_director: null,
                     vehicle_delivery_signature: null,
@@ -524,10 +523,11 @@
         },
         created() {
             this.$store.commit('data/LOAD_TRUE')
+            this.$root.$on("event_observation", this.event_observation)
             Promise.all([
                 this.$resourcesInspections.preInspections(),
                 this.$resourcesInspections.inventory(),
-                this.$resourcesUsers.users(this.data.user_id),
+                this.$resourcesUsers.users(this.data.user_id)
             ]).then((response) => {
 
                 this.data.pre_inspections = response[0].map(e => {
@@ -565,7 +565,7 @@
             }).catch((err) => {
                 this.$store.commit('data/LOAD_FALSE')
                 this.$q.notify({
-                        message: 'Losiento, ocurrio un error en el servidor. Intente de nuevo.',
+                        message: 'Lo siento, ocurrio un error en el servidor. Intente de nuevo.',
                         position: 'top-right'
                     })
                 console.log('There is an error', err);
@@ -622,7 +622,7 @@
                                 return true
                             }
                             else
-                                return model.quantity != null 
+                                return model.quantity != null
                         })},
                         quantity: { required : requiredIf((model) => {
                             if(typeof model.required === "undefined") {
@@ -655,7 +655,7 @@
                     return this.showsignature && this.data.seen_technical_director
                 })},
                 vehicle_delivery_signature: { required : requiredIf(function(model) {
-                    return this.showsignature 
+                    return this.showsignature
                 })},
                 vehicle_prepared : { required : requiredIf(function (model) {
                     return this.showsignature
@@ -663,6 +663,14 @@
             },
         },
         methods: {
+          event_observation(e){
+            if(this.data.observations==null){
+              this.data.observations = e.name+' - '+e.observation
+            }else{
+              this.data.observations = this.data.observations + '\n'+ e.name+' - '+e.observation
+            }
+
+          },
             validity(value) {
                 let toDay= new Date();
                 let day = new Date(value);
@@ -789,12 +797,12 @@
                 return this.data.attributes.type_vehicle == 'Motorcycle';
             },
             captureImage () {
-                var cameraError = function(error) { 
-                    navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error'); 
+                var cameraError = function(error) {
+                    navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
                 };
-                var cameraSuccess = function(mediaFiles) { 
+                var cameraSuccess = function(mediaFiles) {
                     alert(JSON.stringify(mediaFiles));
-                }; 
+                };
 
                 navigator.camera.getPicture(cameraSuccess, cameraError,
                     data => { // on success
