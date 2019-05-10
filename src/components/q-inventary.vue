@@ -15,7 +15,7 @@
                 <div class="col q-py-md border-l font-weight-bold col-checkout">NA</div>
                 <div class="col q-py-md border-l font-weight-bold col-count">Cant</div>
             </div>
-            <div class="row border border-t-0" v-for="(item,index) in inventory.$model">
+            <div class="row border border-t-0" v-for="(item,index) in inventory.$model" :key="index">
                 <div class="col-12 col-sm-4 col-md-5 col-lg-4 col-inventory-name font-weight-bold boder-botton">
                   <span :class="{'color-danger': inventory.$each[index].quantity.$error || inventory.$each[index].evaluation.$error }">
                     {{ item.name }}
@@ -45,6 +45,7 @@
                   <div class="row">
                     <div class="col q-pt-xs">
                       <q-field :error="inventory.$each[index].quantity.$error">
+                        <span v-show="false">{{item.evaluation == 'NA' ? item.quantity=0: item.quantity=''}}</span>
                         <q-input v-model="item.quantity" type="number" class="bg-white q-py-sm q-my-md" min="0"/>
                       </q-field>
                     </div>
