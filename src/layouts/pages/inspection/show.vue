@@ -508,9 +508,10 @@
                                         <q-btn color="red" size="md" label="Print" class="q-px-lg q-mr-sm btn-app" @click="print"/>
                                     </div>
                                     <div class="col text-right">
-
+                                        <div v-if="inspection_statues.initial == 2">
                                         <q-btn label="Aprobar" @click="inspection_statues.status = 3"/>
                                         <q-btn label="Rechazar" @click="inspection_statues.status = 4"/>
+                                        </div>
 
                                         <q-select v-model="inspection_statues.status" 
                                                   v-if="inspection_statues.initial == 2"
