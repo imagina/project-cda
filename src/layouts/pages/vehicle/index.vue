@@ -72,7 +72,12 @@
 	    		this.loadMore()
         	}else {
         		this.$store.commit('data/LOAD_FALSE')
-        	}
+			}
+			this.$store.commit('orden/SET_ORDEN',{
+					timeEntry: '',
+					dateEntry: '',
+					id: ''
+			})
 	    },
   		beforeDestroy() {
   			this.$store.commit('vehicle/RESET_VEHICLE_LIST')

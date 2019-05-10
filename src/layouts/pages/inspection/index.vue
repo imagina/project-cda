@@ -70,7 +70,12 @@ export default {
     	}
     },
     created() {
-    	this.$store.commit('data/LOAD_TRUE')
+			this.$store.commit('data/LOAD_TRUE')
+			this.$store.commit('orden/SET_ORDEN',{
+					timeEntry: '',
+					dateEntry: '',
+					id: ''
+			})
     },
   	beforeDestroy() {
     	this.$store.commit('inspections/RESET_INSPECTIONS_LIST')

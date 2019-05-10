@@ -430,7 +430,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 q-py-md" v-show="inspection_statues.status == 2">
+                            <div class="col-12 q-py-md">
 
                                 <div class="row">
                                     <div class="col-12 col-sm-6">
