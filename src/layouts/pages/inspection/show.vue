@@ -8,7 +8,7 @@
 	                        TIPO DE INSPECCIÓN:
 	                    </span>
                         <div class="w-50 d-inline-block">
-	                        <q-select v-model="data.inspections_types_id" :options="$store.state.data.types_inspections" class="bg-white q-py-sm q-my-md"/>
+	                        <q-select readonly v-model="data.inspections_types_id" :options="$store.state.data.types_inspections" class="bg-white q-py-sm q-my-md"/>
 	                    </div>
 	                </div>
 	            </div>
@@ -148,7 +148,26 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                            <div class="col-12 q-py-md" >
+                                <div class="row">
+                                    <div class="col-12 col-md-6 q-px-md print-col-6">
+                                        <q-field :error="$v.data.pin.$error">
+                                            <span class="font-weight-bold d-inline-block"
+                                                :class="{'color-danger': $v.data.pin.$error}">Pin:</span>
+                                            <q-input :disable='!isUpdate' v-model="data.pin" type="text" placeholder="Pin" class="q-mb-lg"/>
+                                        </q-field>
+                                    </div>
+                                    <div class="col-12 col-md-6 q-px-md print-col-6">
+                                        <q-field :error="$v.data.factura.$error">
+                                            <span class="font-weight-bold d-inline-block"
+                                                :class="{'color-danger': $v.data.factura.$error}">Factura:</span>
+                                            <q-input :disable='!isUpdate' v-model="data.factura" type="text" placeholder="Factura" class="q-mb-lg"/>
+                                        </q-field>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        <div class="row" v-if="status != 'Revisado'">
                             <div class="col-12 print-col-12 q-px-md q-border" v-if="!isMotocicleta()">
                                 <div class="row">
                                     <div class="col-12">
@@ -260,7 +279,7 @@
                                     <div class="col-12 print-col-12 q-mb-md">
                                         <span class="font-weight-bold">Pre-Inspección:</span>
                                     </div>
-                                    <div class="col-12 col-sm-6 print-col-6 q-my-md" v-for="(pre_inspection,item) in data.pre_inspections">
+                                    <div class="col-12 col-sm-6 print-col-6 q-my-md" v-for="(pre_inspection,item) in data.pre_inspections" :key="item">
                                         <div v-if="pre_inspection.value"> 
                                            <span class="d-inline-block font-weight-bold q-mr-lg">{{ pre_inspection.name }}</span>
                                            <span class="badge badge-light">{{ pre_inspection.value | preInspection }}</span>
@@ -412,22 +431,6 @@
                             </div>
 
                             <div class="col-12 q-py-md" v-show="inspection_statues.status == 2">
-                                <div class="row">
-                                    <div class="col-12 col-md-6 q-px-md print-col-6">
-                                        <q-field :error="$v.data.pin.$error">
-                                            <span class="font-weight-bold d-inline-block"
-                                                :class="{'color-danger': $v.data.pin.$error}">Pin:</span>
-                                            <q-input :disable='!isUpdate' v-model="data.pin" type="text" placeholder="Pin" class="q-mb-lg"/>
-                                        </q-field>
-                                    </div>
-                                    <div class="col-12 col-md-6 q-px-md print-col-6">
-                                        <q-field :error="$v.data.factura.$error">
-                                            <span class="font-weight-bold d-inline-block"
-                                                :class="{'color-danger': $v.data.factura.$error}">Factura:</span>
-                                            <q-input :disable='!isUpdate' v-model="data.factura" type="text" placeholder="Factura" class="q-mb-lg"/>
-                                        </q-field>
-                                    </div>
-                                </div>
 
                                 <div class="row">
                                     <div class="col-12 col-sm-6">
@@ -497,6 +500,7 @@
                                 </div>
                             </div>
 
+                        </div>
                             <div class="col-12 print-col-12 print-none q-mt-sm">
                                 <div class="row">
                                     <div class="col">
@@ -521,7 +525,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        
                     </div>
                 </div>
             </q-page>
@@ -542,6 +546,7 @@
         components: { qInputValidation, qGallery, VueSignaturePad, Carousel, Slide },
         data () {
             return {
+                status:'',
                 show: false,
                 showData: false,
                 aceptContract: false,
@@ -788,7 +793,10 @@
 							this.inspection_statues.status  = optionsInspections[item].value
                             this.inspection_statues.initial = this.inspection_statues.status
 	    				}
-					}
+                    }
+                    //
+                    this.status = response.data.data.inspection_status
+                    //
 
                     this.data.pre_inspections               = data.pre_inspections
                     this.data.vehicles_id                   = data.vehicles_id
