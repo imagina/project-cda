@@ -88,19 +88,39 @@
                                 <span class="h2 font-weight-bold my-3 d-block">SOAT</span>
                             </div>
                             <div class="col-4 col-md-2 mx-auto py-3 text-center print-col-3 print-center">
-                                <p class="font-weight-bold font-family"><b>Fecha de Expedición</b></p>
-                                <p class="mb-0">{{ data.attributes.insurance_expiration ? data.attributes.insurance_expiration : 'N/D' }}</p>
-                            </div>
-                            <div class="col-4 col-md-3 mx-auto py-3 text-center print-col-3 print-center">
-                                <p class="font-weight-bold font-family"><b>Fecha Inicio De Vigencia</b></p>
-                                <p class="mb-0">{{ data.attributes.insurance_expedition ? data.attributes.insurance_expedition : 'N/D' }}</p>
+                                <p class="font-weight-bold font-family"><b>Expedición</b></p>
+                                <p class="mb-0">
+
+
+                                <q-datetime v-model.trim="data.attributes.insurance_expiration"
+                                    placeholder="Fecha Fin De Vigencia"
+                                    type="date"
+                                    class="q-mb-lg"
+                                    format="YYYY-MM-DD"/>
+                                
+
+                                    <span v-if="false">
+                                        {{ data.attributes.insurance_expiration ? data.attributes.insurance_expiration : 'N/D' }}
+                                    </span>
+                                </p>
                             </div>
                             <div class="col-4 col-md-2 mx-auto py-3 text-center print-col-3 print-center">
-                                <p class="font-weight-bold font-family"><b>Fecha Fin De Vigencia</b></p>
-                                <p class="mb-0">{{ data.attributes.insurance_expiration ? data.attributes.insurance_expiration : 'N/D' }}</p>
+                                <p class="font-weight-bold font-family"><b>Fin De Vigencia</b></p>
+                                <p class="mb-0">
+                                
+                                <q-datetime v-model.trim="data.attributes.insurance_expiration"
+                                    placeholder="Fecha de Expedición"
+                                    type="date"
+                                    class="q-mb-lg"
+                                    format="YYYY-MM-DD"/>
+                                    
+                                    <span v-if="false">
+                                        {{ data.attributes.insurance_expiration ? data.attributes.insurance_expiration : 'N/D' }}
+                                    </span>
+                                </p>
                             </div>
                             <div class="col-4 col-md-2 mx-auto py-3 text-center">
-                                <p class="font-weight-bold font-famili"><b>Estado</b></p>
+                                <p class="font-weight-bold font-famili"><b>ESTADO</b></p>
                                 <p class="mb-0 text-uppercase" :class="{'text-green': validity(data.attributes.insurance_expiration), 'text-red': !validity(data.attributes.insurance_expiration)}">
                                     <b>{{ data.attributes.insurance_expiration|validity }}</b>
                                 </p>
