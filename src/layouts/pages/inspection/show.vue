@@ -11,6 +11,16 @@
 	                        <q-select readonly v-model="data.inspections_types_id" :options="$store.state.data.types_inspections" class="bg-white q-py-sm q-my-md"/>
 	                    </div>
 	                </div>
+
+                    <div class="col-12 col-sm-10 col-md-6 mx-auto q-px-md">
+	                    <span class="w-50 d-inline-block font-weight-bold">
+	                        ESTADO:
+	                    </span>
+                        <div class="w-50 d-inline-block">
+	                        {{status}}
+	                    </div>
+	                </div>
+
 	            </div>
         	</div>
             <q-page>
@@ -509,8 +519,8 @@
                                     </div>
                                     <div class="col text-right">
                                         <div v-if="inspection_statues.initial == 2">
-                                        <q-btn label="Aprobar" @click="inspection_statues.status = 3"/>
-                                        <q-btn label="Rechazar" @click="inspection_statues.status = 4"/>
+                                            <q-btn label="Aprobar" @click="inspection_statues.status = 3"/>
+                                            <q-btn label="Rechazar" @click="inspection_statues.status = 4"/>
                                         </div>
 
                                         <q-select v-model="inspection_statues.status" 
