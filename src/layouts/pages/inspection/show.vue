@@ -28,10 +28,59 @@
                     <!-- SOAP -->
                     <div class="container-fluid bg-gray-10">
                         <div class="row q-py-sm" style="background-color: #fed80a">
-                            <div class="col q-px-md text-center">
-                                Datos del cliente: <span class="badge badge-light font-weight-bold">{{ data.user.first_name + ' ' + data.user.last_name }}</span> | 
-                                Email: <span class="badge badge-light font-weight-bold">{{  data.user.email ? data.user.email : 'N/D' }}</span> |
-                                Teléfono: <span class="badge badge-light font-weight-bold">{{ data.user.phone ? data.user.phone : 'N/D' }}</span>
+                            <div class="col q-px-md">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                Nombre Completo: 
+                                            </div>
+                                            <div class="col-md-6 ">
+                                                <span class="badge badge-light font-weight-bold">
+                                                    {{ userData.first_name + ' ' + userData.last_name }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                Email: 
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span class="badge badge-light font-weight-bold">
+                                                    {{  userData.email ? userData.email : 'N/D' }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 q-mt-sm">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                 Teléfono: 
+                                            </div>
+                                            <div class="col-md-6">
+                                                 <span class="badge badge-light font-weight-bold">
+                                                    {{ userData.phone ? userData.phone : 'N/D' }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                       
+                                       
+                                    </div>
+                                    <div class="col-md-6 q-mt-sm">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                Documento: 
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span class="badge badge-light font-weight-bold">
+                                                    {{ userData.number_document ? userData.number_document : 'N/D' }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="row print-row align-items-center">
@@ -558,14 +607,17 @@
     import qGallery from '../../../components/q-gallery';
     import VueSignaturePad from 'vue-signature-pad';
     import { Carousel, Slide } from 'vue-carousel'
-	import { Printd } from 'printd'
+    import { Printd } from 'printd'
+    import userService from 'src/services/users'
 
     export default {
         name: 'PageData',
         components: { qInputValidation, qGallery, VueSignaturePad, Carousel, Slide },
         data () {
             return {
+                userData: {},
                 status:'',
+
                 show: false,
                 showData: false,
                 aceptContract: false,
@@ -867,6 +919,7 @@
      				this.changeAtributtes					= false
                     this.data.user                          = data.vehicle.user
                     this.data.user_id                       = data.vehicle.user.id
+                    this.getDataUser(data.vehicle.user.id)
                     this.$store.commit('data/LOAD_FALSE')
                     this.showData = true
                 }).catch(error => {
@@ -949,6 +1002,15 @@
                     return 'Car'
                 return 'Motorcycle'
             },
+            getDataUser(id){
+                userService.show(id)
+                .then(response=>{
+                    this.userData = response.data
+                })
+                .catch(error=>{
+                    console.warn(error)
+                })
+            }
         }
     }
 </script>

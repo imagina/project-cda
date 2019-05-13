@@ -19,7 +19,25 @@ export default {
 	    		reject(error);
 	    	});
 	    });
-  	},
+		},
+		
+		show(id) {
+			let key = JSON.stringify(id);
+			return new Promise((resolve, reject) => {
+				//remember.async(key, 3600 * 3, () => {
+				return http.get(config('api.api_url') + '/profile/users/' + id, {
+					params: {
+						include: 'addresses'
+					}
+					/* })*/
+				}).then(response => {
+					resolve(response.data);
+				})
+					.catch(error => {
+						reject(error);
+					});
+			});
+		},
 
   	/**
   	 * Busca un usuario mediante el tipo de documento
