@@ -587,6 +587,15 @@
                                                 {{ $store.state.data.types_inspections_statues[inspection_statues.status+1].label }}
                                         </q-btn>
 
+
+                                     <q-btn color="red"
+                                                size="md"
+                                                @click="submitSave"
+                                                v-if="inspection_statues.initial < 2"
+                                                class="q-px-lg q-mr-sm btn-app">
+                                                {{ $store.state.data.types_inspections_statues[inspection_statues.status+4].label }}
+                                        </q-btn>
+
                                         
 
                                         <q-btn color="black" size="md" label="Guardar" class="q-px-lg q-mr-sm btn-app pull-left" @click="submitSave" v-else/>
