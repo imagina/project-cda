@@ -20,7 +20,7 @@
         <q-inner-loading :visible="visible"/>
       </div>
       <div>
-        <q-btn color="primary" label="Get Picture" @click="captureImage" />
+        <q-btn color="black" icon="photo_camera" @click="captureImage()" />
         <q-img
           :src="imageSrc"
           placeholder-src="statics/quasar-logo.png"
@@ -91,16 +91,31 @@
       },
       captureImage () {
         navigator.camera.getPicture(
-          data => { // on success
+          data => {
             this.imageSrc = `data:image/jpeg;base64, ${data}`
-            // document.getElementById('photo').src = data
-            alert(this.imageSrc)
+            //alert(this.imageSrc)
+
+            //
+          this.$resourcesInspections.addImagenGallery(`data:image/jpeg;base64, ${data}`, this.code)
+          .then(response => {
+            this.gallery.push(response.data.data.url)
+            this.$refs.uploader.reset();
+            this.openedUploader = false
+            this.visible = false
+          })
+          .catch(error => {
+            this.visible = false
+            this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
+          });
+          //
+
+
+
           },
-          () => { // on fail
-            this.$q.notify('Não foi possível acessar a câmera do dispositivo.')
+          () => {
+            this.$q.notify('No hay posibilidad de acceder a la cámara del dispositivo.')
           },
           {
-            // camera options
             quality: 50,
             destinationType: navigator.camera.DestinationType.DATA_URL,
             encodingType: navigator.camera.EncodingType.JPEG,
@@ -113,7 +128,6 @@
           }
         )
       }
-
     }
   }
 </script>
