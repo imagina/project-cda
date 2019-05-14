@@ -600,54 +600,12 @@
 
                                     <div class="col text-right">
 
-                                        <!-- CAMBIOS DE ESTADO PARA EN ESPERA -->
-                                        <div v-if="inspection_statues.initial == 0">
-                                            <q-btn color="green"
-                                                size="md"
-                                                @click="submitSave"
-                                                class="q-px-sm q-mr-sm btn-app">
-                                                {{ $store.state.data.types_inspections_statues[1].label }}
-                                            </q-btn>
-                                            <q-btn color="red"
-                                                size="md"
-                                                @click="submitSave"
-                                                class="q-px-lg q-mr-sm btn-app">
-                                                {{ $store.state.data.types_inspections_statues[4].label }}
-                                            </q-btn>
-                                        </div>
-
-                                        <!-- CAMBIOS DE ESTADO PARA REVISADO -->
-                                       <div v-if="inspection_statues.initial == 1">
-                                            <q-btn color="info"
-                                                size="md"
-                                                @click="submitSave"
-                                                class="q-px-lg q-mr-sm btn-app">
-                                                {{ $store.state.data.types_inspections_statues[2].label }}
-                                            </q-btn>
-                                        </div>
-
-                                        <!-- CAMBIOS DE ESTADO PARA FACTURADO -->
-                                        <div v-if="inspection_statues.initial == 2">
-                                            <q-select 
-                                                v-model="inspection_statues.status" 
-                                                :options="optionsTypesInspectionsStatuesFactured"
-                                                placeholder="Status" 
-                                                class="bg-white pull-left q-mx-sm q-select-app" 
-                                                style="width: 110px"/>
-                                            <q-btn 
-                                                color="black" 
-                                                size="md" 
-                                                label="Guardar" 
-                                                class="q-px-lg q-mr-sm btn-app pull-left" 
-                                                @click="submitSave"/>
-                                        </div>
-
                                         <!-- CAMBIOS DE ESTADO PARA EL ROL ESPECIAL -->
-                                        <div v-if="false">
+                                        <div v-if="$store.state.auth.userData.permissions['icda.inspections.all']">
                                             <q-select 
                                                 v-model="inspection_statues.status" 
                                                 :options="optionsTypesInspectionsStatues"
-                                                placeholder="Status" 
+                                                placeholder="Estado" 
                                                 class="bg-white pull-left q-mx-sm q-select-app" 
                                                 style="width: 110px"/>
                                             <q-btn 
@@ -657,6 +615,52 @@
                                                 class="q-px-lg q-mr-sm btn-app pull-left" 
                                                 @click="submitSave"/>
                                         </div>
+                                        
+                                        <div v-else>
+                                            <!-- CAMBIOS DE ESTADO PARA EN ESPERA -->
+                                            <div v-if="inspection_statues.initial == 0">
+                                                <q-btn color="green"
+                                                    size="md"
+                                                    @click="submitSave"
+                                                    class="q-px-sm q-mr-sm btn-app">
+                                                    {{ $store.state.data.types_inspections_statues[1].label }}
+                                                </q-btn>
+                                                <q-btn color="red"
+                                                    size="md"
+                                                    @click="submitSave"
+                                                    class="q-px-lg q-mr-sm btn-app">
+                                                    {{ $store.state.data.types_inspections_statues[4].label }}
+                                                </q-btn>
+                                            </div>
+
+                                            <!-- CAMBIOS DE ESTADO PARA REVISADO -->
+                                        <div v-if="inspection_statues.initial == 1">
+                                                <q-btn color="info"
+                                                    size="md"
+                                                    @click="submitSave"
+                                                    class="q-px-lg q-mr-sm btn-app">
+                                                    {{ $store.state.data.types_inspections_statues[2].label }}
+                                                </q-btn>
+                                            </div>
+
+                                            <!-- CAMBIOS DE ESTADO PARA FACTURADO -->
+                                            <div v-if="inspection_statues.initial == 2">
+                                                <q-select 
+                                                    v-model="inspection_statues.status" 
+                                                    :options="optionsTypesInspectionsStatuesFactured"
+                                                    placeholder="Status" 
+                                                    class="bg-white pull-left q-mx-sm q-select-app" 
+                                                    style="width: 110px"/>
+                                                <q-btn 
+                                                    color="black" 
+                                                    size="md" 
+                                                    label="Guardar" 
+                                                    class="q-px-lg q-mr-sm btn-app pull-left" 
+                                                    @click="submitSave"/>
+                                            </div>
+                                        </div>
+                      
+
                                     </div>
                                 </div>
                             </div>
