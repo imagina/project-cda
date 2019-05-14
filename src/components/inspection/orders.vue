@@ -11,7 +11,7 @@
         <q-scroll-area style="width: 400px; height: 800px;">
           <div class="flex flex-center">
           <q-card 
-            class=""
+            class="shadow-0"
             style="width:95%"
             inline 
             v-for="(order, index) in orders"
