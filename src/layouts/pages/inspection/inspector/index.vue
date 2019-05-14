@@ -1,5 +1,5 @@
 <template>
-  <div class="row q-pt-xl">
+  <div class="row q-pt-lg">
     <div class="col-md-4 border-left">
       <ordersComponent 
         title="En Espera"
