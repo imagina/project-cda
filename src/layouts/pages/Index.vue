@@ -146,12 +146,15 @@ export default {
         }
     },
     created() {
+        if(!this.$store.state.auth.userData.permissions['icda.inspections.all']){
+            this.$router.push({ name: "inspections"})
+        }
         let time = new Date();
         time = time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: false })
         this.$store.commit('orden/SET_ORDEN',{
            timeEntry: time,
            dateEntry: new Date().toJSON().slice(0,10).replace(/-/g,'-'),
-           id:  null
+           id:   null
         })
     },
     mounted() {
