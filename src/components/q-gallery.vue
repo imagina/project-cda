@@ -1,16 +1,25 @@
 <template>
   <div>
-    <div class="d-block q-mt-md q-mb-lg text-right">
+
+
+
+      <div class="q-my-lg">
+        <h4 class="mx-auto">Añadir imagen</h4>
+        <div style="position: relative;">
+          <q-uploader :url="url" :auto-expand="true" @remove:cancel="removeUploader" :multiple="true" class="q-my-lg" extensions=".jpg,.jpeg,.png" ref="uploader" :upload-factory="uploadFile"/>
+          <q-inner-loading :visible="visible"/>
+        </div>
+        <q-btn color="dark" @click="openedUploader = false" label="Cerrar" class="mt-2 q-mr-sm"/>
+        <q-btn color="red" @click="addUploader" label="Añadir" class="mt-2 mr-2" :disabled="visible"/>
+      </div>
+
+
+
+    <div class="d-block q-mt-md q-mb-lg text-right" v-if="false">
       <q-btn color="primary" size="md" label="Agregar fotografía" class="q-mx-md q-px-xs text-dark" icon="add" @click="openedUploader = true"/>
     </div>
     <q-modal v-model="openedUploader" :content-css="{minWidth: '80vw', padding: '25px'}">
-      <h4 class="mx-auto">Añadir imagen</h4>
-      <div style="position: relative;">
-        <q-uploader :url="url" :auto-expand="true" @remove:cancel="removeUploader" :multiple="true" class="q-my-lg" extensions=".jpg,.jpeg,.png" ref="uploader" :upload-factory="uploadFile"/>
-        <q-inner-loading :visible="visible"/>
-      </div>
-      <q-btn color="dark" @click="openedUploader = false" label="Cerrar" class="mt-2 q-mr-sm"/>
-      <q-btn color="red" @click="addUploader" label="Añadir" class="mt-2 mr-2" :disabled="visible"/>
+     
     </q-modal>
   </div>
 </template>
