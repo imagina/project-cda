@@ -1,13 +1,20 @@
 <template>
   <div>
-    <div class="d-block q-mt-md q-mb-lg text-right">
-      <q-btn color="primary" size="md" label="Agregar fotografía" class="q-mx-md q-px-xs text-dark" icon="add" @click="openedUploader = true"/>
+    <div 
+      class="d-block q-mt-md q-mb-lg text-right">
+      <q-btn 
+        color="primary" 
+        size="md" 
+        label="Agregar fotografía" 
+        class="q-mx-md q-px-xs text-dark" 
+        icon="add" 
+        @click="openedUploader = true"/>
     </div>
-    <q-modal v-model="openedUploader" :content-css="{minWidth: '80vw', padding: '25px'}">
-
+    <q-modal 
+      v-model="openedUploader" 
+      :content-css="{minWidth: '80vw', padding: '25px'}">
       <h4 class="mx-auto">Añadir imagen</h4>
-      <div>
-
+      <div v-if="$q.platform.is.desktop">
         <q-uploader
           :url="url"
           :auto-expand="true"
@@ -16,21 +23,29 @@
           class="q-my-lg"
           extensions=".jpg,.jpeg,.png" ref="uploader"
           :upload-factory="uploadFile"/>
-
         <q-inner-loading :visible="visible"/>
       </div>
-      <div>
+      <div v-if="$q.platform.is.mobile">
         <q-btn color="black" icon="photo_camera" @click="captureImage()" />
+      </div>
+      <div>
         <q-img
           :src="imageSrc"
           placeholder-src="statics/quasar-logo.png"
           :alt="'Imagem: ' + imageSrc" id="photo"
         />
       </div>
-
-      <q-btn color="dark" @click="openedUploader = false" label="Cerrar" class="mt-2 q-mr-sm"/>
-      <q-btn color="red" @click="addUploader" label="Añadir" class="mt-2 mr-2" :disabled="visible"/>
-
+      <q-btn 
+        color="dark" 
+        @click="openedUploader = false" 
+        label="Cerrar" 
+        class="mt-2 q-mr-sm"/>
+      <q-btn 
+        color="red" 
+        @click="addUploader" 
+        label="Añadir" 
+        class="mt-2 mr-2" 
+        :disabled="visible"/>
     </q-modal>
   </div>
 </template>
@@ -96,7 +111,7 @@
             //alert(this.imageSrc)
 
             //
-          this.$resourcesInspections.addImagenGallery(`data:image/jpeg;base64, ${data}`, this.code)
+          this.$resourcesInspections.addImagenGallery(`data:image/jpeg;base64,${data}`, this.code)
           .then(response => {
             this.gallery.push(response.data.data.url)
             this.$refs.uploader.reset();

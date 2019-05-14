@@ -121,7 +121,7 @@
                                         {{ data.attributes.color ? data.attributes.color : 'N/D' }}
                                 </div>
                                 <div class="d-block q-mb-lg q-mt-sm">
-                                    <span class="font-weight-bold">Tipo de combistible:</span>
+                                    <span class="font-weight-bold">Tipo de combustible:</span>
                                         {{ data.attributes.type_fuel_text ? data.attributes.type_fuel_text : 'N/D' }}
                                 </div>
                                 <div class="d-block q-mb-lg q-mt-sm">
