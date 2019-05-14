@@ -7,18 +7,27 @@
 
       <h4 class="mx-auto">Añadir imagen</h4>
       <div>
-        
-        <q-uploader 
-          :url="url" 
-          :auto-expand="true" 
-          @remove:cancel="removeUploader" 
-          :multiple="true" 
-          class="q-my-lg" 
-          extensions=".jpg,.jpeg,.png" ref="uploader" 
+
+        <q-uploader
+          :url="url"
+          :auto-expand="true"
+          @remove:cancel="removeUploader"
+          :multiple="true"
+          class="q-my-lg"
+          extensions=".jpg,.jpeg,.png" ref="uploader"
           :upload-factory="uploadFile"/>
 
         <q-inner-loading :visible="visible"/>
       </div>
+      <div>
+        <q-btn color="primary" label="Get Picture" @click="captureImage" />
+        <q-img
+          :src="imageSrc"
+          placeholder-src="statics/quasar-logo.png"
+          :alt="'Imagem: ' + imageSrc" id="photo"
+        />
+      </div>
+
       <q-btn color="dark" @click="openedUploader = false" label="Cerrar" class="mt-2 q-mr-sm"/>
       <q-btn color="red" @click="addUploader" label="Añadir" class="mt-2 mr-2" :disabled="visible"/>
 
@@ -43,7 +52,8 @@
         prevLabel: "<i class='fa fa-chevron-left' aria-hidden='true'></i>",
         openedUploader: false,
         url: config('api.api_icda') + '/inspections/media/upload?code=' + this.code,
-        visible: false
+        visible: false,
+        imageSrc: ''
       }
     },
     methods: {
@@ -78,7 +88,32 @@
           }
           return file.size <= MAX_FILE_SIZE
         })
+      },
+      captureImage () {
+        navigator.camera.getPicture(
+          data => { // on success
+            this.imageSrc = `data:image/jpeg;base64, ${data}`
+            // document.getElementById('photo').src = data
+            alert(this.imageSrc)
+          },
+          () => { // on fail
+            this.$q.notify('Não foi possível acessar a câmera do dispositivo.')
+          },
+          {
+            // camera options
+            quality: 50,
+            destinationType: navigator.camera.DestinationType.DATA_URL,
+            encodingType: navigator.camera.EncodingType.JPEG,
+            MEDIATYPE: navigator.camera.MediaType.PICTURE,
+            sourceType: navigator.camera.PictureSourceType.CAMERA,
+            mediaType: navigator.camera.MediaType.PICTURE,
+            cameraDirection: navigator.camera.Direction.BACK,
+            targetWidth: 300,
+            targetHeight: 400
+          }
+        )
       }
+
     }
   }
 </script>
