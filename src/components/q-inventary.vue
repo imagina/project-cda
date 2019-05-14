@@ -45,7 +45,7 @@
                   <div class="row">
                     <div class="col q-pt-xs">
                       <q-field :error="inventory.$each[index].quantity.$error">
-                        <span v-show="false">{{item.evaluation == 'NA' ? item.quantity=0: item.quantity=''}}</span>
+                        <span v-show="false">{{item.evaluation == 'NA' ? item.quantity=0:''}}</span>
                         <q-input v-model="item.quantity" type="number" class="bg-white q-py-sm q-my-md" min="0"/>
                       </q-field>
                     </div>
