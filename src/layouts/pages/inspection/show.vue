@@ -510,8 +510,7 @@
                             </div>
 
                             <div class="col-12 q-py-md">
-
-                                <div class="row">
+                                <div class="row" v-if="inspection_statues.initial == 2">
                                     <div class="col-12 col-sm-6">
                                         <div class="row">
                                             <div class="col-12 q-my-sm q-px-md">
