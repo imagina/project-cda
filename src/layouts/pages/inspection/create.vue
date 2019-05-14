@@ -683,6 +683,10 @@
             },
             submitData () {
                 this.$v.data.$touch()
+                if(this.data.gallery.length < 4){
+                    this.$q.notify({message: 'Debe agregar mìnimo 4 imagenes',  position: 'top-right', closeBtn: true})
+                    return
+                }
                 this.$store.commit('data/LOAD_TRUE')
                 if (this.$v.data.$error) {
                     this.$store.commit('data/LOAD_FALSE')
