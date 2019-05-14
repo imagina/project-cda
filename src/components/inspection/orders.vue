@@ -68,13 +68,18 @@
     <q-inner-loading :visible="visible">
       <q-spinner-gears size="50px" color="primary"></q-spinner-gears>
     </q-inner-loading>
+    <notificationComponent @newInspection="handlenewInspection()"/>
   </div>
 </template>
 
 <script>
+  import notificationComponent from 'src/components/inspection/notification'
   import service from 'src/services/inspections'
   import config from 'src/config/index'
   export default {
+    components:{
+      notificationComponent
+    },
     props:{
       filter:{
         type:Object,
@@ -96,6 +101,9 @@
     		return gallery ? config('api.base_url') +'/'+ gallery[0]  : 'assets/imagen.png';
     	}
     },
+    created(){
+      this.$root.$on("newInspection", this.getOrders);  
+    },
     mounted(){
       this.getOrders()
     },
@@ -111,6 +119,9 @@
           console.warn(error)
           this.visible = false
         })
+      },
+      handlenewInspection(){
+        this.getOrders()
       }
     }
   }
