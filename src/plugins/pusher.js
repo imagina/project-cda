@@ -14,8 +14,9 @@ export default ({ Vue, store, router, pusher }) => {
 
     if (authPlugin.hasAccess('icda.inspections.index')) {
         var channel = vue.$pusher.subscribe('inspections-list');
-        channel.bind('Modules\\Icda\\Events\\RecordListInspections', (data) =>  {
-          store.commit('inspections/ADD_INSPECTION_LIST',data.inspection)
+        channel.bind('inspections', (data) =>  {
+					store.commit('inspections/ADD_INSPECTION_LIST',data.inspection)
+					//console.log(data)
           vue.$q.notify({
             message: data.message,
             position: 'bottom-left',

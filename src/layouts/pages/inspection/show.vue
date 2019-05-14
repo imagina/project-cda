@@ -237,10 +237,10 @@
                                         </q-field>
                                     </div>
                                     <div class="col-12 col-md-6 q-px-md print-col-6">
-                                        <q-field :error="$v.data.factura.$error">
+                                        <q-field :error="$v.data.invoice_num.$error">
                                             <span class="font-weight-bold d-inline-block"
-                                                :class="{'color-danger': $v.data.factura.$error}">Factura:</span>
-                                            <q-input :disable='!isUpdate' v-model="data.factura" type="text" placeholder="Factura" class="q-mb-lg"/>
+                                                :class="{'color-danger': $v.data.invoice_num.$error}">Factura:</span>
+                                            <q-input :disable='!isUpdate' v-model="data.invoice_num" type="text" placeholder="Factura" class="q-mb-lg"/>
                                         </q-field>
                                     </div>
                                 </div>
@@ -463,20 +463,7 @@
                             </div>
                             
                             <div class="col-12 q-py-md print-none" v-if="inspection_statues.initial >= 2">
-                                <div class="row print-row">
-                                    <div class="col-12 print-col-12">
-                                        <p class="font-weight-bold d-inline-block q-mr-md" :class="{'border-danger':$v.data.seen_technical_director.$error}">
-                                            Visto bueno director técnico: 
-                                            <span class="d-none">
-                                                {{ data.seen_technical_director ? 'SI' : 'NO' }}
-                                            </span>
-                                        </p>
-                                        <div class="d-inline-block print-none">
-                                          <q-radio v-model="data.seen_technical_director" :disable="!is_signature_received_report && data.seen_technical_director != null" :val="1" label="Si" class="q-mr-lg"/>
-                                          <q-radio v-model="data.seen_technical_director" :disable="!is_signature_received_report && data.seen_technical_director != null" :val="0" label="No" class="q-mr-lg"/>
-                                        </div>
-                                    </div>
-                                </div>
+  
                                 <div class="row">
                                     <div class="col-12 print-col-12">
                                         <div class="row q-mb-sm">
@@ -516,7 +503,7 @@
                                             <div class="col-12 q-my-sm q-px-md">
                                                 <span class="font-weight-bold q-mb-sm d-block">Numero FUR:</span>
                                                 <q-field>
-                                                    <q-input v-model="data.mumero_fur" type="number" min="0" placeholder="Numero FUR" class="bg-white q-my-sm"/>
+                                                    <q-input v-model="data.num_fur" type="number" min="0" placeholder="Numero FUR" class="bg-white q-my-sm"/>
                                                 </q-field>
                                             </div>
                                         </div>                                        
@@ -529,7 +516,7 @@
                                                 </span>
                                                 <div>
                                                     <q-field class="q-my-xs">
-                                                        <q-input v-model="data.Certificado" type="number" min="0" placeholder="Certificado" class="bg-white q-my-sm" />
+                                                        <q-input v-model="data.certificado" type="number" min="0" placeholder="Certificado" class="bg-white q-my-sm" />
                                                     </q-field>
                                                 </div>
                                             </div>
@@ -728,7 +715,10 @@
                     tecnomecanica_expiration: null,
 
                     pin: null,
-                    factura: null,
+                    invoice_num: null,
+
+                    num_fur: null,
+                    certificado: null,
 
                 },
                 file: null,
@@ -847,14 +837,17 @@
             },
             data: {
                 pin: { required : requiredIf(function(model) {
+                    return this.inspection_statues.initial >= 1
+                })},
+                invoice_num: { required : requiredIf(function(model) {
+                    return this.inspection_statues.initial >= 1
+                })},
+                num_fur:{ required : requiredIf(function(model) {
                     return this.inspection_statues.initial >= 2
                 })},
-                factura: { required : requiredIf(function(model) {
+                /*seen_technical_director: { required : requiredIf(function(model) {
                     return this.inspection_statues.initial >= 2
-                })},
-                seen_technical_director: { required : requiredIf(function(model) {
-                    return this.inspection_statues.initial >= 2
-                })},
+                })},*/
                 signature_received_report: { required : requiredIf(function(model) {
                     return this.inspection_statues.initial >= 2
                 })},

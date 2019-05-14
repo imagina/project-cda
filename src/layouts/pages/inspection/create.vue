@@ -413,6 +413,24 @@
                             </div>
                         </div>
                       </div>
+
+
+                    <div class="row print-row">
+                        <div class="col-12 print-col-12">
+                            <p class="font-weight-bold d-inline-block q-mr-md" :class="{'border-danger':$v.data.seen_technical_director.$error}">
+                                Visto bueno director técnico: 
+                                <span class="d-none">
+                                    {{ data.seen_technical_director ? 'SI' : 'NO' }}
+                                </span>
+                            </p>
+                            <div class="d-inline-block print-none">
+                                <q-radio v-model="data.seen_technical_director" :disable="!is_signature_received_report && data.seen_technical_director != null" :val="1" label="Si" class="q-mr-lg"/>
+                                <q-radio v-model="data.seen_technical_director" :disable="!is_signature_received_report && data.seen_technical_director != null" :val="0" label="No" class="q-mr-lg"/>
+                            </div>
+                        </div>
+                    </div>
+
+                      
                     </div>
                 </div>
                 <div class="row">
@@ -658,6 +676,9 @@
                     return this.showsignature
                 })},
                 vehicle_prepared : { required : requiredIf(function (model) {
+                    return this.showsignature
+                })},
+                seen_technical_director: { required : requiredIf(function (model) {
                     return this.showsignature
                 })},
             },
