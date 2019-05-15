@@ -4,7 +4,7 @@
       <div class="row bg-primary align-items-center q-py-sm">
         <div class="col-4 col-md-5 q-px-sm">
           <a href="javascript:void(0)" @click="leftDrawerOpen = !leftDrawerOpen">
-            <img src="../assets/logo.png"  style="max-width:300px">
+            <img src="../assets/logo.png"  :style="`${$q.platform.is.mobile ? 'max-width:120px' : 'max-width:300px'}` ">
           </a>
         </div>
         <div class="col text-white">
