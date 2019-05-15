@@ -27,12 +27,12 @@
                 <div v-if="data.attributes != null" class="q-pb-lg">
                     <!-- SOAP -->
                     <div class="container-fluid bg-gray-10">
-                        <div class="row q-py-sm" style="background-color: #fed80a">
+                        <div class="row q-py-sm" style="background-color: #88AE3E">
                             <div class="col q-px-md">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 text-white">
                                                 Nombre Completo: 
                                             </div>
                                             <div class="col-md-6 ">
@@ -44,7 +44,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 text-white">
                                                 Email: 
                                             </div>
                                             <div class="col-md-6">
@@ -56,7 +56,7 @@
                                     </div>
                                     <div class="col-md-6 q-mt-sm">
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 text-white">
                                                  Teléfono: 
                                             </div>
                                             <div class="col-md-6">
@@ -70,7 +70,7 @@
                                     </div>
                                     <div class="col-md-6 q-mt-sm">
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 text-white">
                                                 Documento: 
                                             </div>
                                             <div class="col-md-6">
@@ -85,7 +85,7 @@
                         </div>
                         <div class="row print-row align-items-center">
                             <div class="col-12 col-md-3 px-2 py-3 bg-primary text-right print-none">
-                                <span class="h2 font-weight-bold my-3 d-block">SOAT</span>
+                                <span class="h2 font-weight-bold my-3 d-block text-white">SOAT</span>
                             </div>
                             <div class="col-4 col-md-2 mx-auto py-3 text-center print-col-3 print-center">
                                 <p class="font-weight-bold font-family"><b>Expedición</b></p>
@@ -571,7 +571,7 @@
 
                                     <div class="col">
                                         <q-btn 
-                                            color="black" 
+                                            color="primary" 
                                             size="md" 
                                             label="Atras" 
                                             class="q-px-lg q-mr-sm btn-app" 
@@ -595,7 +595,7 @@
                                                 class="bg-white pull-left q-mx-sm q-select-app" 
                                                 style="width: 110px"/>
                                             <q-btn 
-                                                color="black" 
+                                                color="primary" 
                                                 size="md" 
                                                 label="Guardar" 
                                                 class="q-px-lg q-mr-sm btn-app pull-left" 

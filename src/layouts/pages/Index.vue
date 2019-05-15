@@ -96,7 +96,7 @@
             </q-field>
 
             <div class="col-12 text-center">
-                <q-btn color="black" size="md" label="ENVIAR" class="q-px-lg q-mx-sm btn-app" @click="submit"/>
+                <q-btn color="primary" size="md" label="ENVIAR" class="q-px-lg q-mx-sm btn-app" @click="submit"/>
                 <!-- <q-btn color="red" size="md" label="CONTINUAR" class="q-px-lg q-mx-sm btn-app" v-show="changeSearch" @click="next"/> -->
             </div>
         </div>

@@ -4,10 +4,10 @@
       <div class="row bg-primary align-items-center q-py-sm">
         <div class="col-4 col-md-5 q-px-sm">
           <a href="javascript:void(0)" @click="leftDrawerOpen = !leftDrawerOpen">
-            <img src="../assets/logo.svg" height="101px" class="header-logo">
+            <img src="../assets/logo.png"  style="max-width:300px">
           </a>
         </div>
-        <div class="col">
+        <div class="col text-white">
           <div class="row align-items-center">
             <div class="col header-col q-px-sm text-center" v-show="$store.state.orden.timeEntry">
               <p class="font-weight-bold">Hora de ingreso:</p>
@@ -33,7 +33,7 @@
         <!-- === LOGO === -->
         <q-list-header class="text-center">
           <a href="javascript:void(0)" @click="leftDrawerOpen = !leftDrawerOpen">
-            <img src="../assets/logo.svg" height="101px" class="header-logo">
+            <img src="../assets/logo.png" class="header-logo">
           </a>
         </q-list-header>
 

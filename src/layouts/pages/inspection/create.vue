@@ -15,7 +15,7 @@
                 <div class="col-12 col-sm-10 col-md-4 mx-auto q-px-md">
                     <div class="row">
                         <div class="col-12 text-center font-weight-bold">
-                            <p>Datos de la Motocicleta</p>
+                            <p>Datos del vehículo</p>
                         </div>
                         <div class="col-12">
                             <q-field :error="$v.formSearch.plaque.$error">
@@ -47,7 +47,7 @@
                 <div class="q-my-lg q-pt-lg">
                     <!-- SOAP -->
                     <div class="container-fluid bg-gray-10" v-if="user">
-                        <div class="row q-py-sm" style="background-color: #fed80a">
+                        <div class="row q-py-sm" style="background-color: #88AE3E">
                             <div class="col q-px-md text-center">
                                 <div class="q-py-sm q-px-sm">
                                     Cliente: <span class="badge badge-light font-weight-bold">{{ user.first_name + ' ' + user.last_name }}</span>
@@ -62,7 +62,7 @@
                         </div>
                         <div class="row align-items-center" v-if="data.attributes">
                             <div class="col-12 col-md-3 px-2 py-3 bg-primary text-right">
-                                <span class="h2 font-weight-bold my-3 d-block">SOAT</span>
+                                <span class="h2 font-weight-bold my-3 d-block text-white">SOAT</span>
                             </div>
                             <div class="col-4 col-md-2 mx-auto py-3 text-center">
                                 <p class="font-weight-bold font-famili"><b>Fecha de Expedición</b></p>
@@ -144,7 +144,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-12 q-px-md q-border" v-if="!isMotocicleta() && false">
+                            <div class="col-12 q-px-md q-border" v-if="!isMotocicleta()">
                                 <div class="row">
                                     <div class="col-4 col-md-3 col-lg-2 q-mb-lg q-mt-sm">
                                         <i class="material-icons color-danger q-mr-xs" v-show="$v.data.type_vehicle.$error"> error_outline </i>
@@ -154,19 +154,17 @@
                                         <q-btn-group class="bg-white">
                                             <q-btn label="PESADO"
                                                 @click="data.type_vehicle = 'Heavy'"
-                                                :class="{'bg-primary ' : data.type_vehicle == 'Heavy'}"/>
+                                                :class="{'bg-primary text-white ' : data.type_vehicle == 'Heavy'}"/>
 
                                             <q-btn label="LIVIANO"
                                                 @click="data.type_vehicle = 'Light'"
-                                                :class="{'bg-primary ' : data.type_vehicle == 'Light'}"/>
+                                                :class="{'bg-primary text-white ' : data.type_vehicle == 'Light'}"/>
 
                                             <q-btn label="MOTOCICLETA"
                                                 @click="data.type_vehicle = 'Motorcycle'"
-                                                :class="{'bg-primary ' : data.type_vehicle == 'Motorcycle'}"/>
+                                                :class="{'bg-primary text-white ' : data.type_vehicle == 'Motorcycle'}"/>
 
-                                            <q-btn label="LIVIANO"
-                                                @click="data.type_vehicle = 'Car'"
-                                                :class="{'bg-primary ' : data.type_vehicle == 'Car'}"/>
+                                          
 
                                         </q-btn-group>
                                     </div>
@@ -375,7 +373,7 @@
                             </div>
 
                             <div class="col-12 text-right">
-                                <q-btn color="black" size="md" label="Guardar" class="q-px-lg btn-app" @click="submitData"/>
+                                <q-btn color="primary" size="md" label="Guardar" class="q-px-lg btn-app" @click="submitData"/>
                             </div>
                         </div>
                     </div>
@@ -809,14 +807,12 @@
             },
             typeVehicle(value) {
                 if(value == 1)
-                    return 'Heavy'
+                    return 'Pesado'
                 if(value == 2)
-                    return 'Light'
+                    return 'Liviano'
                 if(value == 3)
-                    return 'Motorcycle'
-                if(value == 4)
-                    return 'Car'
-                return 'Motorcycle'
+                    return 'Motocicleta'
+                //return 'Motorcycle'
             },
             isMotocicleta() {
                 return this.data.attributes.type_vehicle == 'Motorcycle';

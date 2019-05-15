@@ -6,8 +6,8 @@
           <div class="col-4 col-md-3 col-lg-2 q-mb-lg"> <span class="font-weight-bold">Eje Trasero:</span> </div>
           <div class="col-8 col-md-9 col-lg-10">
             <q-btn-group class="bg-white">
-              <q-btn label="SENCILLO" @click="type_vehicle = 1" :class="{'bg-primary ' : type_vehicle==1}"/>
-              <q-btn label="DOBLE LLANTA" @click="type_vehicle = 2" :class="{'bg-primary ' : type_vehicle==2}"/>
+              <q-btn label="SENCILLO" @click="type_vehicle = 1" :class="{'bg-primary text-white' : type_vehicle==1}"/>
+              <q-btn label="DOBLE LLANTA" @click="type_vehicle = 2" :class="{'bg-primary text-white' : type_vehicle==2}"/>
             </q-btn-group>
           </div>
         </div>

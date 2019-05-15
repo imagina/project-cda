@@ -6,7 +6,7 @@
         color="primary" 
         size="md" 
         label="Agregar fotografía" 
-        class="q-mx-md q-px-xs text-dark" 
+        class="q-px-md q-px-xs" 
         icon="add" 
         @click="openedUploader = true"/>
     </div>

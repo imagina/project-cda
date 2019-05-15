@@ -56,7 +56,8 @@
                     inspection: order.id
                   }
                 }"
-                color="black" 
+                rounded
+                color="primary" 
                 label="VER" 
                 class="full-width"/>
             </q-card-actions>
