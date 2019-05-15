@@ -65,7 +65,7 @@ module.exports = function (ctx) {
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
-        theme_color: '#027be3',
+        theme_color: '#1e3a82',
         icons: [
           {
             'src': 'statics/icons/icon-128x128.png',
@@ -96,7 +96,7 @@ module.exports = function (ctx) {
       }
     },
     cordova: {
-      id: 'org.auto.quasar.app'
+      id: 'org.auto.autogases.app'
     },
     electron: {
       // bundler: 'builder', // or 'packager'
