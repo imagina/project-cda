@@ -24,12 +24,23 @@
           </div>
           <div class="col q-mx-sm" v-for="(llanta,key) in eje" style="max-width: 130px">
             <div class="text-center d-block q-my-sm"> <span v-if="!type">{{ llanta.type|axes }}</span> <span v-else>&nbsp;</span> </div>
+
             <q-field :error="axes.$each[item].$each[key].pressure_init.$error">
+              
+              <div v-show="false"> 
+                {{ vigia ? (llanta.pressure_init = vigiaValue) :  ''}}
+              </div>
+
               <q-input v-model="llanta.pressure_init" type="number" class="bg-white q-py-sm q-my-sm" @input="$emit('update-value-by-child', axes)"/>
             </q-field>
+            
             <q-field :error="axes.$each[item].$each[key].adjustment.$error">
+              <div v-show="false"> 
+                {{ vigia ? (llanta.adjustment = vigiaValue) :  ''}}
+              </div>
               <q-input v-model="llanta.adjustment" type="number" class="bg-white q-py-sm q-my-sm" @input="$emit('update-value-by-child', axes)"/>
             </q-field>
+
           </div>
           <hr class="col-12 q-mb-lg" v-if="axes.$model - 1 > item">
         </div>
@@ -47,6 +58,16 @@
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="col-md-12" >
+        <q-checkbox v-model="vigia" label="Vigias"/>
+      </div>
+      <div class="col-md-6" v-if="vigia">
+        <q-field>
+          <q-input v-model="vigiaValue" type="number" class="bg-white q-py-sm q-my-sm"/>
+        </q-field>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -59,6 +80,8 @@
     },
     data() {
       return {
+        vigia:false,
+        vigiaValue: '',
         type_vehicle: 1,
       }
     },
@@ -66,6 +89,9 @@
       type: function(val) {
         this.initial()
       },
+      vigiaValue (val){
+
+      }
     },
     created() {
       this.initial()
