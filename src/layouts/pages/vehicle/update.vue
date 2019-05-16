@@ -14,9 +14,15 @@
 
 			        <q-field :error="$v.attributes.type_vehicle.$error">
 			        	<span class="font-weight-bold d-inline-block"
-			        		:class="{'color-danger': $v.attributes.type_vehicle.$error}">Clase de Vehículo</span>
-			        		<q-select v-model="attributes.type_vehicle" class="q-mb-lg uppercase" placeholder="Clase de Vehículo" :options="$store.state.data.types_vehicles"/>
+			        		:class="{'color-danger': $v.attributes.type_vehicle.$error}">Cipo de Vehículo</span>
+			        		<q-select v-model="attributes.class_vehicle" class="q-mb-lg uppercase" placeholder="Clase de Vehículo" :options="$store.state.data.types_vehicles"/>
 			        </q-field>
+
+                  <q-field :error="$v.attributes.class_vehicle.$error">
+			        	<span class="font-weight-bold d-inline-block"
+                      :class="{'color-danger': $v.attributes.class_vehicle.$error}">Clase de Vehículo</span>
+                    <q-select v-model="attributes.class_vehicle" class="q-mb-lg uppercase" placeholder="Clase de Vehículo" :options="$store.state.data.class_vehicles"/>
+                  </q-field>
 
 			        <q-field :error="$v.attributes.brand_id.$error">
 			        	<span class="font-weight-bold d-inline-block"
@@ -64,7 +70,7 @@
 			        <q-field :error="$v.attributes.type_fuel.$error">
 			        	<span class="font-weight-bold d-inline-block"
 			        		:class="{'color-danger': $v.attributes.type_fuel.$error}">Tipo de combustible:</span>
-			        	<q-select v-model="attributes.type_fuel" class="q-mb-lg uppercase" placeholder="Tipo de combustible" 
+			        	<q-select v-model="attributes.type_fuel" class="q-mb-lg uppercase" placeholder="Tipo de combustible"
 			        			:options="$store.state.data.types_fuels"/>
 			        </q-field>
 
@@ -178,6 +184,7 @@
 	    		attributes: {
 					service_type: null,
 					type_vehicle: null,
+          class_vehicle: null,
 					brand_id: null,
 					line_id: null,
 					model: null,
@@ -198,6 +205,15 @@
 	    },
 	    created() {
 	    	this.$store.commit('data/LOAD_TRUE')
+        this.selectTypesServices = this.$store.getters['data/GET_TYPES_SERVICES']
+        this.selectClassVehicles = this.$store.getters['data/GET_CLASS_VEHICLES']
+        this.selectTypesFuels = this.$store.getters['data/GET_TYPES_FUELS']
+        this.selectTypesVehicles = this.$store.getters['data/GET_TYPES_VEHICLES']
+        this.selectBrands = this.$store.getters['data/GET_TYPES_BRANDS']
+        this.selectColors = this.$store.getters['data/GET_TYPES_COLORS']
+        this.selectLines = this.$store.getters['data/GET_TYPES_LINES']
+        this.selectModel = this.$store.getters['data/GET_TYPES_MODELS']
+        this.$store.commit('data/LOAD_FALSE')
 			this.$resourcesVehicles.searchVehicle(this.$route.params.board)
 			.then((response) => {
             	this.attributes = response.data
@@ -206,6 +222,7 @@
             	this.attributes.line_id 	 = response.data.line_id ? parseInt(response.data.line_id) : null
             	this.attributes.type_fuel 	 = response.data.type_fuel ? parseInt(response.data.type_fuel) : null
             	this.attributes.type_vehicle = response.data.type_vehicle ? parseInt(response.data.type_vehicle) : null
+              this.attributes.class_vehicle = response.data.class_vehicle ? parseInt(response.data.class_vehicle) : null
             	this.attributes.service_type = response.data.service_type ? parseInt(response.data.service_type) : null
             	this.attributes.model        = response.data.model ? parseInt(response.data.model) : null
             	this.attributes.user_id = response.data.user.id
@@ -224,6 +241,7 @@
             attributes: {
                 service_type : { required },
                 type_vehicle : { required },
+                class_vehicle : { required },
                 brand_id     : { required },
                 line_id      : { required },
                 model        : { required },
@@ -256,7 +274,7 @@
                     		attributes[element] = this.attributes[element]
                     	}
                     });
-                    
+
                     this.$resourcesVehicles.updateVehicle(attributes)
                     .then(response => {
                         this.$q.notify({type:'positive', message: 'Vehiculo actualizado exitosamente!',  position: 'top-right', closeBtn: true})

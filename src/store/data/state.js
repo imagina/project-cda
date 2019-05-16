@@ -2,6 +2,7 @@ export default {
 	load_inner: true,
 	types_documents: [],
 	types_vehicles: [],
+  class_vehicles: [],
 	types_inspections: [],
 	types_inspections_statues: [],
 	types_services: [],

@@ -19,6 +19,17 @@ export default {
       });
     });
   },
+  getClassVehicles() {
+    let url = config('api.api_icda') + '/vehiclesClass'
+    return new Promise((resolve, reject) => {
+      return http.get(url).then(response => {
+        resolve(response.data.data.map( (e,index) => { return { label: e, value: index }}));
+      })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
 
   /**
    * Tipos de Inspecciones
@@ -56,7 +67,7 @@ export default {
    */
   getTypesServices() {
     let url = config('api.api_icda') + '/typesServices'
-    return new Promise((resolve, reject) => { 
+    return new Promise((resolve, reject) => {
       return http.get(url)
         .then(response => {
           resolve(response.data.data.map((e,index) => { return { label: e, value: index}}));
@@ -72,7 +83,7 @@ export default {
    */
   getTypesFuels() {
     let url = config('api.api_icda') + '/typesFuels'
-    return new Promise((resolve, reject) => { 
+    return new Promise((resolve, reject) => {
       return http.get(url)
         .then(response => {
           resolve(response.data.data.map((e,index) => { return { label: e, value: index }}));
@@ -126,7 +137,7 @@ export default {
         reject(error);
       });
     });
-  },  
+  },
 
   /**
    * Tipos de Modelos

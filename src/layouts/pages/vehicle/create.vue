@@ -42,11 +42,17 @@
 			        	<q-select v-model="attributes.service_type" class="q-mb-lg uppercase" placeholder="Tipo de Servicio" :options="selectTypesServices"/>
 			        </q-field>
 
-			        <q-field :error="$v.attributes.type_vehicle.$error">
+			        <q-field :error="$v.attributes.class_vehicle.$error">
 			        	<span class="font-weight-bold d-inline-block"
-			        		:class="{'color-danger': $v.attributes.type_vehicle.$error}">Clase de Vehículo</span>
-			        		 <q-select v-model="attributes.type_vehicle" class="q-mb-lg uppercase" placeholder="Clase de Vehículo" :options="selectTypesVehicles"/>
+			        		:class="{'color-danger': $v.attributes.tclass_vehicle.$error}">Clase de Vehículo</span>
+			        		 <q-select v-model="attributes.class_vehicle" class="q-mb-lg uppercase" placeholder="Clase de Vehículo" :options="selectTypesVehicles"/>
 			        </q-field>
+
+                  <q-field :error="$v.attributes.type_vehicle.$error">
+			        	<span class="font-weight-bold d-inline-block"
+                      :class="{'color-danger': $v.attributes.type_vehicle.$error}">Clase de Vehículo</span>
+                    <q-select v-model="attributes.type_vehicle" class="q-mb-lg uppercase" placeholder="Clase de Vehículo" :options="selectTypesVehicles"/>
+                  </q-field>
 
 			        <q-field :error="$v.attributes.brand_id.$error">
 			        	<span class="font-weight-bold d-inline-block"
@@ -94,7 +100,7 @@
 			        <q-field :error="$v.attributes.type_fuel.$error">
 			        	<span class="font-weight-bold d-inline-block"
 			        		:class="{'color-danger': $v.attributes.type_fuel.$error}">Tipo de combustible:</span>
-			        	<q-select v-model="attributes.type_fuel" class="q-mb-lg uppercase" placeholder="Tipo de combustible" 
+			        	<q-select v-model="attributes.type_fuel" class="q-mb-lg uppercase" placeholder="Tipo de combustible"
 			        			:options="selectTypesFuels"/>
 			        </q-field>
 
@@ -246,6 +252,7 @@
 	                }
 	            ],
 	            selectTypesVehicles: [],
+              selectClassVehicles:[],
 	            selectTypesServices: [],
 	            selectTypesFuels: [],
 	            selectColors: [],
@@ -256,6 +263,7 @@
 	    },
 	    created() {
 			this.selectTypesServices = this.$store.getters['data/GET_TYPES_SERVICES']
+      this.selectClassVehicles = this.$store.getters['data/GET_CLASS_VEHICLES']
 			this.selectTypesFuels = this.$store.getters['data/GET_TYPES_FUELS']
 			this.selectTypesVehicles = this.$store.getters['data/GET_TYPES_VEHICLES']
 			this.selectBrands = this.$store.getters['data/GET_TYPES_BRANDS']
@@ -347,7 +355,7 @@
 		                if(response.data.data.length) {
 		                    this.attributes.user_id = response.data.data[0].id
 		                }
-		                else {		                	
+		                else {
 		                    this.attributes.user_id = null
 		                    this.$q.notify({
 		                    	icon:'error',
