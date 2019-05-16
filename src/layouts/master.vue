@@ -20,7 +20,7 @@
             <div class="col-12 col-md-4 order-col q-px-sm text-center" v-show="$store.state.orden.id">
               <p class="font-weight-bold mb-0">ORDEN DE SERVICIO</p>
               <p class="font-weight-bold q-mb-xs h4">{{$store.state.orden.id}}</p>
-            </div>  
+            </div>
           </div>
         </div>
       </div>
@@ -87,7 +87,8 @@
         this.$resources.getTypesBrands(),
         this.$resources.getTypesColors(),
         this.$resources.getTypesLines(),
-        this.$resources.getTypesModels()
+        this.$resources.getTypesModels(),
+        this.$resources.getClassVehicles(),
       ]).then((response) => {
         this.$store.commit('data/SET_TYPES_VEHICLES',response[0])
         this.$store.commit('data/SET_TYPES_INSPECTIONS',response[1])
@@ -98,7 +99,9 @@
         this.$store.commit('data/SET_TYPES_COLORS',response[6])
         this.$store.commit('data/SET_TYPES_LINES',response[7])
         this.$store.commit('data/SET_TYPES_MODELS',response[8])
+        this.$store.commit('data/SET_CLASS_VEHICLES',response[9])
         this.$q.loading.hide()
+        console.log(response)
       }).catch((err) => {
         this.$q.notify({ message: 'Ups! Ocurrio un error de conexion. Intente de nuevo.', position: 'top-right'})
         console.log('There is an error', err);
