@@ -1,10 +1,10 @@
 {
-  "name": "project-cda",
+  "name": "Check and Go",
   "version": "0.0.1",
   "description": "project-cda",
   "productName": "project-cda",
   "cordovaId": "org.cordova.quasar.app",
-  "author": "juanash <juanita-bravo2011@hotmail.com>",
+  "author": "imagina Colombia <soporte@imaginacolombia.com>",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
