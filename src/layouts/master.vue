@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh LpR lFr">
-    <q-layout-header>
+    <q-layout-header class="shadow-1">
       <div class="row bg-primary align-items-center q-py-sm">
         <div class="col-4 col-md-5 q-px-sm">
           <a href="javascript:void(0)" @click="leftDrawerOpen = !leftDrawerOpen">
@@ -58,6 +58,8 @@
   import WidgetUserDepartment from "@imagina/quser/_components/widget-user-department";
   import widgetMenu from "src/components/menu/widget-menu";
 
+  import resources from 'src/services/resources.js'
+
   export default {
     components: {
       widgetMenu,
@@ -73,49 +75,160 @@
       return {
         leftDrawerOpen: false,
         drawerState: true,
-        load: true,
+        load: false,
       }
     },
     created() {
-      this.$q.loading.show()
-      Promise.all([
-        this.$resources.getTypesVehicles(),
-        this.$resources.getTypesInspections(),
-        this.$resources.getTypesInspectionStatues(),
-        this.$resources.getTypesServices(),
-        this.$resources.getTypesFuels(),
-        this.$resources.getTypesBrands(),
-        this.$resources.getTypesColors(),
-        this.$resources.getTypesLines(),
-        this.$resources.getTypesModels(),
-        this.$resources.getClassVehicles(),
-      ]).then((response) => {
-        this.$store.commit('data/SET_TYPES_VEHICLES',response[0])
-        this.$store.commit('data/SET_TYPES_INSPECTIONS',response[1])
-        this.$store.commit('data/SET_TYPES_INSPECTIONS_STATUES',response[2])
-        this.$store.commit('data/SET_TYPES_SERVICES',response[3])
-        this.$store.commit('data/SET_TYPES_FUELS',response[4])
-        this.$store.commit('data/SET_TYPES_BRANDS',response[5])
-        this.$store.commit('data/SET_TYPES_COLORS',response[6])
-        this.$store.commit('data/SET_TYPES_LINES',response[7])
-        this.$store.commit('data/SET_TYPES_MODELS',response[8])
-        this.$store.commit('data/SET_CLASS_VEHICLES',response[9])
-        this.$q.loading.hide()
-        console.log(response)
-      }).catch((err) => {
-        this.$q.notify({ message: 'Ups! Ocurrio un error de conexion. Intente de nuevo.', position: 'top-right'})
-        console.log('There is an error', err);
-      }).then(() => {
-        this.load = false
-        this.$store.commit('data/LOAD_FALSE')
-        this.$q.loading.hide()
-      });
+      
+      this.getTypesVehicles()
+      this.getTypesInspections()
+      this.getTypesInspectionStatues()
+      this.getTypesServices()
+      this.getTypesFuels()
+      this.getTypesBrands()
+      this.getTypesColors()
+      this.getTypesLines()
+      this.getTypesModels()
+      this.getClassVehicles()
     },
     methods: {
       PadLeft(value, length) {
         value = value + "";
         return (value.toString().length < length) ? this.PadLeft("0" + value, length) : value
-      }
+      },
+
+      //
+      getTypesVehicles(){
+        this.$q.loading.show()
+        resources.getTypesVehicles()
+        .then(response=>{
+          let typesVehicles = []
+          for(let element in response.data.data){
+            typesVehicles.push({ label: response.data.data[element], value: parseInt(element) })
+          }
+          this.$store.commit('data/SET_TYPES_VEHICLES',typesVehicles)
+          this.$q.loading.hide()
+        })
+        .catch(error=>{
+          this.$q.loading.hide()
+        })
+      },
+      getTypesInspections(){
+        this.$q.loading.show()
+        resources.getTypesInspections()
+        .then(response=>{
+          let typesInspections = response.data.data.map((color) => { return { label: color.name, value: color.id }})
+          this.$store.commit('data/SET_TYPES_INSPECTIONS',typesInspections)
+          this.$q.loading.hide()
+        })
+        .catch(error=>{
+          this.$q.loading.hide()
+        })
+      },
+      getTypesInspectionStatues(){
+        this.$q.loading.show()
+        resources.getTypesInspectionStatues()
+        .then(response=>{
+          let data = []
+          for(let element in response.data.data){
+            data.push({ label: response.data.data[element], value: element })
+          }
+          this.$store.commit('data/SET_TYPES_INSPECTIONS_STATUES',data)
+          this.$q.loading.hide()
+        })
+        .catch(error=>{
+          this.$q.loading.hide()
+        })
+      },
+      getTypesServices(){
+        this.$q.loading.show()
+        resources.getTypesServices()
+        .then(response=>{
+          let data = []
+          for(let element in response.data.data){
+            data.push({ label: response.data.data[element], value: parseInt(element) })
+            this.$q.loading.hide()
+          }
+          this.$store.commit('data/SET_TYPES_SERVICES',data)
+        })
+        .catch(error=>{
+          this.$q.loading.hide()
+        })
+      },
+      getTypesFuels(){
+        this.$q.loading.show()
+        resources.getTypesFuels()
+        .then(response=>{
+          let data = []
+          for(let element in response.data.data){
+            data.push({ label: response.data.data[element], value: element })
+          }
+          this.$store.commit('data/SET_TYPES_FUELS',data)
+          this.$q.loading.hide()
+        })
+        .catch(error=>{
+          this.$q.loading.hide()
+        })
+      },
+      getTypesBrands(){
+        this.$q.loading.show()
+        resources.getTypesBrands()
+        .then(response=>{
+          let data = response.data.data.map((color) => { return { label: color.name, value: color.id }})
+          this.$store.commit('data/SET_TYPES_BRANDS', data)
+          this.$q.loading.hide()
+        })
+        .catch(error=>{
+          this.$q.loading.hide()
+        })
+      },
+      getTypesColors(){
+        this.$q.loading.show()
+        resources.getTypesColors()
+        .then(response=>{
+          let colors = response.data.data.map((color) => { return { label: color.name, value: color.id }})
+          this.$store.commit('data/SET_TYPES_COLORS', colors)
+          this.$q.loading.hide()
+        })
+        .catch(error=>{
+          this.$q.loading.hide()
+        })
+      },
+      getTypesLines(){
+        this.$q.loading.show()
+        resources.getTypesLines()
+        .then(response=>{
+          let data = response.data.data.map((color) => { return { label: color.name, value: color.id }})
+          this.$store.commit('data/SET_TYPES_LINES', data)
+          this.$q.loading.hide()
+        })
+        .catch(error=>{
+          this.$q.loading.hide()
+        })
+      },
+      getTypesModels(){
+        this.$q.loading.show()
+        let data = resources.getTypesModels()
+        this.$store.commit('data/SET_TYPES_MODELS', data)
+      },
+      getClassVehicles(){
+        this.$q.loading.show()
+        resources.getClassVehicles()
+        .then(response=>{
+          let data = []
+          for(let element in response.data.data){
+            data.push({ label: response.data.data[element], value: parseInt(element) })
+          }
+          this.$store.commit('data/SET_CLASS_VEHICLES',data)
+          this.$q.loading.hide()
+        })
+        .catch(error=>{
+          this.$q.loading.hide()
+        })
+      },
+      //
+
+      
     }
   }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <q-page class="container-section q-py-lg" v-show="!$store.state.data.load_inner">
     <div class="row">
-        <div class="col-12 col-sm-8 col-md-6 col-lg-5 mx-auto">
+        <div class="col-12 col-sm-8 col-md-7 col-lg-5 mx-auto">
             <div class="row q-pt-sm">
                 <div class="col-12 text-center">
                     <p>Datos de Usuario</p>
@@ -209,7 +209,8 @@ export default {
                     this.form.first_name         =   user.first_name
                     this.form.last_name          =   user.last_name
                     this.form.number_document    =   user.number_document
-                    this.$router.push({ name: 'create.inspection', params: { user_id: this.form.user_id, update: false } })
+                    this.$store.commit('data/LOAD_FALSE')
+                    this.$router.push({ name: 'create.inspection', params: { user_id: user.id, update: false } })
                 }
                 else {
                     this.$q.notify({icon:'error', message: 'Usuario no encontrado, debe registrarse',  position: 'top-right', closeBtn: true})

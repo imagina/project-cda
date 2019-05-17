@@ -2,7 +2,7 @@
   <div class="">
     <div class="row">
       <div class="col-md-12">
-        <h5 class="text-center">{{title | uppercase}}</h5>
+        <h5 class="text-center">{{title }}</h5>
       </div>
     </div>
     <div class="row">
@@ -17,7 +17,7 @@
             v-for="(order, index) in orders"
             :key="index">
             <q-card-title>
-              Matricula: <b>{{ order.vehicle.board  | uppercase  }}</b> <br>
+              Matricula: <b>{{ order.vehicle.board  }}</b> <br>
               <div slot="right" class="row items-center">
                 <q-icon name="style" /> {{ order.inspection_status }}
               </div>
@@ -25,7 +25,7 @@
             <q-card-main>
               <p>
                 <b>
-                  {{ order.vehicle.user.fullname | uppercase }}
+                  NOMBRE DEL CLIENTE
                 </b>
               </p>
               <div class="text-faded">

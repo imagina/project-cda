@@ -12,7 +12,7 @@ export default {
     let url = config('api.api_icda') + '/typesVehicles'
     return new Promise((resolve, reject) => {
       return http.get(url).then(response => {
-        resolve(response.data.data.map( (e,index) => { return { label: e, value: index }}));
+        resolve(response);
       })
       .catch(error => {
         reject(error);
@@ -23,7 +23,7 @@ export default {
     let url = config('api.api_icda') + '/vehiclesClass'
     return new Promise((resolve, reject) => {
       return http.get(url).then(response => {
-        resolve(response.data.data.map( (e,index) => { return { label: e, value: index }}));
+        resolve(response);
       })
         .catch(error => {
           reject(error);
@@ -38,7 +38,7 @@ export default {
     let url = config('api.api_icda') + '/inspectionsTypes'
     return new Promise((resolve, reject) => {
       return http.get(url).then(response => {
-        resolve(response.data.data.map(e => { return { label: e.name, value: e.id }}));
+        resolve(response);
       })
       .catch(error => {
         reject(error);
@@ -54,7 +54,7 @@ export default {
     return new Promise((resolve, reject) => {
       return http.get(url)
         .then(response => {
-          resolve(response.data.data.map((e,index) => { return { label: e, value: index }}));
+          resolve(response);
         })
         .catch(error => {
           reject(error);
@@ -70,7 +70,7 @@ export default {
     return new Promise((resolve, reject) => {
       return http.get(url)
         .then(response => {
-          resolve(response.data.data.map((e,index) => { return { label: e, value: index}}));
+          resolve(response);
         })
         .catch(error => {
           reject(error);
@@ -86,7 +86,7 @@ export default {
     return new Promise((resolve, reject) => {
       return http.get(url)
         .then(response => {
-          resolve(response.data.data.map((e,index) => { return { label: e, value: index }}));
+          resolve(response);
         })
       .catch(error => {
         reject(error);
@@ -101,7 +101,7 @@ export default {
     let url = config('api.api_icda') + '/brands'
     return new Promise((resolve, reject) => {
       return http.get(url).then(response => {
-        resolve(response.data.data.map(e => { return { label: e.name, value: e.id }}));
+        resolve(response);
       })
       .catch(error => {
         reject(error);
@@ -116,7 +116,7 @@ export default {
     let url = config('api.api_icda') + '/colors'
     return new Promise((resolve, reject) => {
       return http.get(url).then(response => {
-        resolve(response.data.data.map(e => { return { label: e.name, value: e.id }}));
+        resolve(response);
       })
       .catch(error => {
         reject(error);
@@ -131,7 +131,7 @@ export default {
     let url = config('api.api_icda') + '/lines'
     return new Promise((resolve, reject) => {
       return http.get(url).then(response => {
-        resolve(response.data.data.map( (e,index) => { return { label: e.name, value: e.id }}));
+        resolve(response);
       })
       .catch(error => {
         reject(error);

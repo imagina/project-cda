@@ -66,9 +66,9 @@ export default {
   	 * @param  {string} placa 
   	 * @param  {Integer} user_id
   	 */
-  	vehicle(board,user_id)  {
+  	vehicle(board)  {
 	    board = board.toUpperCase();
-	    let url = config('api.api_icda') + '/vehicles/'+board+'?user_id='+user_id+'&filter={"field":"board"}'
+	    let url = config('api.api_icda') + '/vehicles/'+board+'?filter={"field":"board"}'
 	    return new Promise((resolve, reject) => {
 	    	return http.get(url).then(response => {
 	    		resolve(response.data);

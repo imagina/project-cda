@@ -355,7 +355,7 @@
                                 </carousel>
                             </div>
 
-                            <q-gallery :gallery="data.gallery" :code="data.code" class="col-12 q-px-md"/>
+                            <galeria :gallery="data.gallery" :code="data.code" class="col-12 q-px-md"/>
 
                             <!-- opbservaciones -->
                             <div class="col-12 q-my-md">
@@ -477,18 +477,18 @@
 
 <script>
     import { required, email, minLength, sameAs, requiredIf, requiredUnless} from 'vuelidate/lib/validators';
-    import qInputValidation from '../../../components/q-input-validation';
-    import qAxes from '../../../components/q-axes';
-    import qInventary from '../../../components/q-inventary';
-    import qGallery from '../../../components/q-gallery';
-    import qContract from '../../../components/q-contract';
+    import qInputValidation from 'src/components/q-input-validation';
+    import qAxes from 'src/components/q-axes';
+    import qInventary from 'src/components/q-inventary';
+    import galeria from 'src/components/q-gallery';
+    import qContract from 'src/components/q-contract';
     import VueSignaturePad from 'vue-signature-pad';
     import config from 'src/config/index'
     import { Carousel, Slide } from 'vue-carousel'
 
     export default {
         name: 'PageData',
-        components: { qInputValidation, qGallery, qInventary, qAxes, qContract, VueSignaturePad, Carousel, Slide },
+        components: { qInputValidation, galeria, qInventary, qAxes, qContract, VueSignaturePad, Carousel, Slide },
         data () {
             return {
                 showData: false,
@@ -532,6 +532,7 @@
                     numero_ruf: null,
                     certificado: null
                 },
+                user:{},
                 created: false,
                 formSearch : { plaque: null },
                 selectItems: [],
@@ -792,6 +793,8 @@
                     this.data.board = board
                     this.$resourcesVehicles.vehicle(board,this.data.user_id)
                     .then(response => {
+                        console.log(response.created)
+
                         this.data.attributes = []
                         this.data.vehicles_id = response.data.id
                         this.data.attributes = response.data

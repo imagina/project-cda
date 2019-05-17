@@ -14,7 +14,7 @@
       v-model="openedUploader" 
       :content-css="{minWidth: '80vw', padding: '25px'}">
       <h4 class="mx-auto">Añadir imagen</h4>
-      <div v-if="$q.platform.is.desktop">
+      <div >
         <q-uploader
           :url="url"
           :auto-expand="true"
@@ -29,7 +29,7 @@
         <q-btn color="black" icon="photo_camera" @click="captureImage()" />
       </div>
       <div>
-        <q-img
+        <img
           :src="imageSrc"
           placeholder-src="statics/quasar-logo.png"
           :alt="'Imagem: ' + imageSrc" id="photo"
@@ -49,16 +49,22 @@
     </q-modal>
   </div>
 </template>
+
 <script>
 
   import resources from 'src/services/resources'
   import config from 'src/config/index'
 
   export default {
-    name: 'q-gallery',
+    name:'galeria',
     props: {
-      'gallery':  { required: true },
-      'code':     { required: false, default: null }
+      gallery:{
+        required: true 
+      },
+      code:{ 
+        required: false, 
+        default: null 
+      }
     },
     data() {
       return {
