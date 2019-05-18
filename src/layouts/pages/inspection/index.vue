@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!$store.state.auth.userData.permissions['icda.inspections.all']">
+    <div v-if="$store.state.auth.userData.permissions['icda.inspections.all']">
       <inspectorComponent/>
     </div>
     <div v-else>
@@ -45,7 +45,7 @@
                         Matricula: <b>{{ item.vehicle.board | uppercase }}</b> <br>
                         Tipo de Servicio: <b>{{ item.vehicle.service_type_text | uppercase }}</b> <br>
                         Tipo de Vehiculo: <b>{{ item.vehicle.type_vehicle_text | uppercase }}</b> <br>
-                        Cliente: NOMBRE DEL CLIENTE <br>
+                        Cliente: <b>{{ item.vehicle.user.fullname | uppercase }}</b> <br>
                         Estado: <b>{{ item.inspection_status }}</b> <br>
                       </div>
                     </router-link>

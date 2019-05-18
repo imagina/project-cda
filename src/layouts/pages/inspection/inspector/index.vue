@@ -3,17 +3,17 @@
     <div class="col-md-4 border-left">
       <ordersComponent 
         title="En Espera"
-        :filter="{inspection_status:0,order:{field:created_at,way:desc}}"/>
+        typeOrder="0"/>
     </div>
     <div class="col-md-4 border-left">
       <ordersComponent 
         title="Revisado"
-        :filter="{inspection_status:1,order:{field:created_at,way:desc}}"/>
+        typeOrder="1"/>
     </div>
     <div class="col-md-4 border-left">
       <ordersComponent 
         title="Facturado"
-        :filter="{inspection_status:2,order:{field:created_at,way:desc}}"/>
+        typeOrder="2"/>
     </div>
   </div>
 </template>

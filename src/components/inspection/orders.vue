@@ -25,7 +25,7 @@
             <q-card-main>
               <p>
                 <b>
-                  NOMBRE DEL CLIENTE
+                  {{order.vehicle.user.fullname | uppercase}}
                 </b>
               </p>
               <div class="text-faded">
@@ -81,9 +81,9 @@
       notificationComponent
     },
     props:{
-      filter:{
-        type:Object,
-        default:{}
+      typeOrder:{
+        type:String,
+        default:'0'
       },
       title:{
         type:String,
@@ -110,7 +110,16 @@
     methods:{
       getOrders(){
         this.visible = true
-        service.index(this.filter)
+
+        let filter = {
+          inspection_status: this.typeOrder,
+          order:{
+            field:'created_at',
+            way:'desc'
+          }
+        }
+
+        service.index(filter)
         .then(response=>{
           this.orders = response.data
           this.visible = false
