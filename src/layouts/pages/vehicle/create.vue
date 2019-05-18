@@ -422,7 +422,7 @@
           closeBtn: true})
         return
       } else {
-        resources.vehicle(this.board)
+        resources.searchVehicle(this.board)
         .then(response=>{
           if(response.data == ''){
             this.vehicleExist = true
