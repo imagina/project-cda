@@ -19,6 +19,7 @@ export default {
       });
     });
   },
+
   getClassVehicles() {
     let url = config('api.api_icda') + '/vehiclesClass'
     return new Promise((resolve, reject) => {
