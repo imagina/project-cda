@@ -1,8 +1,8 @@
 {
   "name": "project-cda",
   "version": "0.0.1",
-  "description": "project-cda",
-  "productName": "project-cda",
+  "description": "Proyeto de rtegistro de ordenes de entradas para CDA",
+  "productName": "CDA Autogases",
   "cordovaId": "org.cordova.quasar.app",
   "author": "juanash <juanita-bravo2011@hotmail.com>",
   "private": true,
