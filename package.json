@@ -1,8 +1,8 @@
 {
   "name": "Check and Go",
   "version": "0.0.1",
-  "description": "project-cda",
-  "productName": "project-cda",
+  "description": "Recepción de Motos Check and Go",
+  "productName": "Recepción de Motos Check and Go",
   "cordovaId": "org.cordova.quasar.app",
   "author": "imagina Colombia <soporte@imaginacolombia.com>",
   "private": true,

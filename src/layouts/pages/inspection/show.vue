@@ -227,24 +227,24 @@
                             </div>
                         </div>
 
-                            <div class="col-12 q-py-md" >
-                                <div class="row">
-                                    <div class="col-12 col-md-6 q-px-md print-col-6">
-                                        <q-field :error="$v.data.pin.$error">
-                                            <span class="font-weight-bold d-inline-block"
-                                                :class="{'color-danger': $v.data.pin.$error}">Pin:</span>
-                                            <q-input :disable='!isUpdate' v-model="data.pin" type="text" placeholder="Pin" class="q-mb-lg"/>
-                                        </q-field>
-                                    </div>
-                                    <div class="col-12 col-md-6 q-px-md print-col-6">
-                                        <q-field :error="$v.data.invoice_num.$error">
-                                            <span class="font-weight-bold d-inline-block"
-                                                :class="{'color-danger': $v.data.invoice_num.$error}">Factura:</span>
-                                            <q-input :disable='!isUpdate' v-model="data.invoice_num" type="text" placeholder="Factura" class="q-mb-lg"/>
-                                        </q-field>
-                                    </div>
+                        <div class="col-12 q-py-md" v-if="inspection_statues.initial >= 2">
+                            <div class="row">
+                                <div class="col-12 col-md-6 q-px-md print-col-6">
+                                    <q-field :error="$v.data.pin.$error">
+                                        <span class="font-weight-bold d-inline-block"
+                                            :class="{'color-danger': $v.data.pin.$error}">Pin:</span>
+                                        <q-input :disable='!isUpdate' v-model="data.pin" type="text" placeholder="Pin" class="q-mb-lg"/>
+                                    </q-field>
+                                </div>
+                                <div class="col-12 col-md-6 q-px-md print-col-6">
+                                    <q-field :error="$v.data.invoice_num.$error">
+                                        <span class="font-weight-bold d-inline-block"
+                                            :class="{'color-danger': $v.data.invoice_num.$error}">Factura:</span>
+                                        <q-input :disable='!isUpdate' v-model="data.invoice_num" type="text" placeholder="Factura" class="q-mb-lg"/>
+                                    </q-field>
                                 </div>
                             </div>
+                        </div>
                         
                         <div class="row" v-if="status != 'Revisado'">
                             <div class="col-12 print-col-12 q-px-md q-border" v-if="!isMotocicleta()">
@@ -585,7 +585,6 @@
                                     </div>
 
                                     <div class="col text-right">
-
                                         <!-- CAMBIOS DE ESTADO PARA EL ROL ESPECIAL -->
                                         <div v-if="$store.state.auth.userData.permissions['icda.inspections.all']">
                                             <q-select 

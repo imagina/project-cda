@@ -20,7 +20,7 @@ export default {
     title: 'Vehiculos',
     icon: 'fas fa-car',
     to: 'vehicles.index',
-    can: 'icda.vehicles.index',
+    can: 'icda.vehicles.edit',
   },
   /*logout*/
   logout: {
