@@ -59,13 +59,13 @@ module.exports = function (ctx) {
       // workboxPluginMode: 'InjectManifest',
       // workboxOptions: {},
       manifest: {
-        // name: 'Quasar App',
+        name: 'AutoGases',
         // short_name: 'Quasar-PWA',
         // description: 'Best PWA App in town!',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
-        theme_color: '#1e3a82',
+        theme_color: '#27347A',
         icons: [
           {
             'src': 'statics/icons/icon-128x128.png',

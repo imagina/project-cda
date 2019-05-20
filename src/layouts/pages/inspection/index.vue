@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div v-if="$store.state.auth.userData.permissions['icda.inspections.all']">
+		<div v-if="!$store.state.auth.userData.permissions['icda.inspections.all']">
 			<inspectorComponent/>
 		</div>
 		<div v-else>
@@ -8,7 +8,7 @@
 					<div class="layout-padding q-py-lg">
 					<div class="row">
 						<div class="col-12">
-							<q-timeline responsive color="black" :responsive="false" class="border-bottom-none">
+							<q-timeline  color="black" :responsive="false" class="border-bottom-none">
 								<q-timeline-entry heading>
 									<span>Lista de Ordenes </span>
 													<div class="d-inline-block">

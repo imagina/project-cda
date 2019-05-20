@@ -29,7 +29,7 @@
         <q-btn color="black" icon="photo_camera" @click="captureImage()" />
       </div>
       <div>
-        <q-img
+        <img
           :src="imageSrc"
           placeholder-src="statics/quasar-logo.png"
           :alt="'Imagem: ' + imageSrc" id="photo"

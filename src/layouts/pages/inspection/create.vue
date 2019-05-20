@@ -15,7 +15,7 @@
                 <div class="col-12 col-sm-10 col-md-4 mx-auto q-px-md">
                     <div class="row">
                         <div class="col-12 text-center font-weight-bold">
-                            <p>Datos del vehículo</p>
+                            <p>Datos de la Motocicleta</p>
                         </div>
                         <div class="col-12">
                             <q-field :error="$v.formSearch.plaque.$error">
@@ -62,7 +62,7 @@
                         </div>
                         <div class="row align-items-center" v-if="data.attributes">
                             <div class="col-12 col-md-3 px-2 py-3 bg-primary text-right">
-                                <span class="h2 font-weight-bold my-3 d-block text-white">SOAT</span>
+                                <span class="h2 font-weight-bold my-3 d-block">SOAT</span>
                             </div>
                             <div class="col-4 col-md-2 mx-auto py-3 text-center">
                                 <p class="font-weight-bold font-famili"><b>Fecha de Expedición</b></p>
@@ -144,7 +144,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-12 q-px-md q-border" v-if="!isMotocicleta()">
+                            <div class="col-12 q-px-md q-border" v-if="!isMotocicleta() && false">
                                 <div class="row">
                                     <div class="col-4 col-md-3 col-lg-2 q-mb-lg q-mt-sm">
                                         <i class="material-icons color-danger q-mr-xs" v-show="$v.data.type_vehicle.$error"> error_outline </i>
@@ -154,17 +154,19 @@
                                         <q-btn-group class="bg-white">
                                             <q-btn label="PESADO"
                                                 @click="data.type_vehicle = 'Heavy'"
-                                                :class="{'bg-primary text-white ' : data.type_vehicle == 'Heavy'}"/>
+                                                :class="{'bg-primary ' : data.type_vehicle == 'Heavy'}"/>
 
                                             <q-btn label="LIVIANO"
                                                 @click="data.type_vehicle = 'Light'"
-                                                :class="{'bg-primary text-white ' : data.type_vehicle == 'Light'}"/>
+                                                :class="{'bg-primary ' : data.type_vehicle == 'Light'}"/>
 
                                             <q-btn label="MOTOCICLETA"
                                                 @click="data.type_vehicle = 'Motorcycle'"
-                                                :class="{'bg-primary text-white ' : data.type_vehicle == 'Motorcycle'}"/>
+                                                :class="{'bg-primary ' : data.type_vehicle == 'Motorcycle'}"/>
 
-                                          
+                                            <q-btn label="LIVIANO"
+                                                @click="data.type_vehicle = 'Car'"
+                                                :class="{'bg-primary ' : data.type_vehicle == 'Car'}"/>
 
                                         </q-btn-group>
                                     </div>
@@ -353,7 +355,7 @@
                                 </carousel>
                             </div>
 
-                            <q-gallery :gallery="data.gallery" :code="data.code" class="col-12 q-px-md"/>
+                            <galeria :gallery="data.gallery" :code="data.code" class="col-12 q-px-md"/>
 
                             <!-- opbservaciones -->
                             <div class="col-12 q-my-md">
@@ -373,7 +375,7 @@
                             </div>
 
                             <div class="col-12 text-right">
-                                <q-btn color="primary" size="md" label="Guardar" class="q-px-lg btn-app" @click="submitData"/>
+                                <q-btn color="black" size="md" label="Guardar" class="q-px-lg btn-app" @click="submitData"/>
                             </div>
                         </div>
                     </div>
@@ -475,18 +477,18 @@
 
 <script>
     import { required, email, minLength, sameAs, requiredIf, requiredUnless} from 'vuelidate/lib/validators';
-    import qInputValidation from '../../../components/q-input-validation';
-    import qAxes from '../../../components/q-axes';
-    import qInventary from '../../../components/q-inventary';
-    import qGallery from '../../../components/q-gallery';
-    import qContract from '../../../components/q-contract';
+    import qInputValidation from 'src/components/q-input-validation';
+    import qAxes from 'src/components/q-axes';
+    import qInventary from 'src/components/q-inventary';
+    import galeria from 'src/components/q-gallery';
+    import qContract from 'src/components/q-contract';
     import VueSignaturePad from 'vue-signature-pad';
     import config from 'src/config/index'
     import { Carousel, Slide } from 'vue-carousel'
 
     export default {
         name: 'PageData',
-        components: { qInputValidation, qGallery, qInventary, qAxes, qContract, VueSignaturePad, Carousel, Slide },
+        components: { qInputValidation, galeria, qInventary, qAxes, qContract, VueSignaturePad, Carousel, Slide },
         data () {
             return {
                 showData: false,
@@ -530,6 +532,7 @@
                     numero_ruf: null,
                     certificado: null
                 },
+                user:{},
                 created: false,
                 formSearch : { plaque: null },
                 selectItems: [],
@@ -790,6 +793,8 @@
                     this.data.board = board
                     this.$resourcesVehicles.vehicle(board,this.data.user_id)
                     .then(response => {
+                        console.log(response.created)
+
                         this.data.attributes = []
                         this.data.vehicles_id = response.data.id
                         this.data.attributes = response.data
@@ -807,12 +812,14 @@
             },
             typeVehicle(value) {
                 if(value == 1)
-                    return 'Pesado'
+                    return 'Heavy'
                 if(value == 2)
-                    return 'Liviano'
+                    return 'Light'
                 if(value == 3)
-                    return 'Motocicleta'
-                //return 'Motorcycle'
+                    return 'Motorcycle'
+                if(value == 4)
+                    return 'Car'
+                return 'Motorcycle'
             },
             isMotocicleta() {
                 return this.data.attributes.type_vehicle == 'Motorcycle';
