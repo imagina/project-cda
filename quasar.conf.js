@@ -60,8 +60,8 @@ module.exports = function (ctx) {
       // workboxOptions: {},
       manifest: {
         name: 'Check And Go',
-        // short_name: 'Quasar-PWA',
-        // description: 'Best PWA App in town!',
+        short_name: 'Check and Go',
+        description: 'Recepción de Motos Check and Go',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',

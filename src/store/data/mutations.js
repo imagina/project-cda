@@ -5,14 +5,6 @@ export const SET_TYPES_VEHICLES = (state, data) => {
 	state.types_vehicles = data
 };
 
-
-/**
- * SET Tipos de Vehiculos
- */
-export const SET_CLASS_VEHICLES = (state, data) => {
-  state.class_vehicles = data
-};
-
 /**
  * SET Tipos de Inspecciones
  */
