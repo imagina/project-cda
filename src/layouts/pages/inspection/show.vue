@@ -227,7 +227,7 @@
                             </div>
                         </div>
 
-                        <div class="col-12 q-py-md" v-if="inspection_statues.initial >= 2">
+                        <div class="col-12 q-py-md" v-if="inspection_statues.initial >= 1">
                             <div class="row">
                                 <div class="col-12 col-md-6 q-px-md print-col-6">
                                     <q-field :error="$v.data.pin.$error">

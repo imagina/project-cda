@@ -6,6 +6,13 @@ export const GET_TYPES_VEHICLES = (state) => {
 };
 
 /**
+ * GET Tipos de Vehiculos
+ */
+export const GET_CLASS_VEHICLES = (state) => {
+  return state.class_vehicles
+};
+
+/**
  * GET Tipos de Inspecciones
  */
 export const GET_TYPES_INSPECTIONS = (state) => {
