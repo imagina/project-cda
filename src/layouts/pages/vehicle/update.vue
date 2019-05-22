@@ -61,6 +61,7 @@
                     Marca:
                   </span>
                   <q-select 
+                  @input="handleChangeBrand(attributes.brand_id)"
                     v-model="attributes.brand_id" 
                     class="q-mb-lg uppercase" 
                     placeholder="Marca" 
@@ -84,7 +85,7 @@
                   <q-select 
                     v-model="attributes.line_id" 
                     class="q-mb-lg uppercase" placeholder="Line" 
-                    :options="$store.state.data.types_lines"/>
+                    :options="SelectLines"/>
                 </q-field>
               </div>
               <div class="col-md-2">
@@ -322,7 +323,7 @@
           modalColor: false,
           nameColor: ''
         },
-        
+        SelectLines:[],
       }
     },
     created() {
@@ -416,7 +417,18 @@
       back () {
         this.$router.push({ name: 'vehicles.index' })
       },
-
+      handleChangeBrand(e){
+        let filter = {
+          brand: e
+        }
+        resources.getLines(filter)
+        .then(response=>{
+          this.SelectLines = response.data.data.map((color) => { return { label: color.name, value: color.id }})
+        })
+        .catch(error=>{
+          console.warn(error)
+        })
+      }
     }
   }
 </script>

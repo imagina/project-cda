@@ -166,7 +166,13 @@
                                                 <q-field :error="$v.data.attributes.brand_id.$error">
                                                     <span class="font-weight-bold d-inline-block"
                                                         :class="{'color-danger': $v.data.attributes.brand_id.$error}">Marca:</span>
-                                                    <q-select :disable='!isUpdate' v-model="data.attributes.brand_id" class="q-mb-lg uppercase" placeholder="Marca" :options="$store.state.data.types_brands"/>
+                                                    <q-select 
+                                                        @input="handleChangeBrand(data.attributes.brand_id)" 
+                                                        :disable='!isUpdate' 
+                                                        v-model="data.attributes.brand_id" 
+                                                        class="q-mb-lg uppercase" 
+                                                        placeholder="Marca" 
+                                                        :options="$store.state.data.types_brands"/>
                                                 </q-field>
                                             </div>
                                             <div class="col-md-2" v-if="inspection_statues.initial == 0">
@@ -180,7 +186,12 @@
                                             <q-field :error="$v.data.attributes.line_id.$error">
                                                 <span class="font-weight-bold d-inline-block"
                                                     :class="{'color-danger': $v.data.attributes.line_id.$error}">Línea:</span>
-                                                <q-select :disable='!isUpdate' v-model="data.attributes.line_id" class="q-mb-lg uppercase" placeholder="Line" :options="$store.state.data.types_lines"/>
+                                                <q-select 
+                                                    :disable='!isUpdate' 
+                                                    v-model="data.attributes.line_id" 
+                                                    class="q-mb-lg uppercase" 
+                                                    placeholder="Line" 
+                                                    :options="SelectLines"/>
                                             </q-field>
                                             </div>
                                         <div class="col-md-2" v-if="inspection_statues.initial == 0">
@@ -715,6 +726,7 @@
     import { Printd } from 'printd'
     import userService from 'src/services/users'
     import config from 'src/config/index'
+    import service from 'src/services/resources.js'
 
     //Components
     import colorComponent from 'src/components/vehicles/colors/create'
@@ -735,6 +747,7 @@
         },
         data () {
             return {
+                SelectLines:[],
                 url: config('api.api_icda') + '/inspections/media/upload?code=' + this.code,
                 userData: {},
                 status:'',
@@ -1069,6 +1082,7 @@
                     this.getDataUser(data.vehicle.user.id)
                     this.$store.commit('data/LOAD_FALSE')
                     this.showData = true
+                    this.initSelectLines(parseInt(data.vehicle.brand_id))
                 }).catch(error => {
                     this.$q.notify(
                             {message: 'Los iento, la inspeccion no se encuentra en nuestra data.',
@@ -1170,6 +1184,30 @@
                 userService.show(id)
                 .then(response=>{
                     this.userData = response.data
+                })
+                .catch(error=>{
+                    console.warn(error)
+                })
+            },
+            initSelectLines(brand_id){
+                let filter = {
+                    brand: brand_id
+                }
+                service.getLines(filter)
+                .then(response=>{
+                    this.SelectLines = response.data.data.map((color) => { return { label: color.name, value: color.id }})
+                })
+                .catch(error=>{
+                    console.warn(error)
+                })
+            },
+            handleChangeBrand(e){
+                let filter = {
+                    brand: e
+                }
+                service.getLines(filter)
+                .then(response=>{
+                    this.SelectLines = response.data.data.map((color) => { return { label: color.name, value: color.id }})
                 })
                 .catch(error=>{
                     console.warn(error)

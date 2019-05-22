@@ -173,6 +173,25 @@ export default {
   },
 
   /**
+   Filtrar lineas
+   */
+  getLines(filter){
+    return new Promise((resolve, reject) => {
+      return http.get(config('api.api_icda') + '/lines', {
+        params:{
+          filter
+        }
+      })
+      .then(response => {
+        resolve(response);
+      })
+      .catch(error => {
+        reject(error);
+      });
+    });
+  },
+
+  /**
    * Adicionar Lineas
    */
   addLines(data) {

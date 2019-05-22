@@ -76,6 +76,7 @@
                     Marca:
                   </span>
                   <q-select 
+                    @input="handleChangeBrand(attributes.brand_id)"
                     v-model="attributes.brand_id" 
                     class="q-mb-lg uppercase" 
                     placeholder="Marca" 
@@ -98,7 +99,7 @@
                   <q-select 
                     v-model="attributes.line_id" 
                     class="q-mb-lg uppercase" placeholder="Line" 
-                    :options="$store.state.data.types_lines"/>
+                    :options="SelectLines"/>
                 </q-field>
               </div>
               <div class="col-md-2">
@@ -331,6 +332,7 @@
   import { required, email, minLength, sameAs, requiredIf, requiredUnless} from 'vuelidate/lib/validators';
   import config from 'src/config/index'
   import resources from 'src/services/vehicles.js'
+  import service from 'src/services/resources.js'
 
   //COMPONENTS
   import colorComponent from 'src/components/vehicles/colors/create'
@@ -366,6 +368,7 @@
       },
       board: '',
       vehicleExist:false,
+      SelectLines:[]
     }
   },
   components:{
@@ -482,6 +485,18 @@
         })
       }
     },
+    handleChangeBrand(e){
+      let filter = {
+        brand: e
+      }
+      service.getLines(filter)
+      .then(response=>{
+        this.SelectLines = response.data.data.map((color) => { return { label: color.name, value: color.id }})
+      })
+      .catch(error=>{
+        console.warn(error)
+      })
+    }
   }
 }
 </script>
