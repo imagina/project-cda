@@ -66,16 +66,19 @@
           </div>
       </q-page>
     </div>
+    <notificationComponent @newInspection="handlenewInspection()"/>
   </div>
 </template>
 
 <script>
   import config from 'src/config/index'
   import inspectorComponent from 'src/layouts/pages/inspection/inspector/index'
+  import notificationComponent from 'src/components/inspection/notification'
 
   export default {
     components:{
-      inspectorComponent
+      inspectorComponent,
+      notificationComponent
     },
     name: 'PageOrdens',
       data () {
@@ -159,6 +162,9 @@
           });
         }
       },
+      handlenewInspection(){
+        this.loadMore()
+      }
     }
   }
 </script>
