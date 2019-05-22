@@ -18,7 +18,7 @@
                       <q-select 
                         placeholder="Seleccionar Orden"
                         v-model="inspection_statues.status" 
-                        :options="$store.state.data.types_inspections_statues" 
+                        :options="optionsTypesInspectionsStatuesFiltered" 
                         class="bg-white q-py-sm q-my-md"/>
                     </div>
                   </div>
@@ -86,7 +86,31 @@
           },
         }
       },
+      computed:{
+        optionsTypesInspectionsStatuesFiltered(){
+          let res = []
+          this.$store.state.data.types_inspections_statues.forEach(state=>{
+            if(this.$store.state.auth.userData.permissions['icda.inspections.register']){
+              if(state.value == 0 || state.value == 2 || state.value == 3 || state.value == 4){
+                res.push(state)
+              } 
+            }
+            if(this.$store.state.auth.userData.permissions['icda.inspections.checkIn']){
+              if(state.value == 1){
+                  res.push(state)
+              }
+            }
+            if(this.$store.state.auth.userData.permissions['icda.inspections.all']){
+              res.push(state)
+            }
+          })
+          return res
+        }
+      },
       created() {
+        if(this.$store.state.auth.userData.permissions['icda.inspections.checkIn']){
+          this.inspection_statues.status = 1
+        }
         this.$store.commit('data/LOAD_FALSE')
         this.$store.commit('orden/SET_ORDEN',{
           timeEntry: '',

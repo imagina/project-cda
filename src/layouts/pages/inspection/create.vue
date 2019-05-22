@@ -399,36 +399,40 @@
                 <div class="row q-my-lg">
                     <hr class="col-12 q-my-lg">
                     <div class="col-12 col-md-6">
-                      <div class="row">
+
+                    <div class="row">
                         <div class="col-6">
-                          <p class="font-weight-bold">
+                            <p class="font-weight-bold">
                             <i class="material-icons color-danger q-mr-xs" v-show="$v.data.vehicle_prepared.$error"> error_outline </i>
                             <span :class="{'color-danger': $v.data.vehicle_prepared.$error}">Vehículo preparado para la inspección:</span>
-                          </p>
+                            </p>
                         </div>
                         <div class="col-6">
                             <div class="d-inline-block">
-                              <q-radio v-model="data.vehicle_prepared" :val="true" label="Si" class="q-mr-lg"/>
-                              <q-radio v-model="data.vehicle_prepared" :val="false" label="No" class="q-mr-lg"/>
-                            </div>
-                        </div>
-                      </div>
-
-
-                    <div class="row print-row">
-                        <div class="col-12 print-col-12">
-                            <p class="font-weight-bold d-inline-block q-mr-md" :class="{'border-danger':$v.data.seen_technical_director.$error}">
-                                Visto bueno director técnico: 
-                                <span class="d-none">
-                                    {{ data.seen_technical_director ? 'SI' : 'NO' }}
-                                </span>
-                            </p>
-                            <div class="d-inline-block print-none">
-                                <q-radio v-model="data.seen_technical_director" :disable="!is_signature_received_report && data.seen_technical_director != null" :val="1" label="Si" class="q-mr-lg"/>
-                                <q-radio v-model="data.seen_technical_director" :disable="!is_signature_received_report && data.seen_technical_director != null" :val="0" label="No" class="q-mr-lg"/>
+                                <q-radio v-model="data.vehicle_prepared" :val="true" label="Si" class="q-mr-lg"/>
+                                <q-radio v-model="data.vehicle_prepared" :val="false" label="No" class="q-mr-lg"/>
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                        <p class="font-weight-bold">
+                            <i class="material-icons color-danger q-mr-xs" v-show="$v.data.seen_technical_director.$error"> error_outline </i>
+                            <span :class="{'color-danger': $v.data.seen_technical_director.$error}">Visto bueno director técnico:</span>
+                        </p>
+                        </div>
+                        <div class="col-6">
+                            <div class="d-inline-block">
+                                <q-radio v-model="data.seen_technical_director" :val="true" label="Si" class="q-mr-lg"/>
+                                <q-radio v-model="data.seen_technical_director" :val="false" label="No" class="q-mr-lg"/>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
 
                       
                     </div>
@@ -653,7 +657,7 @@
                     }
                 },
                 observations: { required : requiredIf(function(model) {
-                    let required = false;
+                    let required = true;
                     // this.data.items.forEach(function(element) {
                     //     if(element.evaluation == 'R' || element.evaluation == 'M') {
                     //         required = true
@@ -759,6 +763,8 @@
                         delete jsonData['vehicle_delivery_signature'];
                     if ( !this.is_signature_received_report)
                         delete jsonData['signature_received_report'];
+
+
                     this.$resourcesInspections.createInspections(jsonData)
                     .then(response => {
                         this.$router.push({ name: 'home' })

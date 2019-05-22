@@ -9,5 +9,6 @@ export default {
 	types_brands: [],
 	types_colors: [],
 	types_lines: [],
-	types_models: []
+	types_models: [],
+	class_vehicles: []
 }

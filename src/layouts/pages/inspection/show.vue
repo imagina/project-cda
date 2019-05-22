@@ -1,6 +1,7 @@
 <template>
     <div id="printed" v-show="!$store.state.data.load_inner">
         <q-page v-show="showData">
+            
         	<div class="col-12 q-border col-search print-none">
 	            <div class="row">
 	                <div class="col-12 col-sm-10 col-md-6 mx-auto q-px-md">
@@ -88,35 +89,38 @@
                                 <span class="h2 font-weight-bold my-3 d-block">SOAT</span>
                             </div>
                             <div class="col-4 col-md-2 mx-auto py-3 text-center print-col-3 print-center">
-                                <p class="font-weight-bold font-family"><b>Expedición</b></p>
+                                <span 
+                                    class="font-weight-bold d-inline-block"
+                                    :class="{'color-danger': $v.data.attributes.insurance_expedition.$error}">
+                                    Expedición:
+                                </span>
                                 <p class="mb-0">
 
-
-                                <q-datetime v-model.trim="data.attributes.insurance_expiration"
-                                    placeholder="Fecha Fin De Vigencia"
-                                    type="date"
-                                    class="q-mb-lg"
-                                    format="YYYY-MM-DD"/>
+                                    <q-field :error="$v.data.attributes.insurance_expedition.$error">
+                                        <q-datetime v-model.trim="data.attributes.insurance_expedition"
+                                            placeholder="Fecha Fin De Vigencia"
+                                            type="date"
+                                            class="q-mb-lg"
+                                            format="YYYY-MM-DD"/>
+                                    </q-field>
                                 
-
-                                    <span v-if="false">
-                                        {{ data.attributes.insurance_expiration ? data.attributes.insurance_expiration : 'N/D' }}
-                                    </span>
                                 </p>
                             </div>
                             <div class="col-4 col-md-2 mx-auto py-3 text-center print-col-3 print-center">
-                                <p class="font-weight-bold font-family"><b>Fin De Vigencia</b></p>
+                                <span 
+                                    class="font-weight-bold d-inline-block"
+                                    :class="{'color-danger': $v.data.attributes.insurance_expiration.$error}">
+                                    Fin De Vigencia
+                                </span>
                                 <p class="mb-0">
-                                
-                                <q-datetime v-model.trim="data.attributes.insurance_expiration"
-                                    placeholder="Fecha de Expedición"
-                                    type="date"
-                                    class="q-mb-lg"
-                                    format="YYYY-MM-DD"/>
-                                    
-                                    <span v-if="false">
-                                        {{ data.attributes.insurance_expiration ? data.attributes.insurance_expiration : 'N/D' }}
-                                    </span>
+
+                                    <q-field :error="$v.data.attributes.insurance_expiration.$error">
+                                        <q-datetime v-model.trim="data.attributes.insurance_expiration"
+                                            placeholder="Fecha de Expedición"
+                                            type="date"
+                                            class="q-mb-lg"
+                                            format="YYYY-MM-DD"/>
+                                    </q-field>
                                 </p>
                             </div>
                             <div class="col-4 col-md-2 mx-auto py-3 text-center">
@@ -128,7 +132,7 @@
                         </div>
                     </div>
                     <div class="layout-padding q-py-lg">
-                        <!-- Atributos -->
+                        <!-- Datos del Vehiculo -->
                         <div class="row mt-3 q-border">
                             <div class="col-12 col-md-6 q-px-md print-col-6">
                                 <div class="col-12 col-md-6 q-px-md">
@@ -140,8 +144,21 @@
 
                                     <q-field :error="$v.data.attributes.type_vehicle.$error">
                                         <span class="font-weight-bold d-inline-block"
-                                            :class="{'color-danger': $v.data.attributes.type_vehicle.$error}">Clase de Vehículo</span>
+                                            :class="{'color-danger': $v.data.attributes.type_vehicle.$error}">Tipo de Vehículo</span>
                                             <q-select :disable='!isUpdate' v-model="data.attributes.type_vehicle" class="q-mb-lg uppercase" placeholder="Clase de Vehículo" :options="$store.state.data.types_vehicles"/>
+                                    </q-field>
+
+                                    <q-field>
+                                        <span 
+                                        class="font-weight-bold d-inline-block"
+                                        :class="{'color-danger': false}">
+                                        Clase de vehículo:
+                                        </span>
+                                        <q-select 
+                                        v-model="data.attributes.vehicle_class" 
+                                        class="q-mb-lg uppercase" 
+                                        placeholder="Clase de vehículo"
+                                        :options="$store.getters['data/GET_CLASS_VEHICLES']"/>
                                     </q-field>
 
                                     <q-field :error="$v.data.attributes.brand_id.$error">
@@ -176,11 +193,10 @@
                                                 class="q-mb-lg"
                                                 placeholder="Fecha de Vencimiento"
                                                 format="YYYY-MM-DD"/>
-                                            </q-field>
                                     </q-field>
+                                    
                                 </div>
                             </div>
-
                             <div class="col-12 col-md-6 q-px-md print-col-6">
                                 <q-field :error="$v.data.attributes.color_id.$error">
                                     <span class="font-weight-bold d-inline-block"
@@ -226,7 +242,7 @@
                                 </q-field>
                             </div>
                         </div>
-
+                        <!-- Datos del Vehiculo -->
                         <div class="col-12 q-py-md" v-if="inspection_statues.initial >= 1">
                             <div class="row">
                                 <div class="col-12 col-md-6 q-px-md print-col-6">
@@ -482,11 +498,21 @@
                                             :options="{ onEnd }"
                                             :class="{'border-danger':$v.data.signature_received_report.$error}"/>
 
-                                        <img v-else :src="data.signature_received_report|asset"
-                                            style="border: 2px solid #0c0c0c;border-radius: 8px;"
-                                            width="100%" 
-                                            class="print-col-12"
-                                            height="200px">
+                                           
+                                        <div v-else>
+                                            <p>Firma y Cédula Entrega de Vehículo</p>
+                                                <img  :src="data.signature_received_report|asset"
+                                                style="border: 2px solid #0c0c0c;border-radius: 8px;"
+                                                width="100%" 
+                                                class="print-col-12"
+                                                height="200px">
+                                            <p></p>
+                                                <img  :src="data.vehicle_delivery_signature|asset"
+                                                style="border: 2px solid #0c0c0c;border-radius: 8px;"
+                                                width="100%" 
+                                                class="print-col-12"
+                                                height="200px">
+                                        </div>
 
                                         <p class="font-weight-bold" :class="{'color-danger':$v.data.signature_received_report.$error}">
                                             <i class="material-icons color-danger q-mr-xs" v-show="$v.data.signature_received_report.$error"> error_outline </i>
@@ -498,7 +524,7 @@
 
                             <div class="col-12 q-py-md">
                                 <div class="row" v-if="inspection_statues.initial == 2">
-                                    <div class="col-12 col-sm-6">
+                                    <div class="col-12 col-sm-12">
                                         <div class="row">
                                             <div class="col-12 q-my-sm q-px-md">
                                                 <span class="font-weight-bold q-mb-sm d-block">Numero FUR:</span>
@@ -506,10 +532,10 @@
                                                     <q-input v-model="data.num_fur" type="number" min="0" placeholder="Numero FUR" class="bg-white q-my-sm"/>
                                                 </q-field>
                                             </div>
-                                        </div>                                        
+                                        </div>
                                     </div>
-                                    <div class="col-12 col-sm-6">
-                                        <div class="row">
+                                    <div class="col-12 col-sm-12">
+                                        <div class="row" v-show="inspection_statues.status == 3">
                                             <div class="col-12 q-my-sm q-px-md">
                                                 <span class="font-weight-bold q-mb-sm d-block">
                                                     <span>Certificado:</span>
@@ -530,9 +556,9 @@
                                     <div class="col-12">
                                         <div class="row">
                                             <div class="col-12 q-px-md">
-                                                <h5 class="border-bottom q-my-sm">TECNOMECANICA</h5>
+                                                <h5 class="border-bottom q-my-sm">Tecnomecanica</h5>
                                             </div>
-                                            <q-field :error="$v.data.attributes.tecnomecanica_expedition.$error" class="col-6 col-sm-4 q-px-md">
+                                            <q-field :error="$v.data.attributes.tecnomecanica_expedition.$error" class="col-6 col-sm-6 q-px-md">
                                                 <span class="font-weight-bold d-inline-block"
                                                         :class="{'color-danger': $v.data.attributes.tecnomecanica_expedition.$error }">Fecha Fin De Vigencia:</span>
                                                 <q-datetime v-model.trim="data.attributes.tecnomecanica_expedition"
@@ -541,9 +567,9 @@
                                                     class="q-mb-lg"
                                                     format="YYYY-MM-DD"/>
                                                 </q-field>
-                                            </q-field>
+                                            
 
-                                            <q-field :error="$v.data.attributes.tecnomecanica_expiration.$error" class="col-6 col-sm-4 q-px-md">
+                                            <q-field :error="$v.data.attributes.tecnomecanica_expiration.$error" class="col-6 col-sm-6 q-px-md">
                                                 <span class="font-weight-bold d-inline-block"
                                                         :class="{'color-danger': $v.data.attributes.tecnomecanica_expiration.$error }">Fecha de Expedición:</span>
                                                 <q-datetime v-model.trim="data.attributes.tecnomecanica_expiration"
@@ -552,15 +578,15 @@
                                                     class="q-mb-lg"
                                                     format="YYYY-MM-DD"/>
                                                 </q-field>
-                                            </q-field>
+                                            
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-12 q-px-md" v-show="inspection_statues.status == 3 || inspection_statues.status == 4">
+                                    <div class="col-12 q-px-md" v-if="inspection_statues.initial == 2">
                                         <span class="font-weight-bold d-inline-block"
-                                                        :class="{'color-danger': $v.data.tecnomecanica_file.$error }"> ARCHIVO </span>
-                                        <q-uploader :auto-expand="true" :multiple="false" class="q-my-lg" ref="uploader" :upload-factory="uploadFile" url=""/>
+                                                        :class="{'color-danger': $v.data.tecnomecanica_file.$error }"> Archivo Fur</span>
+                                        <q-uploader :url="url" :auto-expand="true" :multiple="false" class="q-my-lg" ref="uploader" :upload-factory="uploadFile"/>
                                     </div>
                                 </div>
                             </div>
@@ -607,7 +633,7 @@
                                                 <q-btn color="green"
                                                     size="md"
                                                     @click="submitSave"
-                                                    class="q-px-sm q-mr-sm btn-app">
+                                                    class="q-px-lg q-mr-sm btn-app">
                                                     {{ $store.state.data.types_inspections_statues[1].label }}
                                                 </q-btn>
                                                 <q-btn color="red"
@@ -664,12 +690,14 @@
     import { Carousel, Slide } from 'vue-carousel'
     import { Printd } from 'printd'
     import userService from 'src/services/users'
+    import config from 'src/config/index'
 
     export default {
         name: 'PageData',
         components: { qInputValidation, qGallery, VueSignaturePad, Carousel, Slide },
         data () {
             return {
+                url: config('api.api_icda') + '/inspections/media/upload?code=' + this.code,
                 userData: {},
                 status:'',
 
@@ -719,6 +747,9 @@
                     num_fur: null,
                     certificado: null,
 
+                    vehicle_class:null,
+                    type_fuel:null,
+
                 },
                 file: null,
                 inspection_statues: {
@@ -727,7 +758,7 @@
                 	change: false,
                     options: []
                 },
-                ifUpdateInspections: false,
+                ifUpdateInspections: true,
                 changeAtributtes: false,
                 changeInspection: false,
                 isUpdate: true,
@@ -775,7 +806,7 @@
             optionsTypesInspectionsStatuesFactured(){
                 let res = []
                 this.$store.state.data.types_inspections_statues.forEach(state=>{
-                    if(state.value == 2 || state.value == 3 || state.value == 4){
+                    if(state.value == 3 || state.value == 4){
                          res.push(state)
                     } 
                 })
@@ -860,6 +891,8 @@
                     return (this.inspection_statues.status == 3 || this.inspection_statues.status == 4 ) && (this.inspection_statues.initial != 3 || this.inspection_statues.initial != 4 )
                 })},
                 attributes: {
+                    insurance_expedition: {required},
+                    insurance_expiration: {required},
                     tecnomecanica_expedition : { required : requiredIf(function (model) {
                         return this.inspection_statues.status == 3 && this.inspection_statues.initial != 3
                     })},
@@ -904,9 +937,10 @@
                     this.$q.notify({message: 'Por favor revise los campos de nuevo.',  position: 'top-right', closeBtn: true})
                     return
                 } else {
-					Promise.all([this.updateInspections(),
+                    Promise.all([
+                        this.updateInspections(),
                         this.inspectionHistory(),
-                        this.updateVehicle()
+                        this.updateVehicle(),
                     ]).then((res) => {
                         this.$q.notify({type:'positive', message: 'Inspeccion actualizada exitosamente!',  position: 'top-right', closeBtn: true})
 	                	this.$router.push({name: 'inspections'})
@@ -960,6 +994,8 @@
                     this.data.attributes.tecnomecanica_expiration  = data.vehicle.tecnomecanica_expiration
                     this.data.attributes.tecnomecanica_code  = data.vehicle.tecnomecanica_code
 
+                    this.data.attributes.vehicle_class = data.vehicle.vehicle_class
+
                     this.data.attributes.brand_id = data.vehicle.brand_id ? parseInt(data.vehicle.brand_id) : null
                     this.data.attributes.color_id = data.vehicle.color_id ? parseInt(data.vehicle.color_id) : null
                     this.data.attributes.line_id = data.vehicle.line_id ? parseInt(data.vehicle.line_id) : null
@@ -968,6 +1004,9 @@
                     this.data.attributes.service_type = data.vehicle.service_type ? parseInt(data.vehicle.service_type) : null
                     this.data.attributes.model = data.vehicle.model ? parseInt(data.vehicle.model) : null
 
+                    this.data.pin = data.pin_num
+                    this.data.invoice_num = data.invoice_num
+                    
                     this.data.gas_certificate               = data.gas_certificate
                     this.data.gas_certifier                 = data.gas_certifier
                     this.data.gas_certificate_expiration    = data.gas_certificate_expiration
@@ -1017,21 +1056,38 @@
                 this.$refs.signatureRecibido.undoSignature();
             },
             updateInspections() {
+
+
                 const formData = new FormData();
                 formData.append('id', this.data.id);
                 if (this.ifUpdateInspections) {
                     if (this.data.signature_received_report) {
                         formData.append('signature_received_report',this.data.signature_received_report);
-                        formData.append('seen_technical_director',this.data.seen_technical_director);
-                        formData.append('inspections_types_id',this.data.inspections_types_id);
+                        //formData.append('seen_technical_director',this.data.seen_technical_director);
+                        //formData.append('inspections_types_id',this.data.inspections_types_id);
                     }
-                    if( this.data.tecnomecanica_file ) {
+                    if( this.inspection_statues.status == 3 && this.inspection_statues.status == 4 ) {
                         formData.append('tecnomecanica_file',this.data.tecnomecanica_file);
+                    }
+                    if( this.inspection_statues.status == 3 ) {
+                        
                         formData.append('tecnomecanica_expedition', this.data.attributes.tecnomecanica_expedition);
                         formData.append('tecnomecanica_expiration', this.data.attributes.tecnomecanica_expiration);
                         formData.append('tecnomecanica_code',Math.round(Math.random()*1000000));
                     }
+
+                    if(this.inspection_statues.status >= 1){
+                        formData.append('pin_num',this.data.pin);
+                        formData.append('invoice_num',this.data.invoice_num);
+                    }
+                    
+                    if(this.inspection_statues.status >= 2){
+                        formData.append('num_fur',this.data.num_fur);
+                        formData.append('tecnomecanica_file',this.data.tecnomecanica_file);
+                    }
+                    
                     formData.append('_method','PUT');
+                    console.log(formData)
                     return this.$resourcesInspections.updateInspections(formData,this.data.id)
                 } else 
                     return false
@@ -1046,10 +1102,10 @@
             updateVehicle() {
             	if (this.changeAtributtes) {
                     let attributes = Object.assign({}, this.data.attributes)
-                    this.$delete(attributes, 'insurance_expedition')
+                    //this.$delete(attributes, 'insurance_expedition')
                     this.$delete(attributes, 'tecnomecanica_expedition')
                     this.$delete(attributes, 'tecnomecanica_expiration')
-                    this.$delete(attributes, 'insurance_expiration')
+                    //this.$delete(attributes, 'insurance_expiration')
             		return this.$resourcesVehicles.updateVehicle(attributes)
                 }
             	return false
