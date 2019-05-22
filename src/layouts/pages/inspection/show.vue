@@ -640,7 +640,7 @@
                                         <q-btn 
                                             color="red" 
                                             size="md" 
-                                            label="Print" 
+                                            label="Imprimir" 
                                             class="q-px-lg q-mr-sm btn-app" 
                                             @click="print"/>
                                     </div>
@@ -665,18 +665,21 @@
                                         <div v-else>
                                             <!-- CAMBIOS DE ESTADO PARA EN ESPERA -->
                                             <div v-if="inspection_statues.initial == 0">
-                                                <q-btn color="green"
-                                                    size="md"
-                                                    @click="submitSave"
-                                                    class="q-px-lg q-mr-sm btn-app">
-                                                    {{ $store.state.data.types_inspections_statues[1].label }}
-                                                </q-btn>
-                                                <q-btn color="red"
-                                                    size="md"
-                                                    @click="submitSave"
-                                                    class="q-px-lg q-mr-sm btn-app">
-                                                    {{ $store.state.data.types_inspections_statues[4].label }}
-                                                </q-btn>
+
+                                                <q-select 
+                                                    v-model="inspection_statues.status" 
+                                                    :options="optionsTypesInspectionsStatuesAwait"
+                                                    placeholder="Status" 
+                                                    class="bg-white pull-left q-mx-sm q-select-app" 
+                                                    style="width: 110px"/>
+                                                <q-btn 
+                                                    color="black" 
+                                                    size="md" 
+                                                    label="Guardar" 
+                                                    class="q-px-lg q-mr-sm btn-app pull-left" 
+                                                    @click="submitSave"/>
+
+                                                
                                             </div>
 
                                             <!-- CAMBIOS DE ESTADO PARA REVISADO -->
@@ -858,6 +861,15 @@
                 let res = []
                 this.$store.state.data.types_inspections_statues.forEach(state=>{
                     if(state.value == 3 || state.value == 4){
+                         res.push(state)
+                    } 
+                })
+                return res
+            },
+            optionsTypesInspectionsStatuesAwait(){
+                let res = []
+                this.$store.state.data.types_inspections_statues.forEach(state=>{
+                    if(state.value == 1 || state.value == 5){
                          res.push(state)
                     } 
                 })
@@ -1147,6 +1159,7 @@
             inspectionHistory() {
                 this.$store.commit('inspections/RESET_INSPECTIONS_LIST')
                 // return true
+
                 if (this.inspection_statues.change)
                     return this.$resourcesInspections.inspectionHistory(this.data.id, this.inspection_statues.status)
 				return this.$resourcesInspections.inspectionHistory(this.data.id, this.inspection_statues.status+1)

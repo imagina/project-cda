@@ -7,7 +7,7 @@
                         TIPO DE INSPECCIÓN:
                     </span>
                     <div class="w-50 d-inline-block">
-                        <q-select v-model="data.inspections_types_id" :options="$store.state.data.types_inspections" class="bg-white q-py-sm q-my-md"/>
+                        <q-select v-model="data.inspections_types_id" :options="typesReinspectionsFiltered" class="bg-white q-py-sm q-my-md"/>
                     </div>
                 </div>
             </div>
@@ -495,6 +495,7 @@
         components: { qInputValidation, galeria, qInventary, qAxes, qContract, VueSignaturePad, Carousel, Slide },
         data () {
             return {
+                reinspection: false,
                 showData: false,
                 showContract: false,
                 aceptContract: false,
@@ -542,6 +543,27 @@
                 selectItems: [],
                 nextLabel: "<i class='fa fa-chevron-right' aria-hidden='true'></i>",
                 prevLabel: "<i class='fa fa-chevron-left' aria-hidden='true'></i>"
+            }
+        },
+        computed:{
+            typesReinspectionsFiltered(){
+
+                let res = []
+                this.$store.state.data.types_inspections.forEach(state=>{
+                    if(!this.reinspection){
+                        if(state.value == 1 || state.value == 3){
+                            res.push(state)
+                        } 
+                    }
+
+                    if(this.reinspection){
+                        if(state.value == 2 || state.value == 3){
+                            res.push(state)
+                        } 
+                    }
+                    
+                })
+                return res
             }
         },
         beforeRouteLeave (to, from, next) {
@@ -808,8 +830,8 @@
                     this.data.board = board
                     this.$resourcesVehicles.vehicle(board,this.data.user_id)
                     .then(response => {
-                        console.log(response.created)
-
+                        console.log(response)
+                        this.reinspection = response.reinspection
                         this.data.attributes = []
                         this.data.vehicles_id = response.data.id
                         this.data.attributes = response.data
