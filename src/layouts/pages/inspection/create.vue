@@ -401,8 +401,6 @@
                     <div class="col-12 col-md-6">
 
                     <div class="row">
-                        <pre>{{data.vehicle_prepared}}</pre>
-                        <pre>{{$v.data.vehicle_prepared.$error}}</pre>
                         <div class="col-6">
                             <p class="font-weight-bold">
                             <i class="material-icons color-danger q-mr-xs" v-show="$v.data.vehicle_prepared.$error"> error_outline </i>
@@ -418,8 +416,6 @@
                     </div>
 
                     <div class="row">
-                        <pre>{{data.seen_technical_director}}</pre>
-                        <pre>{{$v.data.seen_technical_director.$error}}</pre>
                         <div class="col-6">
                         <p class="font-weight-bold">
                             <i class="material-icons color-danger q-mr-xs" v-show="$v.data.seen_technical_director.$error"> error_outline </i>
@@ -546,6 +542,15 @@
                 selectItems: [],
                 nextLabel: "<i class='fa fa-chevron-right' aria-hidden='true'></i>",
                 prevLabel: "<i class='fa fa-chevron-left' aria-hidden='true'></i>"
+            }
+        },
+        beforeRouteLeave (to, from, next) {
+            // closing modal details if is opened
+            if (!this.visibleCarousel) {
+            next(false)
+            } else {
+            this.visibleCarousel = false
+            next(false)
             }
         },
         created() {

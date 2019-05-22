@@ -111,12 +111,44 @@ export default {
   },
 
   /**
+   * Add Marcas
+   */
+  addBrands(data) {
+    let url = config('api.api_icda') + '/brands'
+    return new Promise((resolve, reject) => {
+      return http.post(url, data)
+      .then(response => {
+        resolve(response);
+      })
+      .catch(error => {
+        reject(error);
+      });
+    });
+  },
+
+  /**
    * Tipos de Colores
    */
   getTypesColors() {
     let url = config('api.api_icda') + '/colors'
     return new Promise((resolve, reject) => {
       return http.get(url).then(response => {
+        resolve(response);
+      })
+      .catch(error => {
+        reject(error);
+      });
+    });
+  },
+
+    /**
+   * Adicionar  Colores
+   */
+  addColors(data) {
+    let url = config('api.api_icda') + '/colors'
+    return new Promise((resolve, reject) => {
+      return http.post(url, data)
+      .then(response => {
         resolve(response);
       })
       .catch(error => {
@@ -132,6 +164,22 @@ export default {
     let url = config('api.api_icda') + '/lines'
     return new Promise((resolve, reject) => {
       return http.get(url).then(response => {
+        resolve(response);
+      })
+      .catch(error => {
+        reject(error);
+      });
+    });
+  },
+
+  /**
+   * Adicionar Lineas
+   */
+  addLines(data) {
+    let url = config('api.api_icda') + '/lines'
+    return new Promise((resolve, reject) => {
+      return http.post(url, data)
+      .then(response => {
         resolve(response);
       })
       .catch(error => {

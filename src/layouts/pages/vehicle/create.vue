@@ -64,30 +64,49 @@
               placeholder="Tipo de Vehículo" 
               :options="$store.getters['data/GET_TYPES_VEHICLES']"/>
           </q-field>
-          <q-field :error="$v.attributes.brand_id.$error">
-            <span 
-              class="font-weight-bold d-inline-block"
-              :class="{'color-danger': $v.attributes.brand_id.$error}">
-              Marca:
-            </span>
-            <q-select 
-              v-model="attributes.brand_id" 
-              class="q-mb-lg uppercase" 
-              placeholder="Marca" 
-              :options="$store.getters['data/GET_TYPES_BRANDS']"/>
-          </q-field>
-          <q-field :error="$v.attributes.line_id.$error">
-            <span 
-              class="font-weight-bold d-inline-block"
-              :class="{'color-danger': $v.attributes.line_id.$error}">
-              Línea:
-            </span>
-            <q-select 
-              v-model="attributes.line_id" 
-              class="q-mb-lg uppercase" 
-              placeholder="Line" 
-              :options="$store.getters['data/GET_TYPES_LINES']"/>
-          </q-field>
+
+          
+            <div class="row">
+              <div class="col-md-10">
+                <q-field 
+                  :error="$v.attributes.brand_id.$error">
+                  <span 
+                    class="font-weight-bold d-inline-block"
+                    :class="{'color-danger': $v.attributes.brand_id.$error}">
+                    Marca:
+                  </span>
+                  <q-select 
+                    v-model="attributes.brand_id" 
+                    class="q-mb-lg uppercase" 
+                    placeholder="Marca" 
+                    :options="$store.state.data.types_brands"/>
+                </q-field>
+              </div>
+              <div class="col-md-2">
+                <brandComponent/>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-md-10">
+                <q-field 
+                  :error="$v.attributes.line_id.$error">
+                  <span 
+                    class="font-weight-bold d-inline-block"
+                    :class="{'color-danger': $v.attributes.line_id.$error}">Línea:</span>
+                  <q-select 
+                    v-model="attributes.line_id" 
+                    class="q-mb-lg uppercase" placeholder="Line" 
+                    :options="$store.state.data.types_lines"/>
+                </q-field>
+              </div>
+              <div class="col-md-2">
+                <lineComponent/>
+              </div>
+            </div>
+
+
           <q-field :error="$v.attributes.model.$error">
             <span 
               class="font-weight-bold d-inline-block"
@@ -127,18 +146,26 @@
           </q-field>
         </div>
         <div class="col-12 col-md-6 q-px-md">
-          <q-field :error="$v.attributes.color_id.$error">
-            <span 
-              class="font-weight-bold d-inline-block"
-              :class="{'color-danger': $v.attributes.color_id.$error}">
-              Color:
-            </span>
-            <q-select 
-              v-model="attributes.color_id" 
-              class="q-mb-lg uppercase" 
-              placeholder="Color" 
-              :options="$store.getters['data/GET_TYPES_COLORS']"/>
-          </q-field>
+
+
+            <div class="row">
+              <div class="col-sm-10">
+                <q-field :error="$v.attributes.color_id.$error">
+                  <span 
+                    class="font-weight-bold d-inline-block"
+                    :class="{'color-danger': $v.attributes.color_id.$error}">Color:</span>
+                  <q-select 
+                    v-model="attributes.color_id" 
+                    class="q-mb-lg uppercase" 
+                    placeholder="Color" 
+                    :options="$store.state.data.types_colors"/>
+                </q-field>
+              </div>
+              <div class="col-md-2 q-mt-md q-pl-lg">
+                <colorComponent/>
+              </div>
+            </div>
+
           <q-field :error="$v.attributes.type_fuel.$error">
             <span 
               class="font-weight-bold d-inline-block"
@@ -305,6 +332,11 @@
   import config from 'src/config/index'
   import resources from 'src/services/vehicles.js'
 
+  //COMPONENTS
+  import colorComponent from 'src/components/vehicles/colors/create'
+  import brandComponent from 'src/components/vehicles/brands/create'
+  import lineComponent from 'src/components/vehicles/lines/create'
+
   export default {
   name: 'PageVehicleCreate',
   data () {
@@ -335,6 +367,11 @@
       board: '',
       vehicleExist:false,
     }
+  },
+  components:{
+    colorComponent,
+    brandComponent,
+    lineComponent,
   },
   validations: {
     attributes: {

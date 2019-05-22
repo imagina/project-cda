@@ -51,30 +51,48 @@
                 :options="$store.state.data.class_vehicles"/>
             </q-field>
 
-            <q-field 
-              :error="$v.attributes.brand_id.$error">
-              <span 
-                class="font-weight-bold d-inline-block"
-                :class="{'color-danger': $v.attributes.brand_id.$error}">
-                Marca:
-              </span>
-              <q-select 
-                v-model="attributes.brand_id" 
-                class="q-mb-lg uppercase" 
-                placeholder="Marca" 
-                :options="$store.state.data.types_brands"/>
-            </q-field>
+            <div class="row">
+              <div class="col-md-10">
+                <q-field 
+                  :error="$v.attributes.brand_id.$error">
+                  <span 
+                    class="font-weight-bold d-inline-block"
+                    :class="{'color-danger': $v.attributes.brand_id.$error}">
+                    Marca:
+                  </span>
+                  <q-select 
+                    v-model="attributes.brand_id" 
+                    class="q-mb-lg uppercase" 
+                    placeholder="Marca" 
+                    :options="$store.state.data.types_brands"/>
+                </q-field>
+              </div>
+              <div class="col-md-2">
+                <brandComponent/>
+              </div>
+            </div>
+            
 
-            <q-field 
-              :error="$v.attributes.line_id.$error">
-              <span 
-                class="font-weight-bold d-inline-block"
-                :class="{'color-danger': $v.attributes.line_id.$error}">Línea:</span>
-              <q-select 
-                v-model="attributes.line_id" 
-                class="q-mb-lg uppercase" placeholder="Line" 
-                :options="$store.state.data.types_lines"/>
-            </q-field>
+
+            <div class="row">
+              <div class="col-md-10">
+                <q-field 
+                  :error="$v.attributes.line_id.$error">
+                  <span 
+                    class="font-weight-bold d-inline-block"
+                    :class="{'color-danger': $v.attributes.line_id.$error}">Línea:</span>
+                  <q-select 
+                    v-model="attributes.line_id" 
+                    class="q-mb-lg uppercase" placeholder="Line" 
+                    :options="$store.state.data.types_lines"/>
+                </q-field>
+              </div>
+              <div class="col-md-2">
+                <lineComponent/>
+              </div>
+            </div>
+
+            
 
             <q-field :error="$v.attributes.model.$error">
               <span class="font-weight-bold d-inline-block"
@@ -112,11 +130,23 @@
 
           <div class="col-12 col-md-6 q-px-md">
         
-            <q-field :error="$v.attributes.color_id.$error">
-              <span class="font-weight-bold d-inline-block"
-                :class="{'color-danger': $v.attributes.color_id.$error}">Color:</span>
-              <q-select v-model="attributes.color_id" class="q-mb-lg uppercase" placeholder="Color" :options="$store.state.data.types_colors"/>
-            </q-field>
+            <div class="row">
+              <div class="col-sm-10">
+                <q-field :error="$v.attributes.color_id.$error">
+                  <span 
+                    class="font-weight-bold d-inline-block"
+                    :class="{'color-danger': $v.attributes.color_id.$error}">Color:</span>
+                  <q-select 
+                    v-model="attributes.color_id" 
+                    class="q-mb-lg uppercase" 
+                    placeholder="Color" 
+                    :options="$store.state.data.types_colors"/>
+                </q-field>
+              </div>
+              <div class="col-md-2 q-mt-md q-pl-lg">
+                <colorComponent/>
+              </div>
+            </div>
 
             <q-field :error="$v.attributes.type_fuel.$error">
               <span class="font-weight-bold d-inline-block"
@@ -255,9 +285,13 @@
   import { required, email, minLength, sameAs, requiredIf, requiredUnless} from 'vuelidate/lib/validators';
   import qInputValidation from '../../../components/q-input-validation';
   import config from 'src/config/index'
+  import resources from 'src/services/resources.js'
+  import colorComponent from 'src/components/vehicles/colors/create'
+  import brandComponent from 'src/components/vehicles/brands/create'
+  import lineComponent from 'src/components/vehicles/lines/create'
 
   export default {
-    components: { qInputValidation },
+    components: { qInputValidation, colorComponent, brandComponent, lineComponent },
     name: 'PageVehicleCreate',
     data () {
       return {
@@ -283,7 +317,12 @@
           tecnomecanica_expedition: null,
           user_id: null,
           vin_number: null,
-        }
+        },
+        addColor:{
+          modalColor: false,
+          nameColor: ''
+        },
+        
       }
     },
     created() {
@@ -293,12 +332,12 @@
         this.attributes.id = response.data.id  ? response.data.id : null
         this.attributes.service_type = response.data.service_type ? parseInt(response.data.service_type) :  null
         this.attributes.type_vehicle = response.data.type_vehicle ? parseInt(response.data.type_vehicle) :  null
-        this.attributes.vehicle_class = response.data.vehicle_class ? parseInt(response.data.vehicle_class) :  null
+        this.attributes.vehicle_class = response.data.vehicle_class ? (response.data.vehicle_class) :  null
         this.attributes.brand_id = response.data.brand_id ? parseInt(response.data.brand_id) :  null
         this.attributes.line_id = response.data.line_id ? parseInt(response.data.line_id) :  null
         this.attributes.model = response.data.model ? parseInt(response.data.model) :  null
         this.attributes.color_id = response.data.color_id ? parseInt(response.data.color_id) :  null
-        this.attributes.type_fuel = response.data.type_fuel ? response.data.type_fuel :  null
+        this.attributes.type_fuel = response.data.type_fuel ? parseInt(response.data.type_fuel) :  null
         this.attributes.transit_license = response.data.transit_license ? response.data.transit_license :  null
         this.attributes.enrollment_date = response.data.enrollment_date ? response.data.enrollment_date :  null
         this.attributes.chasis_number = response.data.chasis_number ? response.data.chasis_number :  null
@@ -334,9 +373,8 @@
         axes_number: { required },
         insurance_expedition: { required },
         insurance_expiration: { required },
-        
         vin_number: { required },
-      }
+      },
     },
     methods: {
       submitData () {
@@ -377,7 +415,8 @@
       },
       back () {
         this.$router.push({ name: 'vehicles.index' })
-      }
+      },
+
     }
   }
 </script>

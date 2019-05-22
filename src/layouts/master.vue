@@ -79,7 +79,10 @@
       }
     },
     created() {
-      
+      this.$root.$on("refreshColor", this.getTypesColors);
+      this.$root.$on("refreshBrands", this.getTypesBrands);
+      this.$root.$on("refreshLines", this.getTypesLines);
+
       this.getTypesVehicles()
       this.getTypesInspections()
       this.getTypesInspectionStatues()

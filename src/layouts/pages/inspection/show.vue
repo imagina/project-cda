@@ -161,17 +161,32 @@
                                         :options="$store.getters['data/GET_CLASS_VEHICLES']"/>
                                     </q-field>
 
-                                    <q-field :error="$v.data.attributes.brand_id.$error">
-                                        <span class="font-weight-bold d-inline-block"
-                                            :class="{'color-danger': $v.data.attributes.brand_id.$error}">Marca:</span>
-                                        <q-select :disable='!isUpdate' v-model="data.attributes.brand_id" class="q-mb-lg uppercase" placeholder="Marca" :options="$store.state.data.types_brands"/>
-                                    </q-field>
+                                        <div class="row" >
+                                            <div class="col-md-10">
+                                                <q-field :error="$v.data.attributes.brand_id.$error">
+                                                    <span class="font-weight-bold d-inline-block"
+                                                        :class="{'color-danger': $v.data.attributes.brand_id.$error}">Marca:</span>
+                                                    <q-select :disable='!isUpdate' v-model="data.attributes.brand_id" class="q-mb-lg uppercase" placeholder="Marca" :options="$store.state.data.types_brands"/>
+                                                </q-field>
+                                            </div>
+                                            <div class="col-md-2" v-if="inspection_statues.initial == 0">
+                                                <brandComponent/>
+                                            </div>
+                                        </div>
 
-                                    <q-field :error="$v.data.attributes.line_id.$error">
-                                        <span class="font-weight-bold d-inline-block"
-                                            :class="{'color-danger': $v.data.attributes.line_id.$error}">Línea:</span>
-                                        <q-select :disable='!isUpdate' v-model="data.attributes.line_id" class="q-mb-lg uppercase" placeholder="Line" :options="$store.state.data.types_lines"/>
-                                    </q-field>
+
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                            <q-field :error="$v.data.attributes.line_id.$error">
+                                                <span class="font-weight-bold d-inline-block"
+                                                    :class="{'color-danger': $v.data.attributes.line_id.$error}">Línea:</span>
+                                                <q-select :disable='!isUpdate' v-model="data.attributes.line_id" class="q-mb-lg uppercase" placeholder="Line" :options="$store.state.data.types_lines"/>
+                                            </q-field>
+                                            </div>
+                                        <div class="col-md-2" v-if="inspection_statues.initial == 0">
+                                            <lineComponent/>
+                                        </div>
+                                        </div>
 
                                     <q-field :error="$v.data.attributes.model.$error">
                                         <span class="font-weight-bold d-inline-block"
@@ -198,11 +213,20 @@
                                 </div>
                             </div>
                             <div class="col-12 col-md-6 q-px-md print-col-6">
-                                <q-field :error="$v.data.attributes.color_id.$error">
-                                    <span class="font-weight-bold d-inline-block"
-                                        :class="{'color-danger': $v.data.attributes.color_id.$error}">Color:</span>
-                                    <q-select :disable='!isUpdate' v-model="data.attributes.color_id" class="q-mb-lg uppercase" placeholder="Color" :options="$store.state.data.types_colors"/>
-                                </q-field>
+
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <q-field :error="$v.data.attributes.color_id.$error">
+                                            <span class="font-weight-bold d-inline-block"
+                                                :class="{'color-danger': $v.data.attributes.color_id.$error}">Color:</span>
+                                            <q-select :disable='!isUpdate' v-model="data.attributes.color_id" class="q-mb-lg uppercase" placeholder="Color" :options="$store.state.data.types_colors"/>
+                                        </q-field>
+                                    </div>
+                                    <div class="col-md-2 q-mt-md q-pl-lg" v-if="inspection_statues.initial == 0">
+                                        <colorComponent/>
+                                    </div>
+                                </div>
+
 
                                 <q-field :error="$v.data.attributes.type_fuel.$error">
                                     <span class="font-weight-bold d-inline-block"
@@ -692,9 +716,23 @@
     import userService from 'src/services/users'
     import config from 'src/config/index'
 
+    //Components
+    import colorComponent from 'src/components/vehicles/colors/create'
+    import brandComponent from 'src/components/vehicles/brands/create'
+    import lineComponent from 'src/components/vehicles/lines/create'
+
     export default {
         name: 'PageData',
-        components: { qInputValidation, qGallery, VueSignaturePad, Carousel, Slide },
+        components: { 
+            qInputValidation, 
+            qGallery, 
+            VueSignaturePad, 
+            Carousel, 
+            Slide,
+            colorComponent,
+            brandComponent,
+            lineComponent,
+        },
         data () {
             return {
                 url: config('api.api_icda') + '/inspections/media/upload?code=' + this.code,
