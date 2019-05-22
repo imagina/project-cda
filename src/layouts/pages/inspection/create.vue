@@ -323,7 +323,7 @@
                                 <div class="col-12 q-px-md q-mb-md text-center">
                                     <span class="font-weight-bold">Pre-Inspección</span>
                                 </div>
-                                <div class="col-12 col-sm-6 q-my-md q-px-md" v-for="(pre_inspection,item) in data.pre_inspections">
+                                <div class="col-12 col-sm-6 q-my-md q-px-md" v-for="(pre_inspection,item) in data.pre_inspections" :key="item">
                                     <span class="d-inline-block font-weight-bold q-mr-lg">{{ pre_inspection.name }}</span>
                                     <div class="d-inline-block" v-if="!pre_inspection.options">
                                         <q-radio v-model="pre_inspection.value" :val="true" label="Si" class="q-mr-lg"/>
@@ -360,7 +360,7 @@
                             <!-- opbservaciones -->
                             <div class="col-12 q-my-md">
                                 <q-field :error="$v.data.observations.$error">
-                                        <span class="font-weight-bold d-block":class="{'color-danger':$v.data.observations.$error}">
+                                        <span class="font-weight-bold d-block" :class="{'color-danger':$v.data.observations.$error}">
                                             <i class="material-icons color-danger q-mr-xs" v-show="$v.data.observations.$error">
                                                 error_outline
                                             </i>
@@ -401,6 +401,8 @@
                     <div class="col-12 col-md-6">
 
                     <div class="row">
+                        <pre>{{data.vehicle_prepared}}</pre>
+                        <pre>{{$v.data.vehicle_prepared.$error}}</pre>
                         <div class="col-6">
                             <p class="font-weight-bold">
                             <i class="material-icons color-danger q-mr-xs" v-show="$v.data.vehicle_prepared.$error"> error_outline </i>
@@ -416,6 +418,8 @@
                     </div>
 
                     <div class="row">
+                        <pre>{{data.seen_technical_director}}</pre>
+                        <pre>{{$v.data.seen_technical_director.$error}}</pre>
                         <div class="col-6">
                         <p class="font-weight-bold">
                             <i class="material-icons color-danger q-mr-xs" v-show="$v.data.seen_technical_director.$error"> error_outline </i>
@@ -675,7 +679,7 @@
                     return this.is_vehicle_gas
                 })},
                 signature_received_report: { required : requiredIf(function(model) {
-                    return this.showsignature && this.data.seen_technical_director
+                    //return this.showsignature && this.data.seen_technical_director
                 })},
                 vehicle_delivery_signature: { required : requiredIf(function(model) {
                     return this.showsignature
