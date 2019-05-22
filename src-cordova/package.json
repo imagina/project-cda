@@ -1,6 +1,6 @@
 {
-    "name": "org.cordova.quasar.app",
-    "displayName": "project-cda",
+    "name": "org.cordova.checkandgo.app",
+    "displayName": "Recepción de Motos Check and Go",
     "version": "1.0.0",
     "description": "A sample Apache Cordova application that responds to the deviceready event.",
     "main": "index.js",
@@ -10,7 +10,7 @@
     "keywords": [
         "ecosystem:cordova"
     ],
-    "author": "Apache Cordova Team",
+    "author": "Imagina Colombia",
     "license": "Apache-2.0",
     "dependencies": {
         "cordova-android": "^8.0.0",
