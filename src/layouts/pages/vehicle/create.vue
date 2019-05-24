@@ -59,6 +59,7 @@
               Tipo de Vehículo
             </span>
             <q-select 
+              :disable="false"
               v-model="attributes.type_vehicle" 
               class="q-mb-lg uppercase" 
               placeholder="Tipo de Vehículo" 
@@ -142,7 +143,7 @@
               v-model.trim="attributes.enrollment_date"
               type="date"
               class="q-mb-lg"
-              placeholder="Fecha de Vencimiento"
+              placeholder="Fecha de Matrícula"
               format="YYYY-MM-DD"/>
           </q-field>
         </div>
@@ -173,12 +174,15 @@
               :class="{'color-danger': $v.attributes.type_fuel.$error}">
               Tipo de combustible:
             </span>
+            
             <q-select 
+              :disable="false"
               v-model="attributes.type_fuel" 
               class="q-mb-lg uppercase" 
               placeholder="Tipo de combustible"
               :options="$store.getters['data/GET_TYPES_FUELS']"/>
           </q-field>
+          
           <q-field :error="$v.attributes.vehicle_class.$error">
             <span 
               class="font-weight-bold d-inline-block"
@@ -186,6 +190,7 @@
               Clase de vehícilo:
             </span>
             <q-select 
+              :disable="false"
               v-model="attributes.vehicle_class" 
               class="q-mb-lg uppercase" 
               placeholder="Clase de vehícilo"
@@ -264,7 +269,7 @@
               </span>
               <q-datetime 
                 v-model.trim="attributes.insurance_expedition"
-                placeholder="Fecha Fin De Vigencia"
+                placeholder="Fecha de Expedición"
                 type="date"
                 class="q-mb-lg"
                 format="YYYY-MM-DD"/>
@@ -278,7 +283,7 @@
                 Fecha Fin De Vigencia:
               </span>
               <q-datetime v-model.trim="attributes.insurance_expiration"
-                placeholder="Fecha de Expedición"
+                placeholder="Fecha Fin De Vigencia"
                 type="date"
                 class="q-mb-lg"
                 format="YYYY-MM-DD"/>
@@ -351,7 +356,7 @@
         line_id: null,
         model: null,
         color_id: null,
-        type_fuel: null,
+        type_fuel:null,
         transit_license: null,
         enrollment_date: null,
         chasis_number: null,
@@ -364,7 +369,7 @@
         tecnomecanica_expedition: null,
         user_id: null,
         vin_number: null,
-        vehicle_class: null,
+        vehicle_class:null,
       },
       board: '',
       vehicleExist:false,

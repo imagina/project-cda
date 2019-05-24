@@ -233,7 +233,7 @@
                             </div>
 
                             <!-- kilometraje & diametro -->
-                            <div class="col-12 q-border" v-if="!isMotocicleta() && data.type_vehicle != 'Motorcycle'">
+                            <div class="col-12 q-border">
                                 <div class="row">
                                     <div class="col-12 col-sm-6">
                                         <div class="row">
@@ -260,43 +260,13 @@
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-6">
-                                        <div class="row">
-                                            <div class="col-12 q-my-sm q-px-md">
-                                                <q-field>
-                                                    <q-checkbox v-model="data.polarized_glasses"
-                                                        :left-label="true"
-                                                        label="Vidrios Polarizados: "/>
-                                                </q-field>
-                                            </div>
-                                            <div class="col-12 q-my-sm q-px-md">
-                                                <q-field>
-                                                    <q-checkbox v-model="data.armored_vehicle"
-                                                        :left-label="true"
-                                                        label="Vehículo Blindado: "/>
-                                                </q-field>
-                                            </div>
-                                            <div class="col-12 q-my-sm q-px-md">
-                                                <q-field>
-                                                    <q-checkbox v-model="data.modified_engine"
-                                                        :left-label="true"
-                                                        label="Motor Modiﬁcado: "/>
-                                                </q-field>
-                                            </div>
-                                            <div class="col-12 q-my-sm q-px-md">
-                                                <q-field class="d-inline-block">
-                                                    <span class="font-weight-bold q-mr-md q-mt-xs">Llanta de repuesto:</span>
-                                                    <div class="d-inline-block">
-                                                        <q-input v-model="data.spare_tires" type="number" class="bg-white" style="max-width: 47px"/>
-                                                    </div>
-                                                </q-field>
-                                            </div>
-                                        </div>
+                                
                                     </div>
                                 </div>
                             </div>
 
                             <!-- kilometraje & diametro -->
-                            <div class="col-12 q-border" v-else>
+                            <div class="col-12 q-border" >
                                 <div class="row">
                                     <div class="col-12 col-md-6 q-px-md">
                                         <q-field :error="$v.data.mileage.$error">
@@ -566,15 +536,7 @@
                 return res
             }
         },
-        beforeRouteLeave (to, from, next) {
-            // closing modal details if is opened
-            if (!this.visibleCarousel) {
-            next(false)
-            } else {
-            this.visibleCarousel = false
-            next(false)
-            }
-        },
+
         created() {
             this.$store.commit('data/LOAD_TRUE')
             this.$root.$on("event_observation", this.event_observation)
@@ -794,7 +756,6 @@
                         delete jsonData['vehicle_delivery_signature'];
                     if ( !this.is_signature_received_report)
                         delete jsonData['signature_received_report'];
-
 
                     this.$resourcesInspections.createInspections(jsonData)
                     .then(response => {

@@ -85,10 +85,10 @@
                             </div>
                         </div>
                         <div class="row print-row align-items-center">
-                            <div class="col-12 col-md-3 px-2 py-3 bg-primary text-right print-none">
+                            <div class="col-12 col-md-3 px-2 py-3 text-right print-none flex flex-center">
                                 <span class="h2 font-weight-bold my-3 d-block">SOAT</span>
                             </div>
-                            <div class="col-4 col-md-2 mx-auto py-3 text-center print-col-3 print-center">
+                            <div class="col-4 col-md-2 mx-auto py-3 text-center print-col-3 print-center ">
                                 <span 
                                     class="font-weight-bold d-inline-block"
                                     :class="{'color-danger': $v.data.attributes.insurance_expedition.$error}">
@@ -98,7 +98,7 @@
 
                                     <q-field :error="$v.data.attributes.insurance_expedition.$error">
                                         <q-datetime v-model.trim="data.attributes.insurance_expedition"
-                                            placeholder="Fecha Fin De Vigencia"
+                                            placeholder="Fecha Expedición"
                                             type="date"
                                             class="q-mb-lg"
                                             format="YYYY-MM-DD"/>
@@ -106,7 +106,7 @@
                                 
                                 </p>
                             </div>
-                            <div class="col-4 col-md-2 mx-auto py-3 text-center print-col-3 print-center">
+                            <div class="col-4 col-md-2 mx-auto py-3 text-center print-col-3 print-center ">
                                 <span 
                                     class="font-weight-bold d-inline-block"
                                     :class="{'color-danger': $v.data.attributes.insurance_expiration.$error}">
@@ -116,7 +116,7 @@
 
                                     <q-field :error="$v.data.attributes.insurance_expiration.$error">
                                         <q-datetime v-model.trim="data.attributes.insurance_expiration"
-                                            placeholder="Fecha de Expedición"
+                                            placeholder="Fecha Fin De Vigencia"
                                             type="date"
                                             class="q-mb-lg"
                                             format="YYYY-MM-DD"/>
@@ -128,6 +128,9 @@
                                 <p class="mb-0 text-uppercase" :class="{'text-green': validity(data.attributes.insurance_expiration), 'text-red': !validity(data.attributes.insurance_expiration)}">
                                     <b>{{ data.attributes.insurance_expiration|validity }}</b>
                                 </p>
+                            </div>
+                            <div class="col-12 col-md-3 px-2 py-3 bg-primary text-right print-none flex flex-center">
+                                <span class="h2 font-weight-bold my-3 d-block">{{data.attributes.board}}</span>
                             </div>
                         </div>
                     </div>
@@ -145,7 +148,7 @@
                                     <q-field :error="$v.data.attributes.type_vehicle.$error">
                                         <span class="font-weight-bold d-inline-block"
                                             :class="{'color-danger': $v.data.attributes.type_vehicle.$error}">Tipo de Vehículo</span>
-                                            <q-select :disable='!isUpdate' v-model="data.attributes.type_vehicle" class="q-mb-lg uppercase" placeholder="Clase de Vehículo" :options="$store.state.data.types_vehicles"/>
+                                            <q-select :disable='false' v-model="data.attributes.type_vehicle" class="q-mb-lg uppercase" placeholder="Clase de Vehículo" :options="$store.state.data.types_vehicles"/>
                                     </q-field>
 
                                     <q-field>
@@ -155,6 +158,7 @@
                                         Clase de vehículo:
                                         </span>
                                         <q-select 
+                                        :disable="false"
                                         v-model="data.attributes.vehicle_class" 
                                         class="q-mb-lg uppercase" 
                                         placeholder="Clase de vehículo"
@@ -217,7 +221,7 @@
                                             <q-datetime :disable='!isUpdate' v-model.trim="data.attributes.enrollment_date"
                                                 type="date"
                                                 class="q-mb-lg"
-                                                placeholder="Fecha de Vencimiento"
+                                                placeholder="Fecha de Matrícula"
                                                 format="YYYY-MM-DD"/>
                                     </q-field>
                                     
@@ -242,7 +246,7 @@
                                 <q-field :error="$v.data.attributes.type_fuel.$error">
                                     <span class="font-weight-bold d-inline-block"
                                         :class="{'color-danger': $v.data.attributes.type_fuel.$error}">Tipo de combustible:</span>
-                                    <q-select :disable='!isUpdate' v-model="data.attributes.type_fuel" class="q-mb-lg uppercase" placeholder="Tipo de combustible" 
+                                    <q-select :disable='false' v-model="data.attributes.type_fuel" class="q-mb-lg uppercase" placeholder="Tipo de combustible" 
                                             :options="$store.state.data.types_fuels"/>
                                 </q-field>
 
@@ -313,43 +317,7 @@
 								<span class="badge badge-light">{{ data.teaching_vehicle ? 'SI' : 'NO' }}</span>
                             </div>
 
-                            <!-- Gobernador & Taximetro -->
-                            <div class="col-12 print-col-12 q-px-md q-border" v-if="!isMotocicleta() && data.type_vehicle != 'MOTOCICLETA'">
-                            	<div class="row">
-                            		<div class="col print-col-6">
-                            			<span class="font-weight-bold q-mr-sm">Gobernador</span>	
-                            			<span class="badge badge-light">{{ data.governor ? 'SI' : 'NO' }}</span>
-                            		</div>
-                            		<div class="col print-col-6">
-                            			<span class="font-weight-bold q-mr-sm">Taxímetro</span>	
-                            			<span class="badge badge-light">{{ data.taximeter ? 'SI' : 'NO' }}</span>
-                            		</div>
-                            	</div>
-                            </div>
-								
-							<!-- vehicle_gas -->
-                            <div class="col-12 print-col-12 q-px-md q-border" :class="{ 'print-none': !is_vehicle_gas }" v-if="!isMotocicleta() && data.type_vehicle != 'MOTOCICLETA'">
-                                <div class="row" v-if="is_vehicle_gas">
-                                    <div class="col-12 col-sm-6 col-lg-4 print-col-4 q-my-md">
-                                		<span class="font-weight-bold q-mr-sm">Certiﬁcado de Gas N°: </span>
-                                		<span class="badge badge-light">{{ data.gas_certificate }}</span>
-                                	</div>
-                                    <div class="col-12 col-sm-6 col-lg-4 print-col-4 q-my-md">
-                                		<span class="font-weight-bold q-mr-sm">Certiﬁcador: </span>
-                                		<span class="badge badge-light">{{ data.gas_certifier }}</span>
-                                    </div>
-                                    <div class="col-12 col-sm-6 col-lg-4 print-col-4 q-my-md">
-                                		<span class="font-weight-bold q-mr-sm">Fecha de Vencimiento: </span>
-                                		<span class="badge badge-light">{{ data.gas_certificate_expiration }}</span>
-                                    </div>
-                                </div>
-                                <div class="row" v-else :class="{ 'print-none': is_vehicle_gas }">
-                                	<div class="col-12">
-                                    	<span class="font-weight-bold">Vehículo a Gas:</span> 
-                                    	NO
-                                	</div>
-                                </div>
-                            </div>
+
                             
                             <!-- kilometraje & diametro -->
                             <div class="col-12 print-col-12 q-px-md q-border" v-if="!isMotocicleta() && data.type_vehicle != 'MOTOCICLETA'">
@@ -366,7 +334,7 @@
                                             </div>
                                         </div>                                        
                                     </div>
-                                    <div class="col-12 col-sm-6 print-col-6">
+                                    <div class="col-12 col-sm-6 print-col-6" v-if="false">
                                         <div class="row">                              
                                             <div class="col-12 q-my-sm">
                                                 <span class="font-weight-bold q-mr-sm">Vidrios Polarizados:</span>
@@ -730,6 +698,7 @@
     import userService from 'src/services/users'
     import config from 'src/config/index'
     import service from 'src/services/resources.js'
+    import serviceInspection from 'src/services/inspections'
 
     //Components
     import colorComponent from 'src/components/vehicles/colors/create'
@@ -847,6 +816,7 @@
             }
         },
         created() {
+            this.$root.$on("refreshLines", this.initSelectLines);
             this.$store.commit('data/LOAD_TRUE')
         },
         mounted() {
@@ -1017,6 +987,7 @@
             getInspection() {
                 this.$resourcesInspections.getInspection(this.$route.params.inspection)
                 .then(response => {
+                    console.log(response)
                     let data = response.data.data
                     this.$store.commit('orden/SET_ORDEN',{
                         timeEntry: data.created_at_time,
@@ -1030,8 +1001,12 @@
 	    				if ( optionsInspections[item].label == data.inspection_status ) {
 							this.inspection_statues.status  = optionsInspections[item].value
                             this.inspection_statues.initial = this.inspection_statues.status
+                            if(optionsInspections[item].value == 2){
+                                this.getFurAndState(this.$route.params.inspection)
+                            }
 	    				}
                     }
+
                     //
                     this.status = response.data.data.inspection_status
                     //
@@ -1039,7 +1014,7 @@
                     this.data.pre_inspections               = data.pre_inspections
                     this.data.vehicles_id                   = data.vehicles_id
                     this.data.inspections_types_id          = data.inspection_type.id
-                    this.data.teaching_vehicle              = data.teaching_vehicle  ? true : false
+                    this.data.teaching_vehicle              = data.teaching_vehicle   ? true : false
                     this.data.mileage                       = data.mileage
                     this.data.exhosto_diameter              = data.exhosto_diameter
                     this.data.engine_cylinders              = data.engine_cylinders
@@ -1164,8 +1139,8 @@
                     return this.$resourcesInspections.inspectionHistory(this.data.id, this.inspection_statues.status)
 				return this.$resourcesInspections.inspectionHistory(this.data.id, this.inspection_statues.status+1)
             },
-            updateVehicle() {
-            	if (this.changeAtributtes) {
+            updateVehicle() { // se adiciono el true para permitir el guardado en cualuquier estado de la inspeccion
+            	if (this.changeAtributtes || true) {
                     let attributes = Object.assign({}, this.data.attributes)
                     //this.$delete(attributes, 'insurance_expedition')
                     this.$delete(attributes, 'tecnomecanica_expedition')
@@ -1224,6 +1199,17 @@
                 })
                 .catch(error=>{
                     console.warn(error)
+                })
+            },
+            getFurAndState(order){
+                console.log(order)
+                return
+                serviceInspection.getFurAndState(order)
+                .then(response=>{
+                    console.log(response)
+                })
+                .catch(error=>{
+                    console.log(error)
                 })
             }
         }

@@ -186,5 +186,17 @@ export default {
 	      		reject(error);
 	      	});
 	    });
- 	},
+	 },
+	 
+	 getFurAndState(inspection){
+		let url = config('api.api_icda') + '/fur-status/'+inspection
+		return new Promise((resolve, reject) => {
+				return http.get(url).then(response => {
+					resolve(response.data.data);
+				})
+			.catch(error => {
+					reject(error);
+			 });
+		});
+	 }
 }

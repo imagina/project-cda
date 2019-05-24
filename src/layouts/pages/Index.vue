@@ -162,7 +162,7 @@ export default {
     },
     validations: {
         form: {
-            number_document: { required,minLength: minLength(8) },
+            number_document: { required,minLength: minLength(4) },
             first_name:  { required, minLength: minLength(3) },
             last_name:  { required, minLength: minLength(3) },
             phone: { required, minLength: minLength(10) },
