@@ -243,7 +243,7 @@
                                                     <q-input v-model="data.engine_cylinders" type="number" min="0" placeholder="# Cilindros Motor" class="bg-white q-my-sm"/>
                                                 </q-field>
                                             </div>
-                                            <div class="col-12 q-my-sm q-px-md">
+                                            <!--<div class="col-12 q-my-sm q-px-md">
                                                 <span class="font-weight-bold q-mb-sm d-block">
                                                     <i class="material-icons color-danger q-mr-xs" v-show="$v.data.mileage.$error"> error_outline </i>
                                                     <span :class="{'color-danger': $v.data.mileage.$error}">Kilometraje:</span>
@@ -256,11 +256,11 @@
                                                         <span v-show="!$v.data.mileage.required"><i class="material-icons"> error_outline </i> El campo es obligatorio.</span>
                                                     </q-tooltip>
                                                 </div>
-                                            </div>
+                                            </div>-->
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-6">
-                                
+
                                     </div>
                                 </div>
                             </div>
@@ -404,7 +404,7 @@
 
 
 
-                      
+
                     </div>
                 </div>
                 <div class="row">
@@ -523,15 +523,15 @@
                     if(!this.reinspection){
                         if(state.value == 1 || state.value == 3){
                             res.push(state)
-                        } 
+                        }
                     }
 
                     if(this.reinspection){
                         if(state.value == 2 || state.value == 3){
                             res.push(state)
-                        } 
+                        }
                     }
-                    
+
                 })
                 return res
             }
