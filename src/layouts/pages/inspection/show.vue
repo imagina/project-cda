@@ -130,7 +130,9 @@
                                 </p>
                             </div>
                             <div class="col-12 col-md-3 px-2 py-3 bg-primary text-right print-none flex flex-center">
-                                <span class="h2 font-weight-bold my-3 d-block">{{data.attributes.board}}</span>
+                                <span class="h2 font-weight-bold my-3 d-block">
+                                    {{data.attributes.board}}
+                                    </span>
                             </div>
                         </div>
                     </div>
@@ -282,16 +284,31 @@
                             </div>
                         </div>
                         <!-- Datos del Vehiculo -->
+                        Datos del Vehiculo 
                         <div class="col-12 q-py-md" v-if="inspection_statues.initial >= 1">
                             <div class="row">
-                                <div class="col-12 col-md-6 q-px-md print-col-6">
+                                <div class="col-12 col-md-4 q-px-md print-col-6">
                                     <q-field :error="$v.data.pin.$error">
                                         <span class="font-weight-bold d-inline-block"
                                             :class="{'color-danger': $v.data.pin.$error}">Pin:</span>
                                         <q-input :disable='!isUpdate' v-model="data.pin" type="text" placeholder="Pin" class="q-mb-lg"/>
                                     </q-field>
                                 </div>
-                                <div class="col-12 col-md-6 q-px-md print-col-6">
+
+                                <div class="col-12 col-md-4 q-px-md print-col-6" >
+                                    <q-field >
+                                        <span class="font-weight-bold d-inline-block">
+                                            Confirmar Pin:
+                                        </span>
+                                        <q-input 
+                                            v-model="confirmPin" 
+                                            type="text" 
+                                            placeholder="Confirmar Pin" 
+                                            class="q-mb-lg"/>
+                                    </q-field>
+                                </div>
+
+                                <div class="col-12 col-md-4 q-px-md print-col-6">
                                     <q-field :error="$v.data.invoice_num.$error">
                                         <span class="font-weight-bold d-inline-block"
                                             :class="{'color-danger': $v.data.invoice_num.$error}">Factura:</span>
@@ -318,7 +335,6 @@
                             </div>
 
 
-                            
                             <!-- kilometraje & diametro -->
                             <div class="col-12 print-col-12 q-px-md q-border" v-if="!isMotocicleta() && data.type_vehicle != 'MOTOCICLETA'">
                                 <div class="row">
@@ -378,6 +394,12 @@
                                         <span class="font-weight-bold">Pre-Inspección:</span>
                                     </div>
                                     <div class="col-12 col-sm-6 print-col-6 q-my-md" v-for="(pre_inspection,item) in data.pre_inspections" :key="item">
+
+                                        <div v-if="pre_inspection.name == 'Scooter'"> 
+                                           <span class="d-inline-block font-weight-bold q-mr-lg">{{ pre_inspection.name }}</span>
+                                           <span class="badge badge-light">{{ pre_inspection.value | preInspection }}</span>
+                                        </div>
+
                                         <div v-if="pre_inspection.value"> 
                                            <span class="d-inline-block font-weight-bold q-mr-lg">{{ pre_inspection.name }}</span>
                                            <span class="badge badge-light">{{ pre_inspection.value | preInspection }}</span>
@@ -781,6 +803,7 @@
                 	change: false,
                     options: []
                 },
+                confirmPin:'',
                 ifUpdateInspections: true,
                 changeAtributtes: false,
                 changeInspection: false,
@@ -895,6 +918,9 @@
             }
         },
         validations: {
+            confirmPin:{
+               sameAsPin: sameAs('pin')
+            },
             formSearch: {
                 plaque: { required, minLength: minLength(6)  }
             },
@@ -965,6 +991,11 @@
             submitSave() {
                 this.$v.data.$touch()
                 this.$store.commit('data/LOAD_TRUE')
+                
+                // Confirm if pin and pin confirmation is equals
+                this.sameAsPin()
+
+                return
                 if (this.$v.data.$error) {
                     this.$store.commit('data/LOAD_FALSE')
                     this.$q.notify({message: 'Por favor revise los campos de nuevo.',  position: 'top-right', closeBtn: true})
@@ -983,6 +1014,19 @@
 					    console.error('Promise.all error', err); 
 					});
 	            }
+            },
+            sameAsPin(){
+                if(this.inspection_statues.initial >= 1){
+                    if(this.confirmPin != this.data.pin){
+                        this.$q.notify({
+                            message: 'El campo Pin y Pin Confirmación no coinciden',
+                            position: 'top-right', 
+                            closeBtn: true
+                        })
+                        this.$store.commit('data/LOAD_TRUE')
+                        return
+                    }
+                }
             },
             getInspection() {
                 this.$resourcesInspections.getInspection(this.$route.params.inspection)
@@ -1179,7 +1223,7 @@
             },
             initSelectLines(brand_id){
                 let filter = {
-                    brand: brand_id
+                    brand: brand_id ? brand_id : this.data.attributes.brand_id
                 }
                 service.getLines(filter)
                 .then(response=>{
