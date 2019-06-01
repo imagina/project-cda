@@ -72,5 +72,24 @@ export default {
 	        		reject(error);
 	        	});
 	    });
+		},
+		
+  	/**
+  	 * Editar un usuario mediante la data
+  	 * @param  Object data
+		 * @param  String id
+  	 */
+  	updateUser(id,data) {
+  		let url = config('api.api_url') + '/profile/users/'+id
+	    return new Promise((resolve, reject) => {
+	      	return http.put(url,{ 'attributes' : data })
+	        	.then(response => {
+	        		resolve(response);
+	        	})
+	        	.catch(error => {
+	        		reject(error);
+	        	});
+	    });
   	},
+
 }

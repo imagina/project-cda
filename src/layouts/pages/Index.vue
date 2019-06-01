@@ -96,8 +96,34 @@
             </q-field>
 
             <div class="col-12 text-center">
-                <q-btn color="black" size="md" label="ENVIAR" class="q-px-lg q-mx-sm btn-app" @click="submit"/>
-                <!-- <q-btn color="red" size="md" label="CONTINUAR" class="q-px-lg q-mx-sm btn-app" v-show="changeSearch" @click="next"/> -->
+                
+                 <!-- Btn for Save or Submit Only available when user_id is same to null -->
+                <q-btn 
+                    v-if="this.form.user_id == null"
+                    color="black" 
+                    size="md" 
+                    label="ENVIAR" 
+                    class="q-px-lg q-mx-sm btn-app" 
+                    @click="submit"/>
+
+                <!-- Btn for Update Only available when exist user_id -->
+                <q-btn 
+                    v-if="this.form.user_id !== null"
+                    color="black" 
+                    size="md" 
+                    label="Actualizar" 
+                    class="q-px-lg q-mx-sm btn-app" 
+                    @click="update"/>
+                
+                <!-- Btn for continue Only available when exist user_id -->
+                <q-btn 
+                    v-if="this.form.user_id !== null"
+                    color="black" 
+                    size="md" 
+                    label="Continuar" 
+                    class="q-px-lg q-mx-sm btn-app" 
+                    @click="toCreateInspection"/>
+
             </div>
         </div>
     </div>
@@ -197,6 +223,34 @@ export default {
                 })
             }
         },
+        update(){
+
+            this.$store.commit('data/LOAD_TRUE')
+            this.$v.form.$touch()
+            if (this.$v.form.$error) {
+                this.$store.commit('data/LOAD_FALSE')
+                this.$q.notify({icon:'error', message: 'Por favor revise los campos de nuevo',  position: 'top-right', closeBtn: true})
+                return
+            }else {
+                this.$resourcesUsers.updateUser(this.form.user_id, this.form)
+                .then(response => {
+                    //this.$router.push({ name: 'create.inspection', params: { user_id: user_id, update: false } })
+                    this.$q.notify({ message: 'Registro Actualizado',  color: 'green', position: 'top-right', closeBtn: true})
+                    this.$store.commit('data/LOAD_FALSE')
+                }).catch((error) => {
+                    let message, errors = JSON.parse(error.response.data.errors)
+                    for (var clave in errors) {
+                        message = errors[clave]
+                    }
+                    this.$store.commit('data/LOAD_FALSE')
+                    this.$q.notify({icon:'error', message: message,  position: 'top-right', closeBtn: true})
+                })
+            }
+
+        },
+        toCreateInspection(){
+            this.$router.push({ name: 'create.inspection', params: { user_id: this.form.user_id, update: false } })
+        },
         searchUser () {
             this.$store.commit('data/LOAD_TRUE')
             this.$resourcesUsers.searchUser(this.form.type_document,this.form.number_document)
@@ -210,7 +264,7 @@ export default {
                     this.form.last_name          =   user.last_name
                     this.form.number_document    =   user.number_document
                     this.$store.commit('data/LOAD_FALSE')
-                    this.$router.push({ name: 'create.inspection', params: { user_id: user.id, update: false } })
+                    //this.$router.push({ name: 'create.inspection', params: { user_id: user.id, update: false } })
                 }
                 else {
                     this.$q.notify({icon:'error', message: 'Usuario no encontrado, debe registrarse',  position: 'top-right', closeBtn: true})
