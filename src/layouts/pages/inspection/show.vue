@@ -1004,7 +1004,7 @@
                 // Confirm if pin and pin confirmation is equals
                 this.sameAsPin()
 
-                return
+                
                 if (this.$v.data.$error) {
                     this.$store.commit('data/LOAD_FALSE')
                     this.$q.notify({message: 'Por favor revise los campos de nuevo.',  position: 'top-right', closeBtn: true})
