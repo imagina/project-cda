@@ -285,7 +285,7 @@
                         </div>
                         <!-- Datos del Vehiculo -->
                         Datos del Vehiculo 
-                        <div class="col-12 q-py-md" v-if="inspection_statues.initial >= 1">
+                        <div class="col-12 q-py-md" v-if="inspection_statues.initial == 1">
                             <div class="row">
                                 <div class="col-12 col-md-4 q-px-md print-col-6">
                                     <q-field :error="$v.data.pin.$error">
@@ -317,6 +317,21 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <div class="col-12 q-py-md" v-if="inspection_statues.initial >= 2">
+                            <div class="row">
+                                <div class="col-12 col-md-6 q-px-md print-col-6">
+                                    <span class="font-weight-bold q-mr-sm">Pin:</span>
+                                    <span class="badge badge-light">{{ data.pin}}</span>
+                                </div>
+                                <div class="col-12 col-md-6 q-px-md print-col-6">
+                                    <span class="font-weight-bold q-mr-sm">Factura:</span>
+                                    <span class="badge badge-light">{{ data.invoice_num}}</span>
+                                </div>
+                            </div>
+                        </div>
+
+
                         
                         <div class="row" v-if="status != 'Revisado'">
                             <div class="col-12 print-col-12 q-px-md q-border" v-if="!isMotocicleta()">
