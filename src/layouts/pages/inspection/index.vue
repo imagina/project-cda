@@ -94,7 +94,7 @@
           let res = []
           this.$store.state.data.types_inspections_statues.forEach(state=>{
             if(this.$store.state.auth.userData.permissions['icda.inspections.register']){
-              if(state.value == 0 || state.value == 2 || state.value == 3 || state.value == 4){
+              if(state.value == 0 || state.value == 2 || state.value == 3 || state.value == 4 || state.value == 1){
                 res.push(state)
               } 
             }
