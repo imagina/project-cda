@@ -12,7 +12,7 @@
                 <div class="col q-py-md border-l font-weight-bold col-checkout">B</div>
                 <div class="col q-py-md border-l font-weight-bold col-checkout">R</div>
                 <div class="col q-py-md border-l font-weight-bold col-checkout">M</div>
-                <div class="col q-py-md border-l font-weight-bold col-checkout">NA</div>
+                <div class="col q-py-md border-l font-weight-bold col-checkout">N/A</div>
                 <div class="col q-py-md border-l font-weight-bold col-count">Cant</div>
             </div>
             <div class="row border border-t-0" v-for="(item,index) in inventory.$model" :key="index">

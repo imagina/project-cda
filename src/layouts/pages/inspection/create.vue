@@ -243,6 +243,7 @@
                                                     <q-input v-model="data.engine_cylinders" type="number" min="0" placeholder="# Cilindros Motor" class="bg-white q-my-sm"/>
                                                 </q-field>
                                             </div>
+                                            
                                             <!--<div class="col-12 q-my-sm q-px-md">
                                                 <span class="font-weight-bold q-mb-sm d-block">
                                                     <i class="material-icons color-danger q-mr-xs" v-show="$v.data.mileage.$error"> error_outline </i>
@@ -260,6 +261,22 @@
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-6">
+                                        
+                                        
+                                        <div class="row">
+                                            <div class="col-12 q-my-sm q-px-md">
+                                                <span class="font-weight-bold q-mb-sm d-block"># Numero Exhosto:</span>
+                                                <q-field>
+                                                    <q-input 
+                                                        v-model="data.exhosto_number" 
+                                                        type="number" 
+                                                        min="0" 
+                                                        placeholder="# Numero Exhosto:" 
+                                                        class="bg-white q-my-sm"/>
+                                                </q-field>
+                                            </div>
+                                        </div>
+
 
                                     </div>
                                 </div>
@@ -482,6 +499,7 @@
                     mileage: null,
                     exhosto_diameter: null,
                     engine_cylinders: null,
+                    exhosto_number:null,
                     axes: [],
                     gallery: [],
                     items: [],

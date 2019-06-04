@@ -340,10 +340,18 @@
                                 <div class="row">
                                     <div class="col-12 col-sm-6 print-col-6">
                                         <div class="row">
+
                                             <div class="col-12 q-my-sm">
                                                 <span class="font-weight-bold q-mr-sm q-mb-md"># Cilindros Motor:</span>
                                                 <span class="badge badge-light">{{ data.engine_cylinders ? data.engine_cylinders : 0 }}</span>
                                             </div>
+
+                                            <div class="col-12 q-my-sm">
+                                                <span class="font-weight-bold q-mr-sm q-mb-md"># Numero Exhosto:</span>
+                                                <span class="badge badge-light">{{ data.exhosto_number ? data.exhosto_number : 0 }}</span>
+                                            </div>
+
+
                                             <div class="col-12 q-my-sm">
                                                 <span class="font-weight-bold q-mr-sm q-mb-sm"> Kilometraje: </span>
                                                 <span class="badge badge-light">{{ data.mileage }}</span>
@@ -761,6 +769,7 @@
                     mileage: 150,
                     exhosto_diameter: null,
                     engine_cylinders: null,
+                    exhosto_number:null,
                     axes: [],
                     gallery: [],
                     items: [],
@@ -1062,6 +1071,8 @@
                     this.data.mileage                       = data.mileage
                     this.data.exhosto_diameter              = data.exhosto_diameter
                     this.data.engine_cylinders              = data.engine_cylinders
+                    this.data.exhosto_number              = data.exhosto_number
+
                     this.data.axes                          = data.axes
                     this.data.gallery                       = data.gallery ? data.gallery : []
                     this.data.items                         = data.items_inventory
