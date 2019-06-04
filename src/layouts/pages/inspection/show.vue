@@ -1023,7 +1023,7 @@
                             position: 'top-right', 
                             closeBtn: true
                         })
-                        this.$store.commit('data/LOAD_TRUE')
+                        this.$store.commit('data/LOAD_FALSE')
                         return
                     }
                 }
