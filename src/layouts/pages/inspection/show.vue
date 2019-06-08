@@ -1040,7 +1040,7 @@
 	            }
             },
             sameAsPin(){
-                if(this.inspection_statues.initial == 1){
+                if(this.inspection_statues.status == 1){
                     if(this.confirmPin != this.data.pin){
                         this.$q.notify({
                             message: 'El campo Pin y Pin Confirmación no coinciden',

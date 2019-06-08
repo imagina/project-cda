@@ -86,6 +86,10 @@
                 </q-tooltip>
             </q-field>
 
+            <q-field class="q-my-md">
+                <q-input v-model="form.address" type="text" placeholder="Dirección" class="bg-white mx-auto"/>
+            </q-field>
+
             <q-field :error="$v.form.checked.$error" error-label="" class="q-my-md">
                 <q-checkbox v-model="form.checked" label="Autorizo la toma de datos personales" class="mx-auto" :class="{'color-danger' :$v.form.checked.$error}"/>
                 <q-tooltip v-show="$v.form.checked.$error">
@@ -150,6 +154,7 @@ export default {
                 status: true,
                 business: null,
                 type_document: 'cc',
+                address:'',
             },
             selectOptions: [
                 {
