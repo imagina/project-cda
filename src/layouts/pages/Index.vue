@@ -268,6 +268,7 @@ export default {
                     this.form.first_name         =   user.first_name
                     this.form.last_name          =   user.last_name
                     this.form.number_document    =   user.number_document
+                    this.form.address    =   user.address
                     this.$store.commit('data/LOAD_FALSE')
                     //this.$router.push({ name: 'create.inspection', params: { user_id: user.id, update: false } })
                 }
