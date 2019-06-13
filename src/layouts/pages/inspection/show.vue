@@ -418,11 +418,6 @@
                                     </div>
                                     <div class="col-12 col-sm-6 print-col-6 q-my-md" v-for="(pre_inspection,item) in data.pre_inspections" :key="item">
 
-                                        <div v-if="pre_inspection.name == 'Scooter'">
-                                           <span class="d-inline-block font-weight-bold q-mr-lg">{{ pre_inspection.name }}</span>
-                                           <span class="badge badge-light">{{ pre_inspection.value | preInspection }}</span>
-                                        </div>
-
                                         <div v-if="pre_inspection.value">
                                            <span class="d-inline-block font-weight-bold q-mr-lg">{{ pre_inspection.name }}</span>
                                            <span class="badge badge-light">{{ pre_inspection.value | preInspection }}</span>
@@ -564,7 +559,8 @@
 
                                         <p class="font-weight-bold" :class="{'color-danger':$v.data.signature_received_report.$error}">
                                             <i class="material-icons color-danger q-mr-xs" v-show="$v.data.signature_received_report.$error"> error_outline </i>
-                                            Acepto y estoy conforme con el inventario realizado a mí Motocicleta y he leído, entiendo y acepto todas las bservaciones hechas, politicas de inspección, tratamiento de información y conﬁdencialidad.
+                                            
+                                            Declaro y acepto que he recibido el informe de resultados, FUR y la motocicleta a satisfacción, en el mismo estado y condiciones en que la entregue.
                                         </p>
                                     </div>
                                 </div>

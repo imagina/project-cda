@@ -452,7 +452,8 @@
 
                         <p class="font-weight-bold" :class="{'color-danger':$v.data.vehicle_delivery_signature.$error}">
                             <i class="material-icons color-danger q-mr-xs" v-show="$v.data.vehicle_delivery_signature.$error"> error_outline </i>
-                            Acepto y estoy conforme con el inventario realizado a mí Motocicleta y he leído, entiendo y acepto todas las oservaciones hechas, politicas de inspección, tratamiento de información y conﬁdencialidad.
+                            Acepto y estoy conforme con el inventario realizado a mí Motocicleta y he leído, entiendo y acepto todas las observaciones hechas, politicas de inspección,
+                            tratamiento de información y conﬁdencialidad.
                         </p>
                     </div>
                 </div>
