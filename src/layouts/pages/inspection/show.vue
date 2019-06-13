@@ -1,7 +1,7 @@
 <template>
     <div id="printed" v-show="!$store.state.data.load_inner">
         <q-page v-show="showData">
-            
+         
         	<div class="col-12 q-border col-search print-none">
 	            <div class="row">
 	                <div class="col-12 col-sm-10 col-md-6 mx-auto q-px-md">
@@ -34,7 +34,7 @@
                                     <div class="col-md-6">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Nombre Completo: 
+                                                Nombre Completo:
                                             </div>
                                             <div class="col-md-6 ">
                                                 <span class="badge badge-light font-weight-bold">
@@ -46,7 +46,7 @@
                                     <div class="col-md-6">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Email: 
+                                                Email:
                                             </div>
                                             <div class="col-md-6">
                                                 <span class="badge badge-light font-weight-bold">
@@ -58,7 +58,7 @@
                                     <div class="col-md-6 q-mt-sm">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                 Teléfono: 
+                                                 Teléfono:
                                             </div>
                                             <div class="col-md-6">
                                                  <span class="badge badge-light font-weight-bold">
@@ -72,7 +72,7 @@
                                     <div class="col-md-6 q-mt-sm">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Documento: 
+                                                Documento:
                                             </div>
                                             <div class="col-md-6">
                                                 <span class="badge badge-light font-weight-bold">
@@ -89,7 +89,7 @@
                                 <span class="h2 font-weight-bold my-3 d-block">SOAT</span>
                             </div>
                             <div class="col-4 col-md-2 mx-auto py-3 text-center print-col-3 print-center ">
-                                <span 
+                                <span
                                     class="font-weight-bold d-inline-block"
                                     :class="{'color-danger': $v.data.attributes.insurance_expedition.$error}">
                                     Expedición:
@@ -107,7 +107,7 @@
                                 </p>
                             </div>
                             <div class="col-4 col-md-2 mx-auto py-3 text-center print-col-3 print-center ">
-                                <span 
+                                <span
                                     class="font-weight-bold d-inline-block"
                                     :class="{'color-danger': $v.data.attributes.insurance_expiration.$error}">
                                     Fin De Vigencia
@@ -154,15 +154,15 @@
                                     </q-field>
 
                                     <q-field>
-                                        <span 
+                                        <span
                                         class="font-weight-bold d-inline-block"
                                         :class="{'color-danger': false}">
                                         Clase de vehículo:
                                         </span>
-                                        <q-select 
+                                        <q-select
                                         :disable="false"
-                                        v-model="data.attributes.vehicle_class" 
-                                        class="q-mb-lg uppercase" 
+                                        v-model="data.attributes.vehicle_class"
+                                        class="q-mb-lg uppercase"
                                         placeholder="Clase de vehículo"
                                         :options="$store.getters['data/GET_CLASS_VEHICLES']"/>
                                     </q-field>
@@ -172,12 +172,12 @@
                                                 <q-field :error="$v.data.attributes.brand_id.$error">
                                                     <span class="font-weight-bold d-inline-block"
                                                         :class="{'color-danger': $v.data.attributes.brand_id.$error}">Marca:</span>
-                                                    <q-select 
-                                                        @input="handleChangeBrand(data.attributes.brand_id)" 
-                                                        :disable='!isUpdate' 
-                                                        v-model="data.attributes.brand_id" 
-                                                        class="q-mb-lg uppercase" 
-                                                        placeholder="Marca" 
+                                                    <q-select
+                                                        @input="handleChangeBrand(data.attributes.brand_id)"
+                                                        :disable='!isUpdate'
+                                                        v-model="data.attributes.brand_id"
+                                                        class="q-mb-lg uppercase"
+                                                        placeholder="Marca"
                                                         :options="$store.state.data.types_brands"/>
                                                 </q-field>
                                             </div>
@@ -192,11 +192,11 @@
                                             <q-field :error="$v.data.attributes.line_id.$error">
                                                 <span class="font-weight-bold d-inline-block"
                                                     :class="{'color-danger': $v.data.attributes.line_id.$error}">Línea:</span>
-                                                <q-select 
-                                                    :disable='!isUpdate' 
-                                                    v-model="data.attributes.line_id" 
-                                                    class="q-mb-lg uppercase" 
-                                                    placeholder="Line" 
+                                                <q-select
+                                                    :disable='!isUpdate'
+                                                    v-model="data.attributes.line_id"
+                                                    class="q-mb-lg uppercase"
+                                                    placeholder="Line"
                                                     :options="SelectLines"/>
                                             </q-field>
                                             </div>
@@ -248,7 +248,7 @@
                                 <q-field :error="$v.data.attributes.type_fuel.$error">
                                     <span class="font-weight-bold d-inline-block"
                                         :class="{'color-danger': $v.data.attributes.type_fuel.$error}">Tipo de combustible:</span>
-                                    <q-select :disable='false' v-model="data.attributes.type_fuel" class="q-mb-lg uppercase" placeholder="Tipo de combustible" 
+                                    <q-select :disable='false' v-model="data.attributes.type_fuel" class="q-mb-lg uppercase" placeholder="Tipo de combustible"
                                             :options="$store.state.data.types_fuels"/>
                                 </q-field>
 
@@ -284,7 +284,7 @@
                             </div>
                         </div>
                         <!-- Datos del Vehiculo -->
-                        Datos del Vehiculo 
+                        Datos del Vehiculo
                         <div class="col-12 q-py-md" v-if="inspection_statues.initial == 1">
                             <div class="row">
                                 <div class="col-12 col-md-4 q-px-md print-col-6">
@@ -300,10 +300,10 @@
                                         <span class="font-weight-bold d-inline-block">
                                             Confirmar Pin:
                                         </span>
-                                        <q-input 
-                                            v-model="confirmPin" 
-                                            type="text" 
-                                            placeholder="Confirmar Pin" 
+                                        <q-input
+                                            v-model="confirmPin"
+                                            type="text"
+                                            placeholder="Confirmar Pin"
                                             class="q-mb-lg"/>
                                     </q-field>
                                 </div>
@@ -371,10 +371,10 @@
                                                 <span class="font-weight-bold q-mr-sm q-mb-sm"> Kilometraje: </span>
                                                 <span class="badge badge-light">{{ data.mileage }}</span>
                                             </div>
-                                        </div>                                        
+                                        </div>
                                     </div>
                                     <div class="col-12 col-sm-6 print-col-6" v-if="false">
-                                        <div class="row">                              
+                                        <div class="row">
                                             <div class="col-12 q-my-sm">
                                                 <span class="font-weight-bold q-mr-sm">Vidrios Polarizados:</span>
                                                 <span class="badge badge-light">{{ data.polarized_glasses ? 'SI' : 'NO' }}</span>
@@ -412,18 +412,18 @@
 
                             <!-- Pre-Inspección -->
                             <div class="col-12 q-px-md q-border" :class="{'print-none':data.pre_inspections.length > 0}">
-                                <div class="row">                               
+                                <div class="row">
                                     <div class="col-12 print-col-12 q-mb-md">
                                         <span class="font-weight-bold">Pre-Inspección:</span>
                                     </div>
                                     <div class="col-12 col-sm-6 print-col-6 q-my-md" v-for="(pre_inspection,item) in data.pre_inspections" :key="item">
 
-                                        <div v-if="pre_inspection.name == 'Scooter'"> 
+                                        <div v-if="pre_inspection.name == 'Scooter'">
                                            <span class="d-inline-block font-weight-bold q-mr-lg">{{ pre_inspection.name }}</span>
                                            <span class="badge badge-light">{{ pre_inspection.value | preInspection }}</span>
                                         </div>
 
-                                        <div v-if="pre_inspection.value"> 
+                                        <div v-if="pre_inspection.value">
                                            <span class="d-inline-block font-weight-bold q-mr-lg">{{ pre_inspection.name }}</span>
                                            <span class="badge badge-light">{{ pre_inspection.value | preInspection }}</span>
                                         </div>
@@ -517,7 +517,7 @@
 
                             <!-- opbservaciones -->
                             <div class="col-12 print-col-12 q-my-md" v-if="data.observations">
-                                <q-input v-model="data.observations" 
+                                <q-input v-model="data.observations"
                                     :disabled='true'
                                     type="textarea"
                                     float-label="OBSERVACIONES:"
@@ -537,7 +537,7 @@
                                                 <q-btn color="black" size="sm" label="Limpiar" class="q-px-lg btn-app" v-if="is_signature_received_report" @click="undo"/>
                                             </div>
                                         </div>
-                                        <VueSignaturePad 
+                                        <VueSignaturePad
                                             v-if="is_signature_received_report"
                                             width="100%"
                                             height="200px"
@@ -551,13 +551,13 @@
                                             <p>Firma y Cédula Entrega de Vehículo</p>
                                                 <img  :src="data.signature_received_report|asset"
                                                 style="border: 2px solid #0c0c0c;border-radius: 8px;"
-                                                width="100%" 
+                                                width="100%"
                                                 class="print-col-12"
                                                 height="200px">
                                             <p></p>
                                                 <img  :src="data.vehicle_delivery_signature|asset"
                                                 style="border: 2px solid #0c0c0c;border-radius: 8px;"
-                                                width="100%" 
+                                                width="100%"
                                                 class="print-col-12"
                                                 height="200px">
                                         </div>
@@ -644,34 +644,34 @@
                                 <div class="row">
 
                                     <div class="col">
-                                        <q-btn 
-                                            color="black" 
-                                            size="md" 
-                                            label="Atras" 
-                                            class="q-px-lg q-mr-sm btn-app" 
+                                        <q-btn
+                                            color="black"
+                                            size="md"
+                                            label="Atras"
+                                            class="q-px-lg q-mr-sm btn-app"
                                             @click="back"/>
-                                        <q-btn 
-                                            color="red" 
-                                            size="md" 
-                                            label="Imprimir" 
-                                            class="q-px-lg q-mr-sm btn-app" 
+                                        <q-btn
+                                            color="red"
+                                            size="md"
+                                            label="Imprimir"
+                                            class="q-px-lg q-mr-sm btn-app"
                                             @click="print"/>
                                     </div>
 
                                     <div class="col text-right">
                                         <!-- CAMBIOS DE ESTADO PARA EL ROL ESPECIAL -->
                                         <div v-if="$store.state.auth.userData.permissions['icda.inspections.all']">
-                                            <q-select 
-                                                v-model="inspection_statues.status" 
+                                            <q-select
+                                                v-model="inspection_statues.status"
                                                 :options="optionsTypesInspectionsStatues"
-                                                placeholder="Estado" 
-                                                class="bg-white pull-left q-mx-sm q-select-app" 
+                                                placeholder="Estado"
+                                                class="bg-white pull-left q-mx-sm q-select-app"
                                                 style="width: 110px"/>
-                                            <q-btn 
-                                                color="black" 
-                                                size="md" 
-                                                label="Guardar" 
-                                                class="q-px-lg q-mr-sm btn-app pull-left" 
+                                            <q-btn
+                                                color="black"
+                                                size="md"
+                                                label="Guardar"
+                                                class="q-px-lg q-mr-sm btn-app pull-left"
                                                 @click="submitSave"/>
                                         </div>
                                         
@@ -679,17 +679,17 @@
                                             <!-- CAMBIOS DE ESTADO PARA EN ESPERA -->
                                             <div v-if="inspection_statues.initial == 0">
 
-                                                <q-select 
-                                                    v-model="inspection_statues.status" 
+                                                <q-select
+                                                    v-model="inspection_statues.status"
                                                     :options="optionsTypesInspectionsStatuesAwait"
-                                                    placeholder="Status" 
-                                                    class="bg-white pull-left q-mx-sm q-select-app" 
+                                                    placeholder="Status"
+                                                    class="bg-white pull-left q-mx-sm q-select-app"
                                                     style="width: 110px"/>
-                                                <q-btn 
-                                                    color="black" 
-                                                    size="md" 
-                                                    label="Guardar" 
-                                                    class="q-px-lg q-mr-sm btn-app pull-left" 
+                                                <q-btn
+                                                    color="black"
+                                                    size="md"
+                                                    label="Guardar"
+                                                    class="q-px-lg q-mr-sm btn-app pull-left"
                                                     @click="submitSave"/>
 
                                                 
@@ -707,17 +707,17 @@
 
                                             <!-- CAMBIOS DE ESTADO PARA FACTURADO -->
                                             <div v-if="inspection_statues.initial == 2">
-                                                <q-select 
-                                                    v-model="inspection_statues.status" 
+                                                <q-select
+                                                    v-model="inspection_statues.status"
                                                     :options="optionsTypesInspectionsStatuesFactured"
-                                                    placeholder="Status" 
-                                                    class="bg-white pull-left q-mx-sm q-select-app" 
+                                                    placeholder="Status"
+                                                    class="bg-white pull-left q-mx-sm q-select-app"
                                                     style="width: 110px"/>
-                                                <q-btn 
-                                                    color="black" 
-                                                    size="md" 
-                                                    label="Guardar" 
-                                                    class="q-px-lg q-mr-sm btn-app pull-left" 
+                                                <q-btn
+                                                    color="black"
+                                                    size="md"
+                                                    label="Guardar"
+                                                    class="q-px-lg q-mr-sm btn-app pull-left"
                                                     @click="submitSave"/>
                                             </div>
                                         </div>
@@ -752,11 +752,11 @@
 
     export default {
         name: 'PageData',
-        components: { 
-            qInputValidation, 
-            qGallery, 
-            VueSignaturePad, 
-            Carousel, 
+        components: {
+            qInputValidation,
+            qGallery,
+            VueSignaturePad,
+            Carousel,
             Slide,
             colorComponent,
             brandComponent,
@@ -879,7 +879,7 @@
                 this.$store.state.data.types_inspections_statues.forEach(state=>{
                     if(state.value == 3 || state.value == 4){
                          res.push(state)
-                    } 
+                    }
                 })
                 return res
             },
@@ -888,7 +888,7 @@
                 this.$store.state.data.types_inspections_statues.forEach(state=>{
                     if(state.value == 1 || state.value == 5){
                          res.push(state)
-                    } 
+                    }
                 })
                 return res
             }
@@ -916,13 +916,13 @@
                         this.ifUpdateInspections = true
                     }
                 },
-                deep: true 
+                deep: true
             },
             'data.tecnomecanica_file' : {
                 handler() {
                     this.ifUpdateInspections = true
                 },
-                deep: true 
+                deep: true
             }
         },
         filters: {
@@ -1013,12 +1013,21 @@
     		  // this.d.print( this.$el, [this.cssText])
     		},
             submitSave() {
+    
+                if(this.inspection_statues.status == 1){
+                    if(this.confirmPin != this.data.pin){
+                        this.$q.notify({
+                            message: 'El campo Pin y Pin Confirmación no coinciden',
+                            position: 'top-right',
+                            closeBtn: true
+                        })
+                        this.$store.commit('data/LOAD_FALSE')
+                        return
+                    }
+                }
+                
                 this.$v.data.$touch()
                 this.$store.commit('data/LOAD_TRUE')
-                
-                // Confirm if pin and pin confirmation is equals
-                this.sameAsPin()
-
                 
                 if (this.$v.data.$error) {
                     this.$store.commit('data/LOAD_FALSE')
@@ -1035,7 +1044,7 @@
 					})
 					.catch((err) => {
                     	this.$store.commit('data/LOAD_FALSE')
-					    console.error('Promise.all error', err); 
+					    console.error('Promise.all error', err);
 					});
 	            }
             },
@@ -1044,7 +1053,7 @@
                     if(this.confirmPin != this.data.pin){
                         this.$q.notify({
                             message: 'El campo Pin y Pin Confirmación no coinciden',
-                            position: 'top-right', 
+                            position: 'top-right',
                             closeBtn: true
                         })
                         this.$store.commit('data/LOAD_FALSE')
@@ -1198,7 +1207,7 @@
                     formData.append('_method','PUT');
                     console.log(formData)
                     return this.$resourcesInspections.updateInspections(formData,this.data.id)
-                } else 
+                } else
                     return false
             },
             inspectionHistory() {

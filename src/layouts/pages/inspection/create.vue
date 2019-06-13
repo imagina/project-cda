@@ -95,6 +95,7 @@
                                 </div>
                                 <div class="d-block q-mb-lg q-mt-sm">
                                     <span class="font-weight-bold">Clase de Vehículo:</span>
+                                    
                                         {{ data.attributes.type_vehicle_text ? data.attributes.type_vehicle_text : 'N/D' }}
                                 </div>
                                 <div class="d-block q-mb-lg q-mt-sm">
@@ -267,11 +268,11 @@
                                             <div class="col-12 q-my-sm q-px-md">
                                                 <span class="font-weight-bold q-mb-sm d-block"># Numero Exhosto:</span>
                                                 <q-field>
-                                                    <q-input 
-                                                        v-model="data.exhosto_number" 
-                                                        type="number" 
-                                                        min="0" 
-                                                        placeholder="# Numero Exhosto:" 
+                                                    <q-input
+                                                        v-model="data.exhosto_number"
+                                                        type="number"
+                                                        min="0"
+                                                        placeholder="# Numero Exhosto:"
                                                         class="bg-white q-my-sm"/>
                                                 </q-field>
                                             </div>
@@ -809,7 +810,7 @@
                     this.data.board = board
                     this.$resourcesVehicles.vehicle(board,this.data.user_id)
                     .then(response => {
-                        console.log(response)
+                        console.warn(response)
                         this.reinspection = response.reinspection
                         this.data.attributes = []
                         this.data.vehicles_id = response.data.id

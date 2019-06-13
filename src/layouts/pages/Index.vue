@@ -102,30 +102,30 @@
             <div class="col-12 text-center">
                 
                  <!-- Btn for Save or Submit Only available when user_id is same to null -->
-                <q-btn 
+                <q-btn
                     v-if="this.form.user_id == null"
-                    color="black" 
-                    size="md" 
-                    label="ENVIAR" 
-                    class="q-px-lg q-mx-sm btn-app" 
+                    color="black"
+                    size="md"
+                    label="ENVIAR"
+                    class="q-px-lg q-mx-sm btn-app"
                     @click="submit"/>
 
                 <!-- Btn for Update Only available when exist user_id -->
-                <q-btn 
+                <q-btn
                     v-if="this.form.user_id !== null"
-                    color="black" 
-                    size="md" 
-                    label="Actualizar" 
-                    class="q-px-lg q-mx-sm btn-app" 
+                    color="black"
+                    size="md"
+                    label="Actualizar"
+                    class="q-px-lg q-mx-sm btn-app"
                     @click="update"/>
                 
                 <!-- Btn for continue Only available when exist user_id -->
-                <q-btn 
+                <q-btn
                     v-if="this.form.user_id !== null"
-                    color="black" 
-                    size="md" 
-                    label="Continuar" 
-                    class="q-px-lg q-mx-sm btn-app" 
+                    color="black"
+                    size="md"
+                    label="Continuar"
+                    class="q-px-lg q-mx-sm btn-app"
                     @click="toCreateInspection"/>
 
             </div>
