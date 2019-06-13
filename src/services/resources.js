@@ -14,9 +14,9 @@ export default {
       return http.get(url).then(response => {
         resolve(response);
       })
-      .catch(error => {
-        reject(error);
-      });
+        .catch(error => {
+          reject(error);
+        });
     });
   },
 
@@ -41,9 +41,9 @@ export default {
       return http.get(url).then(response => {
         resolve(response);
       })
-      .catch(error => {
-        reject(error);
-      });
+        .catch(error => {
+          reject(error);
+        });
     });
   },
 
@@ -89,9 +89,9 @@ export default {
         .then(response => {
           resolve(response);
         })
-      .catch(error => {
-        reject(error);
-      });
+        .catch(error => {
+          reject(error);
+        });
     });
   },
 
@@ -104,9 +104,25 @@ export default {
       return http.get(url).then(response => {
         resolve(response);
       })
-      .catch(error => {
-        reject(error);
-      });
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
+
+  /**
+   * Add Marcas
+   */
+  addBrands(data) {
+    let url = config('api.api_icda') + '/brands'
+    return new Promise((resolve, reject) => {
+      return http.post(url, data)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(error);
+        });
     });
   },
 
@@ -119,9 +135,25 @@ export default {
       return http.get(url).then(response => {
         resolve(response);
       })
-      .catch(error => {
-        reject(error);
-      });
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
+
+  /**
+   * Adicionar  Colores
+   */
+  addColors(data) {
+    let url = config('api.api_icda') + '/colors'
+    return new Promise((resolve, reject) => {
+      return http.post(url, data)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(error);
+        });
     });
   },
 
@@ -134,9 +166,44 @@ export default {
       return http.get(url).then(response => {
         resolve(response);
       })
-      .catch(error => {
-        reject(error);
-      });
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
+
+  /**
+   Filtrar lineas
+   */
+  getLines(filter){
+    return new Promise((resolve, reject) => {
+      return http.get(config('api.api_icda') + '/lines', {
+        params:{
+          filter
+        }
+      })
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
+
+  /**
+   * Adicionar Lineas
+   */
+  addLines(data) {
+    let url = config('api.api_icda') + '/lines'
+    return new Promise((resolve, reject) => {
+      return http.post(url, data)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(error);
+        });
     });
   },
 
