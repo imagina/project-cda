@@ -20,7 +20,7 @@
             <div class="col-12 col-md-4 order-col q-px-sm text-center" v-show="$store.state.orden.id">
               <p class="font-weight-bold mb-0">ORDEN DE SERVICIO</p>
               <p class="font-weight-bold q-mb-xs h4">{{$store.state.orden.id}}</p>
-            </div>  
+            </div>
           </div>
         </div>
       </div>
@@ -79,7 +79,10 @@
       }
     },
     created() {
-      
+      this.$root.$on("refreshColor", this.getTypesColors);
+      this.$root.$on("refreshBrands", this.getTypesBrands);
+      this.$root.$on("refreshLines", this.getTypesLines);
+
       this.getTypesVehicles()
       this.getTypesInspections()
       this.getTypesInspectionStatues()
@@ -101,110 +104,114 @@
       getTypesVehicles(){
         this.$q.loading.show()
         resources.getTypesVehicles()
-        .then(response=>{
-          let typesVehicles = []
-          for(let element in response.data.data){
-            typesVehicles.push({ label: response.data.data[element], value: parseInt(element) })
-          }
-          this.$store.commit('data/SET_TYPES_VEHICLES',typesVehicles)
-          this.$q.loading.hide()
-        })
-        .catch(error=>{
-          this.$q.loading.hide()
-        })
+          .then(response=>{
+            let typesVehicles = []
+            for(let element in response.data.data){
+              if(parseInt(element) == 3){
+                typesVehicles.push({ label: response.data.data[element], value: parseInt(element) })
+              }
+            }
+            this.$store.commit('data/SET_TYPES_VEHICLES',typesVehicles)
+            this.$q.loading.hide()
+          })
+          .catch(error=>{
+            this.$q.loading.hide()
+          })
       },
       getTypesInspections(){
         this.$q.loading.show()
         resources.getTypesInspections()
-        .then(response=>{
-          let typesInspections = response.data.data.map((color) => { return { label: color.name, value: color.id }})
-          this.$store.commit('data/SET_TYPES_INSPECTIONS',typesInspections)
-          this.$q.loading.hide()
-        })
-        .catch(error=>{
-          this.$q.loading.hide()
-        })
+          .then(response=>{
+            let typesInspections = response.data.data.map((color) => { return { label: color.name, value: color.id }})
+            this.$store.commit('data/SET_TYPES_INSPECTIONS',typesInspections)
+            this.$q.loading.hide()
+          })
+          .catch(error=>{
+            this.$q.loading.hide()
+          })
       },
       getTypesInspectionStatues(){
         this.$q.loading.show()
         resources.getTypesInspectionStatues()
-        .then(response=>{
-          let data = []
-          for(let element in response.data.data){
-            data.push({ label: response.data.data[element], value: element })
-          }
-          this.$store.commit('data/SET_TYPES_INSPECTIONS_STATUES',data)
-          this.$q.loading.hide()
-        })
-        .catch(error=>{
-          this.$q.loading.hide()
-        })
+          .then(response=>{
+            let data = []
+            for(let element in response.data.data){
+              data.push({ label: response.data.data[element], value: parseInt(element) })
+            }
+            this.$store.commit('data/SET_TYPES_INSPECTIONS_STATUES',data)
+            this.$q.loading.hide()
+          })
+          .catch(error=>{
+            this.$q.loading.hide()
+          })
       },
       getTypesServices(){
         this.$q.loading.show()
         resources.getTypesServices()
-        .then(response=>{
-          let data = []
-          for(let element in response.data.data){
-            data.push({ label: response.data.data[element], value: parseInt(element) })
+          .then(response=>{
+            let data = []
+            for(let element in response.data.data){
+              data.push({ label: response.data.data[element], value: parseInt(element) })
+              this.$q.loading.hide()
+            }
+            this.$store.commit('data/SET_TYPES_SERVICES',data)
+          })
+          .catch(error=>{
             this.$q.loading.hide()
-          }
-          this.$store.commit('data/SET_TYPES_SERVICES',data)
-        })
-        .catch(error=>{
-          this.$q.loading.hide()
-        })
+          })
       },
       getTypesFuels(){
         this.$q.loading.show()
         resources.getTypesFuels()
-        .then(response=>{
-          let data = []
-          for(let element in response.data.data){
-            data.push({ label: response.data.data[element], value: element })
-          }
-          this.$store.commit('data/SET_TYPES_FUELS',data)
-          this.$q.loading.hide()
-        })
-        .catch(error=>{
-          this.$q.loading.hide()
-        })
+          .then(response=>{
+            let data = []
+            for(let element in response.data.data){
+              if(parseInt(element) == 2){
+                data.push({ label: response.data.data[element], value: parseInt(element) })
+              }
+            }
+            this.$store.commit('data/SET_TYPES_FUELS',data)
+            this.$q.loading.hide()
+          })
+          .catch(error=>{
+            this.$q.loading.hide()
+          })
       },
       getTypesBrands(){
         this.$q.loading.show()
         resources.getTypesBrands()
-        .then(response=>{
-          let data = response.data.data.map((color) => { return { label: color.name, value: color.id }})
-          this.$store.commit('data/SET_TYPES_BRANDS', data)
-          this.$q.loading.hide()
-        })
-        .catch(error=>{
-          this.$q.loading.hide()
-        })
+          .then(response=>{
+            let data = response.data.data.map((color) => { return { label: color.name, value: color.id }})
+            this.$store.commit('data/SET_TYPES_BRANDS', data)
+            this.$q.loading.hide()
+          })
+          .catch(error=>{
+            this.$q.loading.hide()
+          })
       },
       getTypesColors(){
         this.$q.loading.show()
         resources.getTypesColors()
-        .then(response=>{
-          let colors = response.data.data.map((color) => { return { label: color.name, value: color.id }})
-          this.$store.commit('data/SET_TYPES_COLORS', colors)
-          this.$q.loading.hide()
-        })
-        .catch(error=>{
-          this.$q.loading.hide()
-        })
+          .then(response=>{
+            let colors = response.data.data.map((color) => { return { label: color.name, value: color.id }})
+            this.$store.commit('data/SET_TYPES_COLORS', colors)
+            this.$q.loading.hide()
+          })
+          .catch(error=>{
+            this.$q.loading.hide()
+          })
       },
       getTypesLines(){
         this.$q.loading.show()
         resources.getTypesLines()
-        .then(response=>{
-          let data = response.data.data.map((color) => { return { label: color.name, value: color.id }})
-          this.$store.commit('data/SET_TYPES_LINES', data)
-          this.$q.loading.hide()
-        })
-        .catch(error=>{
-          this.$q.loading.hide()
-        })
+          .then(response=>{
+            let data = response.data.data.map((color) => { return { label: color.name, value: color.id }})
+            this.$store.commit('data/SET_TYPES_LINES', data)
+            this.$q.loading.hide()
+          })
+          .catch(error=>{
+            this.$q.loading.hide()
+          })
       },
       getTypesModels(){
         this.$q.loading.show()
@@ -214,21 +221,23 @@
       getClassVehicles(){
         this.$q.loading.show()
         resources.getClassVehicles()
-        .then(response=>{
-          let data = []
-          for(let element in response.data.data){
-            data.push({ label: response.data.data[element], value: parseInt(element) })
-          }
-          this.$store.commit('data/SET_CLASS_VEHICLES',data)
-          this.$q.loading.hide()
-        })
-        .catch(error=>{
-          this.$q.loading.hide()
-        })
+          .then(response=>{
+            let data = []
+            for(let element in response.data.data){
+              if(element == '10'){
+                data.push({ label: response.data.data[element], value: (element) })
+              }
+            }
+            this.$store.commit('data/SET_CLASS_VEHICLES',data)
+            this.$q.loading.hide()
+          })
+          .catch(error=>{
+            this.$q.loading.hide()
+          })
       },
       //
 
-      
+
     }
   }
 </script>
