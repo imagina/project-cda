@@ -10,10 +10,10 @@
 
         <q-scroll-area style="width: 400px; height: 800px;">
           <div class="flex flex-center">
-          <q-card 
+          <q-card
             class="shadow-0"
             style="width:95%"
-            inline 
+            inline
             v-for="(order, index) in orders"
             :key="index">
             <q-card-title>
@@ -49,16 +49,16 @@
             </q-card-main>
             <q-card-separator />
             <q-card-actions>
-              <q-btn 
-                :to="{ 
+              <q-btn
+                :to="{
                   name: 'update.inspection',
                   params: {
                     inspection: order.id
                   }
                 }"
                 rounded
-                color="primary" 
-                label="VER" 
+                color="primary"
+                label="VER"
                 class="full-width"/>
             </q-card-actions>
           </q-card>
@@ -103,7 +103,7 @@
     	}
     },
     created(){
-      this.$root.$on("newInspection", this.getOrders);  
+      this.$root.$on("newInspection", this.getOrders);
     },
     mounted(){
       this.getOrders()

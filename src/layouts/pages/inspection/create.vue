@@ -418,7 +418,7 @@
                     <div class="row print-row">
                         <div class="col-12 print-col-12">
                             <p class="font-weight-bold d-inline-block q-mr-md" :class="{'border-danger':$v.data.seen_technical_director.$error}">
-                                Visto bueno director técnico: 
+                                Visto bueno director técnico:
                                 <span class="d-none">
                                     {{ data.seen_technical_director ? 'SI' : 'NO' }}
                                 </span>
@@ -430,7 +430,7 @@
                         </div>
                     </div>
 
-                      
+                    
                     </div>
                 </div>
                 <div class="row">
