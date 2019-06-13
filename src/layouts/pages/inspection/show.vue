@@ -146,6 +146,7 @@
             <div class="row mt-3 q-border">
               <div class="col-12 col-md-6 q-px-md print-col-6">
                 <div class="col-12 col-md-6 q-px-md">
+                  
                   <q-field :error="$v.data.attributes.service_type.$error">
                     <span
                       class="font-weight-bold d-inline-block"
@@ -160,6 +161,7 @@
                       :options="$store.state.data.types_services">
                     </q-select>
                   </q-field>
+                  
                   <q-field :error="$v.data.attributes.type_vehicle.$error">
                     <span
                       class="font-weight-bold d-inline-block"
@@ -174,105 +176,240 @@
                       :options="$store.state.data.types_vehicles">
                     </q-select>
                   </q-field>
-                  <q-field :error="$v.data.attributes.brand_id.$error">
-                                        <span class="font-weight-bold d-inline-block"
-                                              :class="{'color-danger': $v.data.attributes.brand_id.$error}">Marca:</span>
-                    <q-select :disable='!isUpdate' v-model="data.attributes.brand_id" class="q-mb-lg uppercase" placeholder="Marca" :options="$store.state.data.types_brands"/>
-                  </q-field>
+  
+                  <div class="row" >
+                    <div class="col-md-10">
+                      <q-field :error="$v.data.attributes.brand_id.$error">
+                      <span
+                        class="font-weight-bold d-inline-block"
+                        :class="{'color-danger': $v.data.attributes.brand_id.$error}">
+                        Marca:
+                      </span>
+                        <q-select
+                          @input="handleChangeBrand(data.attributes.brand_id)"
+                          :disable='!isUpdate'
+                          v-model="data.attributes.brand_id"
+                          class="q-mb-lg uppercase"
+                          placeholder="Marca"
+                          :options="$store.state.data.types_brands"/>
+                      </q-field>
+                    </div>
+                    <div class="col-md-2" v-if="inspection_statues.initial == 0">
+                      <brandComponent/>
+                    </div>
+                  </div>
                   
-                  <q-field :error="$v.data.attributes.line_id.$error">
-                                        <span class="font-weight-bold d-inline-block"
-                                              :class="{'color-danger': $v.data.attributes.line_id.$error}">Línea:</span>
-                    <q-select :disable='!isUpdate' v-model="data.attributes.line_id" class="q-mb-lg uppercase" placeholder="Line" :options="$store.state.data.types_lines"/>
-                  </q-field>
+                  <div class="row">
+                    <div class="col-md-10">
+                      <q-field :error="$v.data.attributes.line_id.$error">
+                        <span
+                          class="font-weight-bold d-inline-block"
+                          :class="{'color-danger': $v.data.attributes.line_id.$error}">
+                          Línea:
+                        </span>
+                        <q-select
+                          :disable='!isUpdate'
+                          v-model="data.attributes.line_id"
+                          class="q-mb-lg uppercase"
+                          placeholder="Line"
+                          :options="SelectLines">
+                        </q-select>
+                      </q-field>
+                    </div>
+                    <div class="col-md-2" v-if="inspection_statues.initial == 0">
+                      <lineComponent/>
+                    </div>
+                  </div>
                   
                   <q-field :error="$v.data.attributes.model.$error">
-                                        <span class="font-weight-bold d-inline-block"
-                                              :class="{'color-danger': $v.data.attributes.model.$error}">Modelo:</span>
-                    <q-select :disable='!isUpdate' v-model="data.attributes.model" class="q-mb-lg uppercase" placeholder="Modelo" :options="$store.state.data.types_models"/>
+                    <span
+                      class="font-weight-bold d-inline-block"
+                      :class="{'color-danger': $v.data.attributes.model.$error}">
+                      Modelo:
+                    </span>
+                    <q-select
+                      :disable='!isUpdate'
+                      v-model="data.attributes.model"
+                      class="q-mb-lg uppercase"
+                      placeholder="Modelo"
+                      :options="$store.state.data.types_models">
+                    </q-select>
                   </q-field>
                   
                   <q-field :error="$v.data.attributes.transit_license.$error">
-                                        <span class="font-weight-bold d-inline-block"
-                                              :class="{'color-danger': $v.data.attributes.transit_license.$error}">N° Licencia de Tránsito:</span>
-                    <q-input :disable='!isUpdate' v-model="data.attributes.transit_license" type="text" placeholder="N° Licencia de Tránsito" class="q-mb-lg"/>
+                    <span
+                      class="font-weight-bold d-inline-block"
+                      :class="{'color-danger': $v.data.attributes.transit_license.$error}">
+                      N° Licencia de Tránsito:
+                    </span>
+                    <q-input
+                      :disable='!isUpdate'
+                      v-model="data.attributes.transit_license"
+                      type="text"
+                      placeholder="N° Licencia de Tránsito"
+                      class="q-mb-lg">
+                    </q-input>
                   </q-field>
                   
                   <q-field :error="$v.data.attributes.enrollment_date.$error">
-                                        <span class="font-weight-bold d-inline-block"
-                                              :class="{'color-danger': $v.data.attributes.enrollment_date.$error}">Fecha de Matrícula:</span>
-                    <q-datetime :disable='!isUpdate' v-model.trim="data.attributes.enrollment_date"
-                                type="date"
-                                class="q-mb-lg"
-                                placeholder="Fecha de Vencimiento"
-                                format="YYYY-MM-DD"/>
+                    <span
+                      class="font-weight-bold d-inline-block"
+                      :class="{'color-danger': $v.data.attributes.enrollment_date.$error}">
+                      Fecha de Matrícula:
+                    </span>
+                    <q-datetime
+                      :disable='!isUpdate'
+                      v-model.trim="data.attributes.enrollment_date"
+                      type="date"
+                      class="q-mb-lg"
+                      placeholder="Fecha de Vencimiento"
+                      format="YYYY-MM-DD">
+                    </q-datetime>
                   </q-field>
-                  </q-field>
+                  
                 </div>
               </div>
               
               <div class="col-12 col-md-6 q-px-md print-col-6">
-                <q-field :error="$v.data.attributes.color_id.$error">
-                                    <span class="font-weight-bold d-inline-block"
-                                          :class="{'color-danger': $v.data.attributes.color_id.$error}">Color:</span>
-                  <q-select :disable='!isUpdate' v-model="data.attributes.color_id" class="q-mb-lg uppercase" placeholder="Color" :options="$store.state.data.types_colors"/>
-                </q-field>
+                
+                <div class="row">
+                  <div class="col-sm-10">
+                    <q-field :error="$v.data.attributes.color_id.$error">
+                      <span
+                        class="font-weight-bold d-inline-block"
+                        :class="{'color-danger': $v.data.attributes.color_id.$error}">Color:</span>
+                      <q-select
+                        :disable='!isUpdate'
+                        v-model="data.attributes.color_id"
+                        class="q-mb-lg uppercase"
+                        placeholder="Color"
+                        :options="$store.state.data.types_colors">
+                      </q-select>
+                    </q-field>
+                  </div>
+                  <div class="col-md-2 q-mt-md q-pl-lg" v-if="inspection_statues.initial == 0">
+                    <colorComponent/>
+                  </div>
+                </div>
                 
                 <q-field :error="$v.data.attributes.type_fuel.$error">
-                                    <span class="font-weight-bold d-inline-block"
-                                          :class="{'color-danger': $v.data.attributes.type_fuel.$error}">Tipo de combustible:</span>
-                  <q-select :disable='!isUpdate' v-model="data.attributes.type_fuel" class="q-mb-lg uppercase" placeholder="Tipo de combustible"
-                            :options="$store.state.data.types_fuels"/>
+                  <span
+                    class="font-weight-bold d-inline-block"
+                    :class="{'color-danger': $v.data.attributes.type_fuel.$error}">
+                    Tipo de combustible:
+                  </span>
+                  <q-select
+                    :disable='!isUpdate'
+                    v-model="data.attributes.type_fuel"
+                    class="q-mb-lg uppercase"
+                    placeholder="Tipo de combustible"
+                    :options="$store.state.data.types_fuels"/>
                 </q-field>
                 
                 <q-field :error="$v.data.attributes.vin_number.$error">
-                                    <span class="font-weight-bold d-inline-block"
-                                          :class="{'color-danger': $v.data.attributes.vin_number.$error}">N°Vin:</span>
-                  <q-input :disable='!isUpdate' v-model="data.attributes.vin_number" type="text" placeholder="N°Vin:" class="q-mb-lg"/>
+                  <span
+                    class="font-weight-bold d-inline-block"
+                    :class="{'color-danger': $v.data.attributes.vin_number.$error}">
+                    N°Vin:
+                  </span>
+                  <q-input
+                    :disable='!isUpdate'
+                    v-model="data.attributes.vin_number"
+                    type="text"
+                    placeholder="N°Vin:"
+                    class="q-mb-lg"/>
                 </q-field>
                 
                 <q-field :error="$v.data.attributes.chasis_number.$error">
-                                    <span class="font-weight-bold d-inline-block"
-                                          :class="{'color-danger': $v.data.attributes.chasis_number.$error}">N° de Chasis:</span>
-                  <q-input :disable='!isUpdate' v-model="data.attributes.chasis_number" type="text" placeholder="N° de Chasis" class="q-mb-lg"/>
+                  <span
+                    class="font-weight-bold d-inline-block"
+                    :class="{'color-danger': $v.data.attributes.chasis_number.$error}">
+                    N° de Chasis:
+                  </span>
+                  <q-input
+                    :disable='!isUpdate'
+                    v-model="data.attributes.chasis_number"
+                    type="text"
+                    placeholder="N° de Chasis"
+                    class="q-mb-lg"/>
                 </q-field>
                 
                 <q-field :error="$v.data.attributes.engine_number.$error">
-                                    <span class="font-weight-bold d-inline-block"
-                                          :class="{'color-danger': $v.data.attributes.engine_number.$error}">N° de Motor:</span>
-                  <q-input :disable='!isUpdate' v-model="data.attributes.engine_number" type="text" placeholder="N° de Motor" class="q-mb-lg"/>
+                  <span
+                    class="font-weight-bold d-inline-block"
+                    :class="{'color-danger': $v.data.attributes.engine_number.$error}">
+                    N° de Motor:
+                  </span>
+                  <q-input
+                    :disable='!isUpdate'
+                    v-model="data.attributes.engine_number"
+                    type="text"
+                    placeholder="N° de Motor"
+                    class="q-mb-lg"/>
                 </q-field>
                 
                 <q-field :error="$v.data.attributes.displacement.$error">
-                                    <span class="font-weight-bold d-inline-block"
-                                          :class="{'color-danger': $v.data.attributes.displacement.$error}">Cilindraje:</span>
-                  <q-input :disable='!isUpdate' v-model="data.attributes.displacement" type="text" placeholder="Cilindraje" class="q-mb-lg"/>
+                  <span
+                    class="font-weight-bold d-inline-block"
+                    :class="{'color-danger': $v.data.attributes.displacement.$error}">
+                    Cilindraje:
+                  </span>
+                  <q-input
+                    :disable='!isUpdate'
+                    v-model="data.attributes.displacement"
+                    type="text"
+                    placeholder="Cilindraje"
+                    class="q-mb-lg"/>
                 </q-field>
                 
                 <q-field :error="$v.data.attributes.axes_number.$error">
-                                    <span class="font-weight-bold d-inline-block"
-                                          :class="{'color-danger': $v.data.attributes.axes_number.$error}">Numero de ejes:</span>
-                  <q-input :disable='!isUpdate' v-model="data.attributes.axes_number" type="text" placeholder="Numero de ejes" class="q-mb-lg"/>
+                  <span
+                    class="font-weight-bold d-inline-block"
+                    :class="{'color-danger': $v.data.attributes.axes_number.$error}">
+                    Numero de ejes:
+                  </span>
+                  <q-input
+                    :disable='!isUpdate'
+                    v-model="data.attributes.axes_number"
+                    type="text"
+                    placeholder="Numero de ejes"
+                    class="q-mb-lg"/>
                 </q-field>
+                
               </div>
             </div>
             
             <div class="col-12 q-py-md" >
               <div class="row">
+                
                 <div class="col-12 col-md-6 q-px-md print-col-6">
                   <q-field :error="$v.data.pin.$error">
-                                            <span class="font-weight-bold d-inline-block"
-                                                  :class="{'color-danger': $v.data.pin.$error}">Pin:</span>
-                    <q-input :disable='!isUpdate' v-model="data.pin" type="text" placeholder="Pin" class="q-mb-lg"/>
+                    <span
+                      class="font-weight-bold d-inline-block"
+                      :class="{'color-danger': $v.data.pin.$error}">
+                      Pin:
+                    </span>
+                    <q-input
+                      :disable='!isUpdate'
+                      v-model="data.pin"
+                      type="text"
+                      placeholder="Pin"
+                      class="q-mb-lg"/>
                   </q-field>
                 </div>
+                
                 <div class="col-12 col-md-6 q-px-md print-col-6">
-                  <q-field :error="$v.data.invoice_num.$error">
-                                            <span class="font-weight-bold d-inline-block"
-                                                  :class="{'color-danger': $v.data.invoice_num.$error}">Factura:</span>
+                  <q-field
+                    :error="$v.data.invoice_num.$error">
+                    <span
+                      class="font-weight-bold d-inline-block"
+                      :class="{'color-danger': $v.data.invoice_num.$error}">
+                      Factura:
+                    </span>
                     <q-input :disable='!isUpdate' v-model="data.invoice_num" type="text" placeholder="Factura" class="q-mb-lg"/>
                   </q-field>
                 </div>
+                
               </div>
             </div>
             
@@ -543,9 +680,9 @@
                   <div class="col-12 col-sm-6">
                     <div class="row">
                       <div class="col-12 q-my-sm q-px-md">
-                                                <span class="font-weight-bold q-mb-sm d-block">
-                                                    <span>Certificado:</span>
-                                                </span>
+                        <span class="font-weight-bold q-mb-sm d-block">
+                            <span>Certificado:</span>
+                        </span>
                         <div>
                           <q-field class="q-my-xs">
                             <q-input v-model="data.certificado" type="number" min="0" placeholder="Certificado" class="bg-white q-my-sm" />
@@ -565,24 +702,26 @@
                         <h5 class="border-bottom q-my-sm">TECNOMECANICA</h5>
                       </div>
                       <q-field :error="$v.data.attributes.tecnomecanica_expedition.$error" class="col-6 col-sm-4 q-px-md">
-                                                <span class="font-weight-bold d-inline-block"
-                                                      :class="{'color-danger': $v.data.attributes.tecnomecanica_expedition.$error }">Fecha Fin De Vigencia:</span>
-                        <q-datetime v-model.trim="data.attributes.tecnomecanica_expedition"
-                                    placeholder="Fecha Fin De Vigencia"
-                                    type="date"
-                                    class="q-mb-lg"
-                                    format="YYYY-MM-DD"/>
+                        <span class="font-weight-bold d-inline-block"
+                              :class="{'color-danger': $v.data.attributes.tecnomecanica_expedition.$error }">Fecha Fin De Vigencia:</span>
+                        <q-datetime
+                          v-model.trim="data.attributes.tecnomecanica_expedition"
+                          placeholder="Fecha Fin De Vigencia"
+                          type="date"
+                          class="q-mb-lg"
+                          format="YYYY-MM-DD"/>
                       </q-field>
                       </q-field>
                       
                       <q-field :error="$v.data.attributes.tecnomecanica_expiration.$error" class="col-6 col-sm-4 q-px-md">
-                                                <span class="font-weight-bold d-inline-block"
-                                                      :class="{'color-danger': $v.data.attributes.tecnomecanica_expiration.$error }">Fecha de Expedición:</span>
-                        <q-datetime v-model.trim="data.attributes.tecnomecanica_expiration"
-                                    placeholder="Fecha de Expedición"
-                                    type="date"
-                                    class="q-mb-lg"
-                                    format="YYYY-MM-DD"/>
+                        <span class="font-weight-bold d-inline-block"
+                              :class="{'color-danger': $v.data.attributes.tecnomecanica_expiration.$error }">Fecha de Expedición:</span>
+                        <q-datetime
+                          v-model.trim="data.attributes.tecnomecanica_expiration"
+                          placeholder="Fecha de Expedición"
+                          type="date"
+                          class="q-mb-lg"
+                          format="YYYY-MM-DD"/>
                       </q-field>
                       </q-field>
                     </div>
@@ -690,19 +829,35 @@
 </template>
 
 <script>
+  
   import { required, email, minLength, sameAs, requiredIf, requiredUnless} from 'vuelidate/lib/validators';
-  import qInputValidation from '../../../components/q-input-validation';
-  import qGallery from '../../../components/q-gallery';
-  import VueSignaturePad from 'vue-signature-pad';
-  import { Carousel, Slide } from 'vue-carousel'
   import { Printd } from 'printd'
   import userService from 'src/services/users'
+  
+  import VueSignaturePad from 'vue-signature-pad';
+  import qInputValidation from 'src/components/q-input-validation';
+  import colorComponent from 'src/components/vehicles/colors/create'
+  import brandComponent from 'src/components/vehicles/brands/create'
+  import lineComponent from 'src/components/vehicles/lines/create'
+  import qGallery from 'src/components/q-gallery';
+  import { Carousel, Slide } from 'vue-carousel'
 
   export default {
     name: 'PageData',
-    components: { qInputValidation, qGallery, VueSignaturePad, Carousel, Slide },
+    components: {
+      qInputValidation,
+      qGallery,
+      VueSignaturePad,
+      Carousel,
+      Slide,
+      colorComponent,
+      brandComponent,
+      lineComponent,
+    },
     data () {
       return {
+        SelectLines:[],
+        
         userData: {},
         status:'',
 
@@ -795,6 +950,7 @@
       }
     },
     created() {
+      this.$root.$on("refreshLines", this.initSelectLines);
       this.$store.commit('data/LOAD_TRUE')
     },
     mounted() {
@@ -808,7 +964,7 @@
       optionsTypesInspectionsStatuesFactured(){
         let res = []
         this.$store.state.data.types_inspections_statues.forEach(state=>{
-          if(state.value == 2 || state.value == 3 || state.value == 4){
+          if(state.value == 3 || state.value == 4){
             res.push(state)
           }
         })
@@ -1113,6 +1269,33 @@
           .catch(error=>{
             console.warn(error)
           })
+      },
+      initSelectLines(brand_id){
+        let filter = {
+          brand: brand_id ? brand_id : this.data.attributes.brand_id
+        }
+        service.getLines(filter)
+          .then(response=>{
+            this.SelectLines = response.data.data.map((color) => { return { label: color.name, value: color.id }})
+          })
+          .catch(error=>{
+            console.warn(error)
+          })
+      },
+      handleChangeBrand(e){
+        let filter = {
+          brand: e
+        }
+        service.getLines(filter)
+        .then(response=>{
+          this.SelectLines = response.data.data.map((color) => { return { label: color.name, value: color.id }})
+        })
+        .catch(error=>{
+          console.warn(error)
+        })
+      },
+      getFurAndState(order){
+      
       }
     }
   }
