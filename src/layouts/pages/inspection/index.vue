@@ -4,6 +4,7 @@
       <inspectorComponent/>
     </div>
     <div v-else>
+      
       <q-page v-show="!$store.state.data.load_inner">
           <div class="layout-padding q-py-lg">
           <div class="row">
@@ -15,10 +16,10 @@
                       <span>Lista de Ordenes </span>
                     </div>
                     <div class="col-md-6">
-                      <q-select 
+                      <q-select
                         placeholder="Seleccionar Orden"
-                        v-model="inspection_statues.status" 
-                        :options="optionsTypesInspectionsStatuesFiltered" 
+                        v-model="inspection_statues.status"
+                        :options="optionsTypesInspectionsStatuesFiltered"
                         class="bg-white q-py-sm q-my-md"/>
                     </div>
                   </div>
@@ -30,7 +31,7 @@
                   :subtitle="item.created_at_date + ' ' + item.created_at_time + ' ID-'+item.id+''"
                   side="right">
                   <div class="border-bottom">
-                    <router-link  :to="{ 
+                    <router-link  :to="{
                               name: 'update.inspection',
                               params: {
                                 inspection: item.id
@@ -60,7 +61,7 @@
                         </q-alert>
                     </div>
             <div class="col-12 d-block q-py-md">
-              <div v-infinite-scroll="loadMore" :infinite-scroll-disabled="$store.getters['inspections/GET_PAGE_BUSY']" infinite-scroll-distance="10"></div> 
+              <div v-infinite-scroll="loadMore" :infinite-scroll-disabled="$store.getters['inspections/GET_PAGE_BUSY']" infinite-scroll-distance="10"></div>
             </div>
           </div>
           </div>
@@ -96,7 +97,7 @@
             if(this.$store.state.auth.userData.permissions['icda.inspections.register']){
               if(state.value == 0 || state.value == 1 || state.value == 2 || state.value == 3 || state.value == 4 ){
                 res.push(state)
-              } 
+              }
             }
             if(this.$store.state.auth.userData.permissions['icda.inspections.checkIn']){
               if(state.value == 1){
@@ -111,6 +112,7 @@
         }
       },
       created() {
+        
         if(this.$store.state.auth.userData.permissions['icda.inspections.checkIn']){
           this.inspection_statues.status = 1
         }
