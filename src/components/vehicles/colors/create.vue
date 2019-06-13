@@ -1,10 +1,11 @@
 <template>
   <div>
-    <q-btn 
+    <q-btn
       @click="modalColor = true"
-      icon="add" 
-      color="primary" 
-      round/>
+      icon="add"
+      color="primary"
+      round>
+    </q-btn>
     <q-modal v-model="modalColor">
       <div class="layout-padding">
         <div class="row">
@@ -12,9 +13,10 @@
             <q-field
               :error="this.$v.form.nameColor.$error"
               error-label="Dato requerido">
-              <q-input 
-                v-model="form.nameColor" 
-                float-label="Color" />
+              <q-input
+                v-model="form.nameColor"
+                float-label="Color" >
+              </q-input>
             </q-field>
           </div>
           <div class="col-md-12">
@@ -22,7 +24,8 @@
               class="full-width"
               color="primary"
               @click="saveColor()"
-              label="Guardar"/>
+              label="Guardar">
+            </q-btn>
           </div>
         </div>
       </div>
@@ -53,7 +56,7 @@
         if (this.$v.form.nameColor.$error) {
           this.$q.notify({
             message: 'Por favor revise los campos de nuevo.',
-            position: 'top-right', 
+            position: 'top-right',
             closeBtn: true})
           return
         }
