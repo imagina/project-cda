@@ -680,8 +680,9 @@
                                                     :options="optionsTypesInspectionsStatuesAwait"
                                                     placeholder="Status"
                                                     class="bg-white pull-left q-mx-sm q-select-app"
-                                                    style="width: 110px"/>
+                                                    style="width: 210px"/>
                                                 <q-btn
+                                                    v-if="this.inspection_statues.change"
                                                     color="black"
                                                     size="md"
                                                     label="Guardar"
@@ -1009,8 +1010,8 @@
     		  // this.d.print( this.$el, [this.cssText])
     		},
             submitSave() {
-    
-                if(this.inspection_statues.status == 1){
+            
+                if(this.inspection_statues.initial == 1){
                     if(this.confirmPin != this.data.pin){
                         this.$q.notify({
                             message: 'El campo Pin y Pin Confirmación no coinciden',
@@ -1021,6 +1022,7 @@
                         return
                     }
                 }
+        
                 
                 this.$v.data.$touch()
                 this.$store.commit('data/LOAD_TRUE')
