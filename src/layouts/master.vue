@@ -99,7 +99,6 @@
         value = value + "";
         return (value.toString().length < length) ? this.PadLeft("0" + value, length) : value
       },
-
       //
       getTypesVehicles(){
         this.$q.loading.show()
