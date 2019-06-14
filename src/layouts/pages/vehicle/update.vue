@@ -61,7 +61,9 @@
                     Marca:
                   </span>
                   <q-select
-                  @input="handleChangeBrand(attributes.brand_id)"
+                    filter
+                    filter-placeholder="Buscar"
+                    @input="handleChangeBrand(attributes.brand_id)"
                     v-model="attributes.brand_id"
                     class="q-mb-lg uppercase"
                     placeholder="Marca"
@@ -83,6 +85,8 @@
                     class="font-weight-bold d-inline-block"
                     :class="{'color-danger': $v.attributes.line_id.$error}">Línea:</span>
                   <q-select
+                    filter
+                    filter-placeholder="Buscar"
                     v-model="attributes.line_id"
                     class="q-mb-lg uppercase" placeholder="Line"
                     :options="SelectLines"/>
@@ -138,6 +142,8 @@
                     class="font-weight-bold d-inline-block"
                     :class="{'color-danger': $v.attributes.color_id.$error}">Color:</span>
                   <q-select
+                    filter
+                    filter-placeholder="Buscar"
                     v-model="attributes.color_id"
                     class="q-mb-lg uppercase"
                     placeholder="Color"

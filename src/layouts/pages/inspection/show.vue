@@ -173,6 +173,8 @@
                                                     <span class="font-weight-bold d-inline-block"
                                                         :class="{'color-danger': $v.data.attributes.brand_id.$error}">Marca:</span>
                                                     <q-select
+                                                      filter
+                                                      filter-placeholder="Buscar"
                                                         @input="handleChangeBrand(data.attributes.brand_id)"
                                                         :disable='!isUpdate'
                                                         v-model="data.attributes.brand_id"
@@ -193,6 +195,8 @@
                                                 <span class="font-weight-bold d-inline-block"
                                                     :class="{'color-danger': $v.data.attributes.line_id.$error}">Línea:</span>
                                                 <q-select
+                                                  filter
+                                                  filter-placeholder="Buscar"
                                                     :disable='!isUpdate'
                                                     v-model="data.attributes.line_id"
                                                     class="q-mb-lg uppercase"
@@ -236,7 +240,9 @@
                                         <q-field :error="$v.data.attributes.color_id.$error">
                                             <span class="font-weight-bold d-inline-block"
                                                 :class="{'color-danger': $v.data.attributes.color_id.$error}">Color:</span>
-                                            <q-select :disable='!isUpdate' v-model="data.attributes.color_id" class="q-mb-lg uppercase" placeholder="Color" :options="$store.state.data.types_colors"/>
+                                            <q-select  filter
+                                                       filter-placeholder="Buscar"
+                                                       :disable='!isUpdate' v-model="data.attributes.color_id" class="q-mb-lg uppercase" placeholder="Color" :options="$store.state.data.types_colors"/>
                                         </q-field>
                                     </div>
                                     <div class="col-md-2 q-mt-md q-pl-lg" v-if="inspection_statues.initial == 0">

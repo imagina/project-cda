@@ -12,10 +12,10 @@
       <div class="row q-py-md border-bottom">
         <div class="col-12 col-md-6 col-lg-4 mx-auto q-px-md">
           <q-field>
-            <q-input 
+            <q-input
               type="text"
               v-model="board"
-              placeholder="Placa del Vehículo" 
+              placeholder="Placa del Vehículo"
               class="bg-white mx-auto"
               v-on:keyup.enter="searchBoard"
 
@@ -33,54 +33,56 @@
           <q-field :error="$v.attributes.board.$error">
             <span class="font-weight-bold d-inline-block"
               :class="{'color-danger': $v.attributes.board.$error}">Placa:</span>
-            <q-input 
+            <q-input
               readonly
-              v-model="attributes.board" 
-              type="text" 
-              placeholder="Placa" 
+              v-model="attributes.board"
+              type="text"
+              placeholder="Placa"
               class="q-mb-lg uppercase"/>
           </q-field>
           <q-field :error="$v.attributes.service_type.$error">
-            <span 
+            <span
               class="font-weight-bold d-inline-block"
               :class="{'color-danger': $v.attributes.service_type.$error}">
               Tipo de Servicio:
             </span>
-            <q-select 
-              v-model="attributes.service_type" 
-              class="q-mb-lg uppercase" 
-              placeholder="Tipo de Servicio" 
+            <q-select
+              v-model="attributes.service_type"
+              class="q-mb-lg uppercase"
+              placeholder="Tipo de Servicio"
               :options="$store.getters['data/GET_TYPES_SERVICES']"/>
           </q-field>
           <q-field :error="$v.attributes.type_vehicle.$error">
-            <span 
+            <span
               class="font-weight-bold d-inline-block"
               :class="{'color-danger': $v.attributes.type_vehicle.$error}">
               Tipo de Vehículo
             </span>
-            <q-select 
+            <q-select
               :disable="false"
-              v-model="attributes.type_vehicle" 
-              class="q-mb-lg uppercase" 
-              placeholder="Tipo de Vehículo" 
+              v-model="attributes.type_vehicle"
+              class="q-mb-lg uppercase"
+              placeholder="Tipo de Vehículo"
               :options="$store.getters['data/GET_TYPES_VEHICLES']"/>
           </q-field>
 
           
             <div class="row">
               <div class="col-md-10">
-                <q-field 
+                <q-field
                   :error="$v.attributes.brand_id.$error">
-                  <span 
+                  <span
                     class="font-weight-bold d-inline-block"
                     :class="{'color-danger': $v.attributes.brand_id.$error}">
                     Marca:
                   </span>
-                  <q-select 
+                  <q-select
+                    filter
+                    filter-placeholder="Buscar"
                     @input="handleChangeBrand(attributes.brand_id)"
-                    v-model="attributes.brand_id" 
-                    class="q-mb-lg uppercase" 
-                    placeholder="Marca" 
+                    v-model="attributes.brand_id"
+                    class="q-mb-lg uppercase"
+                    placeholder="Marca"
                     :options="$store.state.data.types_brands"/>
                 </q-field>
               </div>
@@ -89,17 +91,18 @@
               </div>
             </div>
 
-
             <div class="row">
               <div class="col-md-10">
-                <q-field 
+                <q-field
                   :error="$v.attributes.line_id.$error">
-                  <span 
+                  <span
                     class="font-weight-bold d-inline-block"
                     :class="{'color-danger': $v.attributes.line_id.$error}">Línea:</span>
-                  <q-select 
-                    v-model="attributes.line_id" 
-                    class="q-mb-lg uppercase" placeholder="Line" 
+                  <q-select
+                    filter
+                    filter-placeholder="Buscar"
+                    v-model="attributes.line_id"
+                    class="q-mb-lg uppercase" placeholder="Line"
                     :options="SelectLines"/>
                 </q-field>
               </div>
@@ -110,36 +113,36 @@
 
 
           <q-field :error="$v.attributes.model.$error">
-            <span 
+            <span
               class="font-weight-bold d-inline-block"
               :class="{'color-danger': $v.attributes.model.$error}">
                 Modelo:
               </span>
-            <q-select 
-              v-model="attributes.model" 
+            <q-select
+              v-model="attributes.model"
               class="q-mb-lg uppercase"
-              placeholder="Modelo" 
+              placeholder="Modelo"
               :options="$store.getters['data/GET_TYPES_MODELS']"/>
           </q-field>
           <q-field :error="$v.attributes.transit_license.$error">
-            <span 
+            <span
               class="font-weight-bold d-inline-block"
               :class="{'color-danger': $v.attributes.transit_license.$error}">
               N° Licencia de Tránsito:
             </span>
-            <q-input 
-              v-model="attributes.transit_license" 
-              type="text" 
-              placeholder="N° Licencia de Tránsito" 
+            <q-input
+              v-model="attributes.transit_license"
+              type="text"
+              placeholder="N° Licencia de Tránsito"
               class="q-mb-lg uppercase"/>
           </q-field>
           <q-field :error="$v.attributes.enrollment_date.$error">
-            <span 
+            <span
               class="font-weight-bold d-inline-block"
               :class="{'color-danger': $v.attributes.enrollment_date.$error}">
               Fecha de Matrícula:
             </span>
-            <q-datetime 
+            <q-datetime
               v-model.trim="attributes.enrollment_date"
               type="date"
               class="q-mb-lg"
@@ -153,13 +156,15 @@
             <div class="row">
               <div class="col-sm-10">
                 <q-field :error="$v.attributes.color_id.$error">
-                  <span 
+                  <span
                     class="font-weight-bold d-inline-block"
                     :class="{'color-danger': $v.attributes.color_id.$error}">Color:</span>
-                  <q-select 
-                    v-model="attributes.color_id" 
-                    class="q-mb-lg uppercase" 
-                    placeholder="Color" 
+                  <q-select
+                    filter
+                    filter-placeholder="Buscar"
+                    v-model="attributes.color_id"
+                    class="q-mb-lg uppercase"
+                    placeholder="Color"
                     :options="$store.state.data.types_colors"/>
                 </q-field>
               </div>
@@ -169,54 +174,54 @@
             </div>
 
           <q-field :error="$v.attributes.type_fuel.$error">
-            <span 
+            <span
               class="font-weight-bold d-inline-block"
               :class="{'color-danger': $v.attributes.type_fuel.$error}">
               Tipo de combustible:
             </span>
             
-            <q-select 
+            <q-select
               :disable="false"
-              v-model="attributes.type_fuel" 
-              class="q-mb-lg uppercase" 
+              v-model="attributes.type_fuel"
+              class="q-mb-lg uppercase"
               placeholder="Tipo de combustible"
               :options="$store.getters['data/GET_TYPES_FUELS']"/>
           </q-field>
           
           <q-field :error="$v.attributes.vehicle_class.$error">
-            <span 
+            <span
               class="font-weight-bold d-inline-block"
               :class="{'color-danger': $v.attributes.vehicle_class.$error}">
               Clase de vehícilo:
             </span>
-            <q-select 
+            <q-select
               :disable="false"
-              v-model="attributes.vehicle_class" 
-              class="q-mb-lg uppercase" 
+              v-model="attributes.vehicle_class"
+              class="q-mb-lg uppercase"
               placeholder="Clase de vehícilo"
               :options="$store.getters['data/GET_CLASS_VEHICLES']"/>
           </q-field>
           <q-field :error="$v.attributes.vin_number.$error">
-            <span 
+            <span
               class="font-weight-bold d-inline-block"
               :class="{'color-danger': $v.attributes.vin_number.$error}">
               N°Vin:
             </span>
-            <q-input 
-              v-model="attributes.vin_number" 
-              type="text" 
+            <q-input
+              v-model="attributes.vin_number"
+              type="text"
               placeholder="N°Vin:" class="q-mb-lg"/>
           </q-field>
           <q-field :error="$v.attributes.chasis_number.$error">
-            <span 
+            <span
               class="font-weight-bold d-inline-block"
               :class="{'color-danger': $v.attributes.chasis_number.$error}">
               N° de Chasis:
             </span>
-            <q-input 
-              v-model="attributes.chasis_number" 
-              type="text" 
-              placeholder="N° de Chasis" 
+            <q-input
+              v-model="attributes.chasis_number"
+              type="text"
+              placeholder="N° de Chasis"
               class="q-mb-lg"/>
           </q-field>
           <q-field :error="$v.attributes.engine_number.$error">
@@ -224,9 +229,9 @@
               :class="{'color-danger': $v.attributes.engine_number.$error}">
               N° de Motor:
             </span>
-            <q-input 
-              v-model="attributes.engine_number" 
-              type="text" placeholder="N° de Motor" 
+            <q-input
+              v-model="attributes.engine_number"
+              type="text" placeholder="N° de Motor"
               class="q-mb-lg"/>
           </q-field>
           <q-field :error="$v.attributes.displacement.$error">
@@ -234,10 +239,10 @@
               :class="{'color-danger': $v.attributes.displacement.$error}">
               Cilindraje:
             </span>
-            <q-input 
-              v-model="attributes.displacement" 
-              type="text" 
-              placeholder="Cilindraje" 
+            <q-input
+              v-model="attributes.displacement"
+              type="text"
+              placeholder="Cilindraje"
               class="q-mb-lg"/>
           </q-field>
           <q-field :error="$v.attributes.axes_number.$error">
@@ -245,10 +250,10 @@
               :class="{'color-danger': $v.attributes.axes_number.$error}">
               Numero de ejes:
             </span>
-            <q-input 
-              v-model="attributes.axes_number" 
-              type="text" 
-              placeholder="Numero de ejes" 
+            <q-input
+              v-model="attributes.axes_number"
+              type="text"
+              placeholder="Numero de ejes"
               class="q-mb-lg"/>
           </q-field>
         </div>
@@ -259,25 +264,25 @@
                 SOAT
               </h5>
             </div>
-            <q-field 
-              :error="$v.attributes.insurance_expedition.$error" 
+            <q-field
+              :error="$v.attributes.insurance_expedition.$error"
               class="col-6 col-sm-6 q-px-md">
-              <span 
+              <span
                 class="font-weight-bold d-inline-block"
                 :class="{'color-danger': $v.attributes.insurance_expedition.$error}">
                 Fecha de Expedición:
               </span>
-              <q-datetime 
+              <q-datetime
                 v-model.trim="attributes.insurance_expedition"
                 placeholder="Fecha de Expedición"
                 type="date"
                 class="q-mb-lg"
                 format="YYYY-MM-DD"/>
             </q-field>
-            <q-field 
-              :error="$v.attributes.insurance_expiration.$error" 
+            <q-field
+              :error="$v.attributes.insurance_expiration.$error"
               class="col-6 col-sm-6 q-px-md">
-              <span 
+              <span
                 class="font-weight-bold d-inline-block"
                 :class="{'color-danger': $v.attributes.insurance_expiration.$error}">
                 Fecha Fin De Vigencia:
@@ -297,26 +302,26 @@
                 TECNICOMECÁNICA
               </h5>
             </div>
-            <q-field 
+            <q-field
               class="col-6 col-sm-6 q-px-md">
-              <span 
+              <span
                 class="font-weight-bold d-inline-block">
                 Fecha de Expedición:
               </span>
-              <q-datetime 
+              <q-datetime
               v-model.trim="attributes.tecnomecanica_expedition"
                 placeholder="Fecha de Expedición"
                 type="date"
                 class="q-mb-lg"
                 format="YYYY-MM-DD"/>
             </q-field>
-            <q-field 
+            <q-field
               class="col-6 col-sm-6 q-px-md">
-              <span 
+              <span
                 class="font-weight-bold d-inline-block">
                 Fecha Fin De Vigencia:
               </span>
-              <q-datetime 
+              <q-datetime
                 v-model.trim="attributes.tecnomecanica_expiration"
                 placeholder="Fecha Fin De Vigencia"
                 type="date"
@@ -421,8 +426,8 @@
       if (this.$v.attributes.$error) {
         this.$store.commit('data/LOAD_FALSE')
         this.$q.notify({
-          message: 'Por favor revise los campos de nuevo.',  
-          position: 'top-right', 
+          message: 'Por favor revise los campos de nuevo.',
+          position: 'top-right',
           closeBtn: true})
         return
       } else {
@@ -435,19 +440,19 @@
         resources.createVehicle(attributes)
         .then(response => {
           if (response.data) {
-            this.$router.push({ 
-              name: 'vehicles.index' 
+            this.$router.push({
+              name: 'vehicles.index'
             })
           }else {
             this.$q.notify({
-              message: 'Ocurrio algo inesperado.',  
-              position: 'top-right', 
+              message: 'Ocurrio algo inesperado.',
+              position: 'top-right',
               closeBtn: true})
           }
         }).catch(error => {
           this.$q.notify({
-            message: 'Ocurrio algo inesperado.',  
-            position: 'top-right', 
+            message: 'Ocurrio algo inesperado.',
+            position: 'top-right',
             closeBtn: true})
         })
         .then(() => {
@@ -463,7 +468,7 @@
         this.$store.commit('data/LOAD_FALSE')
         this.$q.notify({
           message: 'Por favor revise los campos de nuevo.',
-          position: 'top-right', 
+          position: 'top-right',
           closeBtn: true})
         return
       } else {
@@ -473,18 +478,18 @@
             this.vehicleExist = true
           }else{
             this.$q.notify({
-              icon:'error', 
+              icon:'error',
               message: 'La placa ya se encuentra registrada',
-              position: 'top-right', 
+              position: 'top-right',
               closeBtn: true})
           }
           this.$store.commit('data/LOAD_FALSE')
         })
         .catch(error=>{
           this.$q.notify({
-            icon:'error', 
+            icon:'error',
             message: 'Ha ocurrido un Error Inesperado',
-            position: 'top-right', 
+            position: 'top-right',
             closeBtn: true})
           this.$store.commit('data/LOAD_FALSE')
         })
