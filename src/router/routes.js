@@ -32,6 +32,11 @@ Route.view('/', 'master')
         meta: { permission: 'icda.vehicles.edit'},
         guard: access
       }),
+      Route.view('/vehicles2', 'pages/vehicle/index2').options({
+          name: 'vehicles.index.test',
+          meta: { permission: 'icda.vehicles.edit'},
+          guard: access
+      }),
       Route.view('/vehicles/create', 'pages/vehicle/create').options({
         name: 'vehicles.create',
         meta: {permission: 'icda.vehicles.create'},
