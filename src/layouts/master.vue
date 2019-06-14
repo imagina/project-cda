@@ -104,7 +104,6 @@
         this.$q.loading.show()
         resources.getTypesVehicles()
         .then(response=>{
-            console.warn(response)
           let typesVehicles = []
           for(let element in response.data.data){
             if(parseInt(element) == 3){
