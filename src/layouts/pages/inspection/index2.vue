@@ -18,23 +18,39 @@
           <template slot="top" slot-scope="props">
             <div class="row full-width">
       
-              <div class="col-12 col-md-6 q-mt-sm">
-                <div class="col-12 col-md-6">
+              <div class="col-md-12">
+                
+                <div class="col-md-12 ">
                   <!-- Table Title -->
                   <h1 class="q-headline text-dark">
                     Lista de Ordenes
                   </h1>
                   <!-- Table Filter-->
-                  <div class="col-12 q-mt-sm">
+                  <div class="row gutter-x-md gutter-y-sm">
                     <!--By Estado-->
-                    <div class="cont-vue-tree">
+                    <div class="col-xs-12 col-md-6">
                       <q-select
                         @input="getDataTable()"
                         placeholder="Seleccionar Orden"
                         v-model="table.filter.inspection_status"
                         :options="optionsTypesInspectionsStatuesFiltered"
-                        class="bg-white q-py-sm q-my-md"/>
+                        class="bg-white "/>
                     </div>
+                    
+                    <div class="col-xs-12 col-md-6">
+                      <q-search
+                        placeholder="Buscar Por Placa"
+                        inverted
+                        :debounce="750"
+                        color="white"
+                        class="text-dark w-100 uppercase"
+                        hide-underline
+                        clearable
+                        v-model="table.filter.board"
+                        @input="getDataTable()"></q-search>
+                    </div>
+                    
+                    
                   </div>
                 </div>
               </div>
@@ -48,7 +64,7 @@
             :props="props">
             <div>
               <div>
-        
+                
                 <router-link
                   tag="div"
                   class="row gutter-x-md"
@@ -57,7 +73,7 @@
                   <div class="col-md-0 flex flex-center">
                     <q-icon name="fas fa-circle"></q-icon>
                   </div>
-                  <div class="col-md-2">
+                  <div class="col-xs-6 col-md-2">
   
                     <div
                       :style="`background-image: url(${getUrlImage(props.row.gallery)});`"
@@ -71,7 +87,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-4 q-py-lg">
+                  <div class="col-xs-6 col-md-4 q-py-lg">
                     {{props.row.created_at_date+' '+props.row.created_at_time}} <br>
                     Tipo de Servicio: <b>{{ props.row.vehicle.service_type_text | uppercase }}</b> <br>
                     Tipo de Vehiculo: <b>{{ props.row.vehicle.type_vehicle_text | uppercase }}</b> <br>
@@ -125,7 +141,7 @@
           },
           filter:{
             board: null,
-            inspection_status: 0,
+            inspection_status: null,
           },
         },
         loading:false,
@@ -144,7 +160,12 @@
     },
     computed:{
       optionsTypesInspectionsStatuesFiltered(){
-        let res = []
+        let res = [
+          {
+            "label": "Todos",
+            "value": null
+          },
+        ]
         this.$store.state.data.types_inspections_statues.forEach(state=>{
           if(this.$store.state.auth.userData.permissions['icda.inspections.register']){
             if(state.value == 0 || state.value == 1 || state.value == 2 || state.value == 3 || state.value == 4 ){
