@@ -22,7 +22,7 @@ Route.view('/', 'master')
         meta: { permission: 'icda.inspections.edit' },
         guard: access
       }),
-      Route.view('/inspections', 'pages/inspection/index').options({
+      Route.view('/inspections', 'pages/inspection/index2').options({
         name: 'inspections',
         meta: { permission: 'icda.inspections.index'},
         guard: access
@@ -32,7 +32,7 @@ Route.view('/', 'master')
           meta: { permission: 'icda.inspections.index'},
           guard: access
       }),
-      Route.view('/vehicles', 'pages/vehicle/index').options({
+      Route.view('/vehicles', 'pages/vehicle/index2').options({
         name: 'vehicles.index',
         meta: { permission: 'icda.vehicles.edit'},
         guard: access
