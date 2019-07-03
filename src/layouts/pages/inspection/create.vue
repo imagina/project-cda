@@ -15,7 +15,7 @@
                 <div class="col-12 col-sm-10 col-md-4 mx-auto q-px-md">
                     <div class="row">
                         <div class="col-12 text-center font-weight-bold">
-                            <p>Datos de la Motocicleta</p>
+                            <p>Datos del Vehículo</p>
                         </div>
                         <div class="col-12">
                             <q-field :error="$v.formSearch.plaque.$error">
@@ -144,11 +144,11 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-12 q-px-md q-border" v-if="!isMotocicleta() && false">
+                            <div class="col-12 q-px-md q-border" v-if="!isMotocicleta()">
                                 <div class="row">
                                     <div class="col-4 col-md-3 col-lg-2 q-mb-lg q-mt-sm">
                                         <i class="material-icons color-danger q-mr-xs" v-show="$v.data.type_vehicle.$error"> error_outline </i>
-                                        <span class="font-weight-bold" :class="{'color-danger': $v.data.type_vehicle.$error}">Tipico de Vehículo:</span>
+                                        <span class="font-weight-bold" :class="{'color-danger': $v.data.type_vehicle.$error}">Tipo de Vehículo:</span>
                                     </div>
                                     <div class="col-8 col-md-9 col-lg-10">
                                         <q-btn-group class="bg-white">
@@ -460,7 +460,7 @@
 
                         <p class="font-weight-bold" :class="{'color-danger':$v.data.vehicle_delivery_signature.$error}">
                             <i class="material-icons color-danger q-mr-xs" v-show="$v.data.vehicle_delivery_signature.$error"> error_outline </i>
-                            Acepto y estoy conforme con el inventario realizado a mí Motocicleta y he leído, entiendo y acepto todas las oservaciones hechas, politicas de inspección, tratamiento de información y conﬁdencialidad.
+                            Acepto y estoy conforme con el inventario realizado a mí Vehículo y he leído, entiendo y acepto todas las oservaciones hechas, politicas de inspección, tratamiento de información y conﬁdencialidad.
                         </p>
                     </div>
                 </div>
@@ -671,7 +671,7 @@
                     return this.is_vehicle_gas
                 })},
                 signature_received_report: { required : requiredIf(function(model) {
-                    return this.showsignature && this.data.seen_technical_director
+                    //return this.showsignature && this.data.seen_technical_director
                 })},
                 vehicle_delivery_signature: { required : requiredIf(function(model) {
                     return this.showsignature
