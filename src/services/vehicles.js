@@ -5,6 +5,27 @@ import {remember} from '@imagina/qhelper/_plugins/remember'
 
 export default {
 
+
+	index(filter, take, page, fields, include) {
+		return new Promise((resolve, reject) => {
+			return http.get( config('api.api_icda') + '/vehicles',{
+				params: {
+					filter: filter,
+					take: take,
+					page: page,
+					fields: fields,
+					include: include
+				}
+			})
+				.then(response => {
+					resolve(response.data);
+				})
+				.catch(error => {
+					reject(error);
+				});
+		});
+	},
+
 	/**
 	 * Listado de vehiculos paginados
 	 * @param  INTEGER page [Página del listado]
@@ -23,7 +44,7 @@ export default {
 
   	/**
   	 * Crea el vehiculo
-  	 * @param  {OBJECT} data 
+  	 * @param  {OBJECT} data
   	 */
   	createVehicle(data) {
 	    let route = config('api.api_icda') + '/vehicles'
@@ -37,7 +58,7 @@ export default {
 	      });
 	    });
   	},
-  
+
   	deleteVehicle(id) {
 	    return new Promise((resolve, reject) => {
 	      return http.delete(config('api.api_icda') + '/vehicles/'+id).then(response => {
@@ -63,7 +84,7 @@ export default {
 
   	/**
   	 * Busca la matricula creando el vehiculo si no existe
-  	 * @param  {string} placa 
+  	 * @param  {string} placa
   	 * @param  {Integer} user_id
   	 */
   	vehicle(board,user_id)  {
@@ -81,7 +102,7 @@ export default {
 
   	/**
   	 * Busca la matricula sin crear el vehiculo si no existe
-  	 * @param  {string} placa 
+  	 * @param  {string} placa
   	 */
   	searchVehicle(board)  {
 	    board = board.toUpperCase();
@@ -98,7 +119,7 @@ export default {
 
   	/**
   	 * Actualizar el vehiculo
-  	 * @param  {Object} attributes 
+  	 * @param  {Object} attributes
   	 */
   	updateVehicle(attributes) {
   		let url = config('api.api_icda') + '/vehicles/'+attributes.id
