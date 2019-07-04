@@ -47,6 +47,7 @@
               Tipo de Servicio:
             </span>
             <q-select
+              filter
               v-model="attributes.service_type"
               class="q-mb-lg uppercase"
               placeholder="Tipo de Servicio"
@@ -59,6 +60,7 @@
               Tipo de Vehículo
             </span>
             <q-select
+              filter
               v-model="attributes.type_vehicle"
               class="q-mb-lg uppercase"
               placeholder="Tipo de Vehículo"
@@ -72,6 +74,7 @@
               Marca:
             </span>
             <q-select
+              filter
               v-model="attributes.brand_id"
               class="q-mb-lg uppercase"
               placeholder="Marca"
@@ -86,6 +89,7 @@
               Línea:
             </span>
             <q-select
+              filter
               v-model="attributes.line_id"
               class="q-mb-lg uppercase"
               placeholder="Line"
@@ -98,6 +102,7 @@
                 Modelo:
               </span>
             <q-select
+              filter
               v-model="attributes.model"
               class="q-mb-lg uppercase"
               placeholder="Modelo"
@@ -137,6 +142,7 @@
               Color:
             </span>
             <q-select
+              filter
               v-model="attributes.color_id"
               class="q-mb-lg uppercase"
               placeholder="Color"
@@ -149,6 +155,7 @@
               Tipo de combustible:
             </span>
             <q-select
+              filter
               v-model="attributes.type_fuel"
               class="q-mb-lg uppercase"
               placeholder="Tipo de combustible"
@@ -161,6 +168,7 @@
               Clase de vehícilo:
             </span>
             <q-select
+              filter
               v-model="attributes.vehicle_class"
               class="q-mb-lg uppercase"
               placeholder="Clase de vehícilo"

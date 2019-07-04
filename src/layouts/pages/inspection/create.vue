@@ -7,7 +7,7 @@
                         TIPO DE INSPECCIÓN:
                     </span>
                     <div class="w-50 d-inline-block">
-                        <q-select v-model="data.inspections_types_id" :options="$store.state.data.types_inspections" class="bg-white q-py-sm q-my-md"/>
+                        <q-select v-model="data.inspections_types_id" filter :options="$store.state.data.types_inspections" class="bg-white q-py-sm q-my-md"/>
                     </div>
                 </div>
             </div>
@@ -330,7 +330,7 @@
                                         <q-radio v-model="pre_inspection.value" :val="false" label="No" class="q-mr-lg"/>
                                     </div>
                                     <div v-else>
-                                        <q-select v-model="pre_inspection.value" :options="pre_inspection.options" :placeholder="pre_inspection.name" class="bg-white q-py-sm q-my-md"/>
+                                        <q-select v-model="pre_inspection.value" filter :options="pre_inspection.options" :placeholder="pre_inspection.name" class="bg-white q-py-sm q-my-md"/>
                                     </div>
                                 </div>
                             </div>

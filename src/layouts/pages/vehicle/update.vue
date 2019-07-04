@@ -17,6 +17,7 @@
                 Tipo de Servicio:
               </span>
 						<q-select
+							filter
 							v-model="attributes.service_type"
 							class="q-mb-lg uppercase"
 							placeholder="Tipo de Servicio"
@@ -31,6 +32,7 @@
                 Tipo de Vehículo
               </span>
 						<q-select
+							filter
 							v-model="attributes.type_vehicle"
 							class="q-mb-lg uppercase"
 							placeholder="Tipo de Vehículo"
@@ -45,6 +47,7 @@
                 Clase de Vehículo
               </span>
 						<q-select
+							filter
 							v-model="attributes.vehicle_class"
 							class="q-mb-lg uppercase"
 							placeholder="Clase de Vehículo"
@@ -61,6 +64,7 @@
                     Marca:
                   </span>
 								<q-select
+									filter
 									@input="handleChangeBrand(attributes.brand_id)"
 									v-model="attributes.brand_id"
 									class="q-mb-lg uppercase"
@@ -83,6 +87,7 @@
 										class="font-weight-bold d-inline-block"
 										:class="{'color-danger': $v.attributes.line_id.$error}">Línea:</span>
 								<q-select
+									filter
 									v-model="attributes.line_id"
 									class="q-mb-lg uppercase" placeholder="Line"
 									:options="SelectLines"/>
@@ -98,7 +103,7 @@
 					<q-field :error="$v.attributes.model.$error">
               <span class="font-weight-bold d-inline-block"
 										:class="{'color-danger': $v.attributes.model.$error}">Modelo:</span>
-						<q-select v-model="attributes.model" class="q-mb-lg uppercase" placeholder="Modelo" :options="$store.state.data.types_models"/>
+						<q-select v-model="attributes.model" class="q-mb-lg uppercase" filter placeholder="Modelo" :options="$store.state.data.types_models"/>
 					</q-field>
 					
 					<q-field :error="$v.attributes.transit_license.$error">
@@ -138,6 +143,7 @@
 										class="font-weight-bold d-inline-block"
 										:class="{'color-danger': $v.attributes.color_id.$error}">Color:</span>
 								<q-select
+									filter
 									v-model="attributes.color_id"
 									class="q-mb-lg uppercase"
 									placeholder="Color"
@@ -152,7 +158,7 @@
 					<q-field :error="$v.attributes.type_fuel.$error">
               <span class="font-weight-bold d-inline-block"
 										:class="{'color-danger': $v.attributes.type_fuel.$error}">Tipo de combustible:</span>
-						<q-select v-model="attributes.type_fuel" class="q-mb-lg uppercase" placeholder="Tipo de combustible"
+						<q-select filter v-model="attributes.type_fuel" class="q-mb-lg uppercase" placeholder="Tipo de combustible"
 											:options="$store.state.data.types_fuels"/>
 					</q-field>
 					
