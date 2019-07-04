@@ -107,9 +107,7 @@
           .then(response=>{
             let typesVehicles = []
             for(let element in response.data.data){
-              if(parseInt(element) == 3){
-                typesVehicles.push({ label: response.data.data[element], value: parseInt(element) })
-              }
+              typesVehicles.push({ label: response.data.data[element], value: parseInt(element) })
             }
             this.$store.commit('data/SET_TYPES_VEHICLES',typesVehicles)
             this.$q.loading.hide()
@@ -166,9 +164,7 @@
           .then(response=>{
             let data = []
             for(let element in response.data.data){
-              if(parseInt(element) == 2){
-                data.push({ label: response.data.data[element], value: parseInt(element) })
-              }
+              data.push({ label: response.data.data[element], value: parseInt(element) })
             }
             this.$store.commit('data/SET_TYPES_FUELS',data)
             this.$q.loading.hide()
