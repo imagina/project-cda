@@ -130,7 +130,7 @@
               v-model.trim="attributes.enrollment_date"
               type="date"
               class="q-mb-lg"
-              placeholder="Fecha de Vencimiento"
+              placeholder="Fecha de Matrícula"
               format="YYYY-MM-DD"/>
           </q-field>
         </div>
@@ -221,12 +221,12 @@
           <q-field :error="$v.attributes.axes_number.$error">
             <span class="font-weight-bold d-inline-block"
               :class="{'color-danger': $v.attributes.axes_number.$error}">
-              Numero de ejes:
+              Numero de Ejes:
             </span>
             <q-input
               v-model="attributes.axes_number"
               type="text"
-              placeholder="Numero de ejes"
+              placeholder="Numero de Ejes"
               class="q-mb-lg"/>
           </q-field>
         </div>
@@ -247,7 +247,7 @@
               </span>
               <q-datetime
                 v-model.trim="attributes.insurance_expedition"
-                placeholder="Fecha Fin De Vigencia"
+                placeholder="Fecha De Expedición"
                 type="date"
                 class="q-mb-lg"
                 format="YYYY-MM-DD"/>
@@ -261,7 +261,7 @@
                 Fecha Fin De Vigencia:
               </span>
               <q-datetime v-model.trim="attributes.insurance_expiration"
-                placeholder="Fecha de Expedición"
+                placeholder="Fecha Fin de Vigencia"
                 type="date"
                 class="q-mb-lg"
                 format="YYYY-MM-DD"/>
