@@ -140,6 +140,10 @@
             rowsPerPage: 10
           },
           filter:{
+            order:{
+              field:'created_at',
+              way:'asc'
+            },
             board: null,
             inspection_status: null,
           },

@@ -48,6 +48,8 @@
                     <!-- SOAP -->
                     <div class="container-fluid bg-gray-10" v-if="user">
                         <div class="row q-py-sm" style="background-color: #88AE3E">
+                            
+                            
                             <div class="col q-px-md text-center">
                                 <div class="q-py-sm q-px-sm">
                                     Cliente: <span class="badge badge-light font-weight-bold">{{ user.first_name + ' ' + user.last_name }}</span>
@@ -58,11 +60,17 @@
                                 <div class="q-py-sm q-px-sm">
                                     Teléfono: <span class="badge badge-light font-weight-bold">{{ user.phone ? user.phone : 'N/D'}}</span>
                                 </div>
+                                <div class="q-py-sm q-px-sm">
+                                    Direccion: <span class="badge badge-light font-weight-bold">{{ user.address ? user.address : 'N/D'}}</span>
+                                </div>
                             </div>
+                            
+                            
+                            
                         </div>
                         <div class="row align-items-center" v-if="data.attributes">
                             <div class="col-12 col-md-3 px-2 py-3 bg-primary text-right">
-                                <span class="h2 font-weight-bold my-3 d-block">SOAT</span>
+                                <span class="h2 font-weight-bold my-3 d-block text-white">SOAT</span>
                             </div>
                             <div class="col-4 col-md-2 mx-auto py-3 text-center">
                                 <p class="font-weight-bold font-famili"><b>Fecha de Expedición</b></p>
@@ -151,24 +159,26 @@
                                         <span class="font-weight-bold" :class="{'color-danger': $v.data.type_vehicle.$error}">Tipo de Vehículo:</span>
                                     </div>
                                     <div class="col-8 col-md-9 col-lg-10">
+                                        
                                         <q-btn-group class="bg-white">
                                             <q-btn label="PESADO"
                                                 @click="data.type_vehicle = 'Heavy'"
-                                                :class="{'bg-primary ' : data.type_vehicle == 'Heavy'}"/>
+                                                :class="data.type_vehicle == 'Heavy' ? 'bg-primary text-white' : ''"/>
 
                                             <q-btn label="LIVIANO"
                                                 @click="data.type_vehicle = 'Light'"
-                                                :class="{'bg-primary ' : data.type_vehicle == 'Light'}"/>
+                                                :class="data.type_vehicle == 'Light' ? 'bg-primary text-white' : ''"/>
 
                                             <q-btn label="MOTOCICLETA"
                                                 @click="data.type_vehicle = 'Motorcycle'"
-                                                :class="{'bg-primary ' : data.type_vehicle == 'Motorcycle'}"/>
+                                                :class="data.type_vehicle == 'Motorcycle' ? 'bg-primary text-white' : ''"/>
 
-                                            <q-btn label="LIVIANO"
+                                            <q-btn label="CARRO" v-if="false"
                                                 @click="data.type_vehicle = 'Car'"
-                                                :class="{'bg-primary ' : data.type_vehicle == 'Car'}"/>
-
+                                                :class="data.type_vehicle == 'Car' ? 'bg-primary text-white' : ''"/>
                                         </q-btn-group>
+                                        
+                                        
                                     </div>
                                 </div>
                             </div>
