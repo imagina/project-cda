@@ -220,9 +220,7 @@
           .then(response=>{
             let data = []
             for(let element in response.data.data){
-              if(element == '10'){
-                data.push({ label: response.data.data[element], value: (element) })
-              }
+              data.push({ label: response.data.data[element], value: (element) })
             }
             this.$store.commit('data/SET_CLASS_VEHICLES',data)
             this.$q.loading.hide()
