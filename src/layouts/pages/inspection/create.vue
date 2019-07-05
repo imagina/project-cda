@@ -333,12 +333,23 @@
                                 <div class="col-12 q-px-md q-mb-md text-center">
                                     <span class="font-weight-bold">Pre-Inspección</span>
                                 </div>
+                              
                                 <div class="col-12 col-sm-6 q-my-md q-px-md" v-for="(pre_inspection,item) in data.pre_inspections">
                                     <span class="d-inline-block font-weight-bold q-mr-lg">{{ pre_inspection.name }}</span>
                                     <div class="d-inline-block" v-if="!pre_inspection.options">
+                                      
+                                      <div v-if="pre_inspection.type == 'text'">
+                                        <q-input type="number" v-model="pre_inspection.value"/>
+                                        
+                                      </div>
+                                      
+                                      <div v-else>
                                         <q-radio v-model="pre_inspection.value" :val="true" label="Si" class="q-mr-lg"/>
                                         <q-radio v-model="pre_inspection.value" :val="false" label="No" class="q-mr-lg"/>
+                                      </div>
+                                      
                                     </div>
+                                    
                                     <div v-else>
                                         <q-select v-model="pre_inspection.value" filter :options="pre_inspection.options" :placeholder="pre_inspection.name" class="bg-white q-py-sm q-my-md"/>
                                     </div>
