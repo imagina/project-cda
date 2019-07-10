@@ -16,7 +16,6 @@ export default ({ Vue, store, router, pusher }) => {
         var channel = vue.$pusher.subscribe('inspections-list');
         channel.bind('inspections', (data) =>  {
 					store.commit('inspections/ADD_INSPECTION_LIST',data.inspection)
-					//console.log(data)
           vue.$q.notify({
             message: data.message,
             position: 'bottom-left',
@@ -28,7 +27,7 @@ export default ({ Vue, store, router, pusher }) => {
                 label: 'VER',
                 noDismiss: true,
                 handler: () => {
-                	router.push({ name: 'update.inspection', params:{inspection: data.inspection_id} })
+                	router.push({ name: 'update.inspection', params:{inspection: data.id} })
                 }
             }]
           })
