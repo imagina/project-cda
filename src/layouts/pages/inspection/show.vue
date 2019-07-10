@@ -1028,8 +1028,7 @@
                         return
                     }
                 }
-        
-                
+              
                 this.$v.data.$touch()
                 this.$store.commit('data/LOAD_TRUE')
                 
