@@ -27,7 +27,7 @@
                                         <i class="material-icons">error_outline</i> El campo es obligatorio.
                                     </p>
                                     <p class="error-message mb-0" v-if="!$v.formSearch.plaque.minLength">
-                                        <i class="material-icons">error_outline</i> Debe contener al menos 6 caracteres.
+                                        <i class="material-icons">error_outline</i> Debe contener al menos 5 caracteres.
                                     </p>
                                 </q-tooltip>
                             </q-field>
@@ -631,7 +631,7 @@
         },
         validations: {
             formSearch: {
-                plaque: { required, minLength: minLength(6)  }
+                plaque: { required, minLength: minLength(5)  }
             },
             data: {
                 type_vehicle: { required },
