@@ -7,7 +7,7 @@
                         TIPO DE INSPECCIÓN:
                     </span>
                     <div class="w-50 d-inline-block">
-                        <q-select v-model="data.inspections_types_id" filter :options="$store.state.data.types_inspections" class="bg-white q-py-sm q-my-md"/>
+                        <q-select v-model="data.inspections_types_id" filter :options="typesReinspectionsFiltered" class="bg-white q-py-sm q-my-md"/>
                     </div>
                 </div>
             </div>
@@ -559,6 +559,27 @@
                 selectItems: [],
                 nextLabel: "<i class='fa fa-chevron-right' aria-hidden='true'></i>",
                 prevLabel: "<i class='fa fa-chevron-left' aria-hidden='true'></i>"
+            }
+        },
+        computed:{
+            typesReinspectionsFiltered(){
+            
+                let res = []
+                this.$store.state.data.types_inspections.forEach(state=>{
+                    if(!this.reinspection){
+                        if(state.value == 1 || state.value == 3){
+                            res.push(state)
+                        }
+                    }
+                
+                    if(this.reinspection){
+                        if(state.value == 2 || state.value == 3){
+                            res.push(state)
+                        }
+                    }
+                
+                })
+                return res
             }
         },
         created() {
