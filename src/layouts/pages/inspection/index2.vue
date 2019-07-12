@@ -171,16 +171,22 @@
         this.$store.state.data.types_inspections_statues.forEach(state=>{
           if(this.$store.state.auth.userData.permissions['icda.inspections.register']){
             if(state.value == 0 || state.value == 1 || state.value == 2 || state.value == 3 || state.value == 4 ){
-              res.push(state)
+              if(!res.find(item=>item.value==state.value)){
+                res.push(state)
+              }
             }
           }
           if(this.$store.state.auth.userData.permissions['icda.inspections.checkIn']){
             if(state.value == 1){
-              res.push(state)
+              if(!res.find(item=>item.value==state.value)){
+                res.push(state)
+              }
             }
           }
           if(this.$store.state.auth.userData.permissions['icda.inspections.all']){
-            res.push(state)
+            if(!res.find(item=>item.value==state.value)){
+              res.push(state)
+            }
           }
         })
           return res
