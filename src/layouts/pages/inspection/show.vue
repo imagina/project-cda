@@ -680,22 +680,21 @@
                                         <div v-else>
                                             <!-- CAMBIOS DE ESTADO PARA EN ESPERA -->
                                             <div v-if="inspection_statues.initial == 0">
+  
+                                              <q-btn color="green"
+                                                     size="md"
+                                                     @click="submitSave"
+                                                     class="q-px-sm q-mr-sm btn-app">
+                                                {{ $store.state.data.types_inspections_statues[1].label }}
+                                              </q-btn>
+                                              <q-btn color="red"
+                                                     size="md"
+                                                     @click="submitSave"
+                                                     class="q-px-lg q-mr-sm btn-app">
+                                                {{ $store.state.data.types_inspections_statues[4].label }}
+                                              </q-btn>
 
-                                                <q-select
-                                                    v-model="inspection_statues.status"
-                                                    :options="optionsTypesInspectionsStatuesAwait"
-                                                    placeholder="Status"
-                                                    class="bg-white pull-left q-mx-sm q-select-app"
-                                                    style="width: 210px"/>
-                                                <q-btn
-                                                    v-if="this.inspection_statues.change"
-                                                    color="black"
-                                                    size="md"
-                                                    label="Guardar"
-                                                    class="q-px-lg q-mr-sm btn-app pull-left"
-                                                    @click="submitSave"/>
-
-                                                
+                                              
                                             </div>
 
                                             <!-- CAMBIOS DE ESTADO PARA REVISADO -->
