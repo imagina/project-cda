@@ -213,7 +213,7 @@
         this.table.pagination.rowsPerPage = pagination.rowsPerPage
         this.loading = false
       }).catch(error=>{
-        this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
+        this.$q.notify({message: 'Ocurrió algo inesperado.',  position: 'top-right', closeBtn: true})
         this.loading = false
       })
     },
