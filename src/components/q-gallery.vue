@@ -1,20 +1,20 @@
 <template>
   <div>
-    <div 
+    <div
       class="d-block q-mt-md q-mb-lg text-right">
-      <q-btn 
-        color="primary" 
-        size="md" 
-        label="Agregar fotografía" 
-        class="q-px-md q-px-xs" 
-        icon="add" 
+      <q-btn
+        color="primary"
+        size="md"
+        label="Agregar fotografía"
+        class="q-mx-md q-px-xs text-white"
+        icon="add"
         @click="openedUploader = true"/>
     </div>
-    <q-modal 
-      v-model="openedUploader" 
+    <q-modal
+      v-model="openedUploader"
       :content-css="{minWidth: '80vw', padding: '25px'}">
       <h4 class="mx-auto">Añadir imagen</h4>
-      <div v-if="$q.platform.is.desktop">
+      <div >
         <q-uploader
           :url="url"
           :auto-expand="true"
@@ -35,30 +35,36 @@
           :alt="'Imagem: ' + imageSrc" id="photo"
         />
       </div>
-      <q-btn 
-        color="dark" 
-        @click="openedUploader = false" 
-        label="Cerrar" 
+      <q-btn
+        color="dark"
+        @click="openedUploader = false"
+        label="Cerrar"
         class="mt-2 q-mr-sm"/>
-      <q-btn 
-        color="red" 
-        @click="addUploader" 
-        label="Añadir" 
-        class="mt-2 mr-2" 
+      <q-btn
+        color="red"
+        @click="addUploader"
+        label="Añadir"
+        class="mt-2 mr-2"
         :disabled="visible"/>
     </q-modal>
   </div>
 </template>
+
 <script>
 
   import resources from 'src/services/resources'
   import config from 'src/config/index'
 
   export default {
-    name: 'q-gallery',
+    name:'galeria',
     props: {
-      'gallery':  { required: true },
-      'code':     { required: false, default: null }
+      gallery:{
+        required: true
+      },
+      code:{
+        required: false,
+        default: null
+      }
     },
     data() {
       return {
@@ -75,16 +81,16 @@
       uploadFile (file, updateProgress) {
         this.visible = true
         this.$resourcesInspections.addImagenGallery(file, this.code)
-        .then(response => {
-          this.gallery.push(response.data.data.url)
-          this.$refs.uploader.reset();
-          this.openedUploader = false
-          this.visible = false
-        })
-        .catch(error => {
-          this.visible = false
-          this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
-        });
+          .then(response => {
+            this.gallery.push(response.data.data.url)
+            this.$refs.uploader.reset();
+            this.openedUploader = false
+            this.visible = false
+          })
+          .catch(error => {
+            this.visible = false
+            this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
+          });
       },
       removeUploader(file) {
         const file64 = file.__img.src;
@@ -99,7 +105,7 @@
         const MAX_FILE_SIZE = 3 * 1024 * 1024 /* =3M */
         return files.filter((file) => {
           if (file.size > MAX_FILE_SIZE) {
-              this.$q.notify({message: 'El archivo debe ser menor o igual a 3M',  position: 'top-right', closeBtn: true})
+            this.$q.notify({message: 'El archivo debe ser menor o igual a 3M',  position: 'top-right', closeBtn: true})
           }
           return file.size <= MAX_FILE_SIZE
         })
@@ -111,18 +117,18 @@
             //alert(this.imageSrc)
 
             //
-          this.$resourcesInspections.addImagenGallery(`data:image/jpeg;base64,${data}`, this.code)
-          .then(response => {
-            this.gallery.push(response.data.data.url)
-            this.$refs.uploader.reset();
-            this.openedUploader = false
-            this.visible = false
-          })
-          .catch(error => {
-            this.visible = false
-            this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
-          });
-          //
+            this.$resourcesInspections.addImagenGallery(`data:image/jpeg;base64,${data}`, this.code)
+              .then(response => {
+                this.gallery.push(response.data.data.url)
+                this.$refs.uploader.reset();
+                this.openedUploader = false
+                this.visible = false
+              })
+              .catch(error => {
+                this.visible = false
+                this.$q.notify({message: 'Ocurrio algo inesperado.',  position: 'top-right', closeBtn: true})
+              });
+            //
 
 
 
