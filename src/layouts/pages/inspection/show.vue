@@ -1154,7 +1154,7 @@
                     this.initSelectLines(parseInt(data.vehicle.brand_id))
                 }).catch(error => {
                     this.$q.notify(
-                            {message: 'Los iento, la inspeccion no se encuentra en nuestra data.',
+                            {message: 'Lo siento, la inspeccion no se encuentra en nuestra data.',
                             position: 'top-right',
                             closeBtn: true
                         })
