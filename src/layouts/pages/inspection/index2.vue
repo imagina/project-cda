@@ -90,7 +90,7 @@
                   <div class="col-xs-6 col-md-4 q-py-lg">
                     {{props.row.created_at_date+' '+props.row.created_at_time}} <br>
                     Tipo de Servicio: <b>{{ props.row.vehicle.service_type_text | uppercase }}</b> <br>
-                    Tipo de Vehiculo: <b>{{ props.row.vehicle.type_vehicle_text | uppercase }}</b> <br>
+                    Tipo de Vehiculo: <b>{{props.row.type_vehicle | uppercase }}</b><br>
                     Cliente: <b>{{ props.row.vehicle.user.fullname | uppercase }}</b> <br>
                     Estado: <b>{{ props.row.inspection_status }}</b> <br>
                   </div>
