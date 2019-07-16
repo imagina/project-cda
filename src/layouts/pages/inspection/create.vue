@@ -9,6 +9,16 @@
                     <div class="w-50 d-inline-block">
                         <q-select v-model="data.inspections_types_id" filter :options="typesReinspectionsFiltered" class="bg-white q-py-sm q-my-md"/>
                     </div>
+    
+                    <div class="w-50 d-inline-block">
+                    </div>
+                    <div class="w-50 d-inline-block" v-if="data.inspections_types_id == 3">
+                        <q-select v-model="data.test" multiple filter chips :options="$store.getters['data/GET_TEST']" class="bg-white q-py-sm q-my-md"/>
+                    </div>
+                    <div v-else v-show="false">
+                        {{data.test=[]}}
+                    </div>
+                    
                 </div>
             </div>
             <div class="row q-py-lg">
@@ -177,7 +187,6 @@
                                                 @click="data.type_vehicle = 'Car'"
                                                 :class="data.type_vehicle == 'Car' ? 'bg-primary text-white' : ''"/>
                                         </q-btn-group>
-                                        
                                         
                                     </div>
                                 </div>
@@ -551,7 +560,8 @@
                     user_id: this.$route.params.user_id,
                     board: null,
                     numero_ruf: null,
-                    certificado: null
+                    certificado: null,
+                    test: [],
                 },
                 user:{},
                 created: false,

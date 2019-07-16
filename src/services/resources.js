@@ -214,4 +214,20 @@ export default {
     const year = new Date().getFullYear()
     return Array.from({length: year - 1980}, (value, index) => ({label: parseInt(year - index).toString(), value: year - index}))
   },
+
+  /**
+   * test (Inspeccion voluntaria)
+   */
+  getTest() {
+    let url = config('api.api_icda') + '/test'
+    return new Promise((resolve, reject) => {
+      return http.get(url).then(response => {
+        resolve(response);
+      })
+      .catch(error => {
+        reject(error);
+      });
+    });
+  },
+
 }

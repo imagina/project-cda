@@ -61,6 +61,10 @@ export const GET_TYPES_MODELS = (state) => {
 	return state.types_models
 };
 
+export const GET_TEST = (state) => {
+	return state.test
+};
+
 /**
  * GET Tipos de Lineas
  */

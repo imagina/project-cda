@@ -69,6 +69,10 @@ export const SET_TYPES_LINES = (state, data) => {
 	state.types_lines = data
 };
 
+export const SET_TEST = (state, data) => {
+	state.test = data
+};
+
 /**
  * SET Tipos de documentos
  */

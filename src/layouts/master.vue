@@ -93,6 +93,7 @@
       this.getTypesLines()
       this.getTypesModels()
       this.getClassVehicles()
+      this.getTest()
     },
     methods: {
       PadLeft(value, length) {
@@ -228,6 +229,24 @@
           .catch(error=>{
             this.$q.loading.hide()
           })
+      },
+      getTest(){
+        this.$q.loading.show()
+        resources.getTest()
+        .then(response=>{
+          
+          let data = []
+          for(let element in response.data.data){
+            data.push({ label: response.data.data[element], value: (element) })
+          }
+          console.warn(response.data.data)
+          
+          this.$store.commit('data/SET_TEST', data)
+          this.$q.loading.hide()
+        })
+        .catch(error=>{
+          this.$q.loading.hide()
+        })
       },
       //
 
