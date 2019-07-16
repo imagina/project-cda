@@ -191,6 +191,10 @@
 									:class="{'color-danger': $v.attributes.axes_number.$error}">Numero de ejes:</span>
 						<q-input v-model="attributes.axes_number" type="text" placeholder="Numero de ejes" class="q-mb-lg"/>
 					</q-field>
+					
+					<q-field v-if="attributes.type_vehicle == 1 || attributes.type_vehicle == 2">
+						<q-checkbox v-model="attributes.gross_weight_over_3500" label="Peso bruto del vehículo sobre 3500 ?" :left-label="false"	/>
+					</q-field>
 				
 				</div>
 				
@@ -324,6 +328,7 @@
 					tecnomecanica_expedition: null,
 					user_id: null,
 					vin_number: null,
+					gross_weight_over_3500:false,
 				},
 				addColor:{
 					modalColor: false,
@@ -361,6 +366,15 @@
 				}).catch((error) => {
 				this.$store.commit('data/LOAD_FALSE')
 			})
+		},
+		watch: {
+			'attributes.type_vehicle': function (val) {
+				if (this.attributes.type_vehicle == 1){
+					this.attributes.gross_weight_over_3500 = true
+				}else {
+					this.attributes.gross_weight_over_3500 = false
+				}
+			},
 		},
 		validations: {
 			attributes: {

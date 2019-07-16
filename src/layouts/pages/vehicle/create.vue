@@ -229,6 +229,11 @@
               placeholder="Numero de Ejes"
               class="q-mb-lg"/>
           </q-field>
+  
+          <q-field v-if="attributes.type_vehicle == 1 || attributes.type_vehicle == 2">
+            <q-checkbox v-model="attributes.gross_weight_over_3500" label="Peso bruto del vehículo sobre 3500 ?" :left-label="false"	/>
+          </q-field>
+          
         </div>
         <div class="col-12">
           <div class="row">
@@ -352,6 +357,7 @@
         user_id: null,
         vin_number: null,
         vehicle_class: null,
+        gross_weight_over_3500:false,
       },
       board: '',
       vehicleExist:false,
@@ -386,6 +392,13 @@
     this.$store.commit('data/LOAD_FALSE')
   },
   watch:{
+    'attributes.type_vehicle': function (val) {
+      if (this.attributes.type_vehicle == 1){
+        this.attributes.gross_weight_over_3500 = true
+      }else {
+        this.attributes.gross_weight_over_3500 = false
+      }
+    },
     board(val){
       this.attributes.board = val
     }
