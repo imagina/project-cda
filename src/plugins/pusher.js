@@ -35,23 +35,24 @@ export default ({ Vue, store, router, pusher }) => {
     }
 
 	if (authPlugin.hasAccess('icda.vehicles.create')) {
-		var channel = vue.$pusher.subscribe('vehicles-list');
-		channel.bind('Modules\\Icda\\Events\\RecordListVehicles', (data) =>  {
-		  	store.commit('vehicle/ADD_VEHICLE_LIST',data.vehicle)
-		  	vue.$q.notify({
-			    message: data.message,
-			    position: 'bottom-right',
-			    closeBtn: true,
-			    type: 'positive',
-			    color: 'blue',
-			    timeout: 80000,
-			    actions: [{
-			        label: 'VER',
-			        noDismiss: true, // optional, v0.15.11+
-			        handler: () => {
-			        	router.push({ name: 'vehicles.update', params:{board: data.vehicle.board.toUpperCase()} })
-			        }
-			    }]
+		var channel = vue.$pusher.subscribe('vehicle-list');
+		channel.bind('vehicles', (data) =>  {
+			console.log(data)
+			store.commit('vehicle/ADD_VEHICLE_LIST',data.vehicle)
+			vue.$q.notify({
+				message: data.message,
+				position: 'bottom-right',
+				closeBtn: true,
+				type: 'positive',
+				color: 'blue',
+				timeout: 80000,
+				actions: [{
+					label: 'VER',
+					noDismiss: true, // optional, v0.15.11+
+					handler: () => {
+						router.push({ name: 'vehicles.update', params:{board: data.board.toUpperCase()} })
+					}
+				}]
 			})
 		});
 	}
