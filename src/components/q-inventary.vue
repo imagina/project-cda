@@ -139,8 +139,8 @@ export default {
   },
   methods: {
     addInventary () {
-      this.$v.addInventory.$touch()
-      this.$store.commit('data/LOAD_TRUE')
+      //this.$v.addInventory.$touch()
+      //this.$store.commit('data/LOAD_TRUE')
       if (this.$v.addInventory.$error) {
         this.$store.commit('data/LOAD_FALSE')
         this.$q.notify({ message: 'Por favor revise los campos de nuevo.', position: 'top-right', closeBtn: true })
