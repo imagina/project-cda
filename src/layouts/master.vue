@@ -239,7 +239,6 @@
           for(let element in response.data.data){
             data.push({ label: response.data.data[element], value: (element) })
           }
-          console.warn(response.data.data)
           
           this.$store.commit('data/SET_TEST', data)
           this.$q.loading.hide()
