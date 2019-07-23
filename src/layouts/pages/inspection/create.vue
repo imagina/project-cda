@@ -215,6 +215,7 @@
                             <!-- Gobernador & Taximetro -->
                             <div class="col-12 q-px-md q-border" v-if="!isMotocicleta() && data.type_vehicle != 'Motorcycle'">
                                 <q-checkbox v-model="data.governor" label="Gobernador"
+                                            v-if="false"
                                         :left-label="true"
                                         class="q-mr-lg"/>
                                 <q-checkbox v-model="data.taximeter" label="Taxímetro"
@@ -850,7 +851,7 @@
                         this.data.attributes = []
                         this.data.vehicles_id = response.data.id
                         this.data.attributes = response.data
-                        this.data.type_vehicle = this.typeVehicle(response.data.typeVehicle)
+                        //this.data.type_vehicle = this.typeVehicle(response.data.typeVehicle)
                         if(response.created)
                             this.notFound = true
                         this.showData = true;
