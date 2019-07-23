@@ -27,7 +27,7 @@
 
             <q-field :error="axes.$each[item].$each[key].pressure_init.$error">
               
-              <div v-show="false"> 
+              <div v-show="false">
                 {{ vigia ? (llanta.pressure_init = vigiaValue) :  ''}}
               </div>
 
@@ -35,7 +35,7 @@
             </q-field>
             
             <q-field :error="axes.$each[item].$each[key].adjustment.$error">
-              <div v-show="false"> 
+              <div v-show="false">
                 {{ vigia ? (llanta.adjustment = vigiaValue) :  ''}}
               </div>
               <q-input v-model="llanta.adjustment" type="number" class="bg-white q-py-sm q-my-sm" @input="$emit('update-value-by-child', axes)"/>
@@ -103,6 +103,7 @@
     },
     methods: {
       addAxes() {
+        console.warn('add axes', this.axes)
         if (this.type_vehicle == 1) {
           this.axes.$model.push([{
             pressure_init: null,
