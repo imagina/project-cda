@@ -96,7 +96,7 @@ module.exports = function (ctx) {
       }
     },
     cordova: {
-      id: 'org.auto.autogases.app'
+      id: 'com.imagina.autogases.app'
     },
     electron: {
       // bundler: 'builder', // or 'packager'
