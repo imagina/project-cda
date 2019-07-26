@@ -54,13 +54,13 @@
           </div>
           <hr class="col-12 q-mb-lg" v-if="axes.$model - 1 > item">
         </div>
-        <div class="q-mr-md d-inline-block" v-if="!type" @click="addAxes">
+        <div class="q-mr-md d-inline-block" v-if="!type" @click="add">
           <q-btn round color="primary" size="sm" @click="addAxes = true">
             <q-icon name="add"/>
           </q-btn>
           <span class="q-ml-sm font-weight-bold cursor-pointer"> Agregar Eje</span>
         </div>
-        <div class="q-mr-md d-inline-block" v-if="!type && axes.$model.length > 1" @click="removerAxes">
+        <div class="q-mr-md d-inline-block" v-if="!type && axes.$model.length > 1" @click="remove">
           <q-btn round color="red" size="sm" @click="addAxes = true">
             <q-icon name="remove"/>
           </q-btn>
@@ -107,8 +107,8 @@
         }
     },
     methods: {
-      addAxes() {
-        console.warn('add axes', this.axes)
+      add() {
+        
         if (this.type_vehicle == 1) {
           this.axes.$model.push([{
             pressure_init: null,
@@ -141,7 +141,7 @@
             type: "R"
           }])
       },
-      removerAxes () {
+      remove () {
         this.axes.$model.pop();
       },
       initial() {
