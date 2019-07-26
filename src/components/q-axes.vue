@@ -14,6 +14,16 @@
       </div>
     </div>
     <div class="row">
+      <div class="col-md-12" >
+        <q-checkbox v-model="vigia" label="Vigias"/>
+      </div>
+      <div class="col-md-6" v-if="vigia">
+        <q-field>
+          <q-input v-model="vigiaValue" type="number" class="bg-white q-py-sm q-my-sm"/>
+        </q-field>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-12 col-sm-4 col-md-3 col-lg-2 q-mb-lg"> <span class="font-weight-bold">Llantas</span> </div>
       <div class="col-12 col-sm-8 col-md-9 col-lg-10">
         <div class="row" v-for="(eje,item) in axes.$model">
@@ -58,16 +68,7 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-12" >
-        <q-checkbox v-model="vigia" label="Vigias"/>
-      </div>
-      <div class="col-md-6" v-if="vigia">
-        <q-field>
-          <q-input v-model="vigiaValue" type="number" class="bg-white q-py-sm q-my-sm"/>
-        </q-field>
-      </div>
-    </div>
+    
   </div>
 </template>
 
@@ -75,7 +76,11 @@
   export default {
     name: 'q-axes',
     props: {
-      'axes': { required: true },
+      'axes': {
+        required: true,
+        default: Array,
+        default:  () => { return [] }
+      },
       'type': { required: false, default: 1 }
     },
     data() {
