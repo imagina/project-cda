@@ -76,12 +76,12 @@
   export default {
     name: 'q-axes',
     props: {
-      'axes': {
+      axes: {
         required: true,
-        default: Array,
+        type: Array,
         default:  () => { return [] }
       },
-      'type': { required: false, default: 1 }
+      type: { required: false, default: 1 }
     },
     data() {
       return {
