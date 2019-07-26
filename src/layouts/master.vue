@@ -90,7 +90,7 @@
       this.getTypesFuels()
       this.getTypesBrands()
       this.getTypesColors()
-      this.getTypesLines()
+      //this.getTypesLines()
       this.getTypesModels()
       this.getClassVehicles()
       this.getTest()
