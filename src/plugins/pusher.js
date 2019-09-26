@@ -36,7 +36,7 @@ export default ({ Vue, store, router, pusher }) => {
 		});
 	}
 
-	if (/*authPlugin.hasAccess('icda.vehicles.create') ||*/ false) {
+	if (authPlugin.hasAccess('icda.vehicles.create') || false) {
 		var channel = vue.$pusher.subscribe('vehicle-list');
 		channel.bind('vehicles', (data) =>  {
 			store.commit('vehicle/ADD_VEHICLE_LIST',data.vehicle)
