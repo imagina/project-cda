@@ -340,7 +340,7 @@
         type_vehicle: null,
         board: null,
         brand: null,
-        line_id: null,
+        line_id: 3000,
         model: null,
         color_id: null,
         type_fuel: null,
@@ -479,6 +479,7 @@
         })
       }
     },
+    
   }
 }
 </script>
